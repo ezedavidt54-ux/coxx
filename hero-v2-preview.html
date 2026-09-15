@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>COOX Hero V2 Preview</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: { brand: { neon: '#ccff00' } }
+        }
+      }
+    }
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background:#030303; }
+    .hero-bg { background-image: linear-gradient(180deg, rgba(3,3,3,.30) 0%, rgba(3,3,3,.62) 55%, #030303 100%), radial-gradient(circle at 58% 36%, rgba(204,255,0,.09), transparent 30%), url('https://images.pexels.com/photos/13069269/pexels-photo-13069269.png'); background-size:cover; background-position:center; }
+    .grid-floor { background-image: linear-gradient(rgba(204,255,0,.07) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.045) 1px, transparent 1px); background-size:72px 72px; transform:perspective(700px) rotateX(64deg) scale(1.8); transform-origin:center bottom; mask-image:linear-gradient(to top, black, transparent 72%); opacity:.7; }
+    .glass { background:linear-gradient(135deg, rgba(25,25,25,.72), rgba(8,8,8,.52)); border:1px solid rgba(255,255,255,.10); box-shadow:0 30px 90px rgba(0,0,0,.52), inset 0 1px 0 rgba(255,255,255,.05); backdrop-filter:blur(22px); }
+    .terminal-glow { box-shadow:0 0 0 1px rgba(204,255,0,.10), 0 0 70px rgba(204,255,0,.08), 0 35px 90px rgba(0,0,0,.55); }
+    .scan { background:linear-gradient(90deg, transparent, rgba(204,255,0,.12), transparent); animation:scan 5s ease-in-out infinite; }
+    @keyframes scan { 0%,100%{transform:translateX(-110%)} 50%{transform:translateX(110%)} }
+    .float { animation:float 7s ease-in-out infinite; }
+    @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+  </style>
+</head>
+<body class="min-h-screen overflow-x-hidden text-zinc-100 antialiased font-sans">
+  <main class="relative isolate min-h-screen overflow-hidden">
+    <div class="hero-bg absolute inset-0 -z-30"></div>
+    <div class="absolute inset-0 -z-20 bg-[radial-gradient(circle_at_70%_25%,rgba(255,255,255,.08),transparent_22%)]"></div>
+    <div class="grid-floor pointer-events-none absolute -inset-x-20 bottom-[-22%] -z-10 h-[65%]"></div>
+
+    <header class="relative z-30 flex items-center justify-between px-6 py-5 md:px-10 lg:px-14">
+      <div class="flex items-center gap-3">
+        <span class="h-6 w-6 rounded-full bg-brand-neon shadow-[0_0_24px_rgba(204,255,0,.35)]"></span>
+        <span class="text-lg font-bold tracking-tight">COOX</span>
+        <span class="hidden rounded-full border border-white/10 bg-white/5 px-2.5 py-1 font-mono text-[9px] uppercase tracking-[.2em] text-zinc-400 sm:inline-flex">On Chain Equity</span>
+      </div>
+      <div class="hidden items-center gap-8 text-sm text-zinc-400 md:flex">
+        <span class="text-white">Overview</span><span>Markets</span><span>Terminal</span><span>Protocol</span>
+      </div>
+      <a href="exchange.html" class="rounded-xl bg-brand-neon px-4 py-2.5 text-xs font-semibold text-black shadow-[0_0_28px_rgba(204,255,0,.18)] transition hover:scale-[1.02]">Open Exchange <i class="fa-solid fa-arrow-up-right-from-square ml-1 text-[9px]"></i></a>
+    </header>
+
+    <section class="relative z-10 mx-auto flex min-h-[calc(100vh-84px)] max-w-7xl flex-col justify-center px-6 pb-14 pt-4 md:px-10 lg:px-14">
+      <div class="grid items-center gap-12 lg:grid-cols-[1fr_430px] lg:gap-16">
+        <div class="max-w-3xl">
+          <div class="mb-7 flex flex-wrap items-center gap-3">
+            <span class="inline-flex items-center gap-2 rounded-full border border-brand-neon/25 bg-brand-neon/10 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[.18em] text-brand-neon"><span class="h-1.5 w-1.5 animate-pulse rounded-full bg-brand-neon"></span> Arbitrum One</span>
+            <span class="font-mono text-[10px] uppercase tracking-[.16em] text-zinc-500">Network Status <b class="text-zinc-300">Operational</b></span>
+          </div>
+          <h1 class="max-w-4xl text-5xl font-semibold leading-[.92] tracking-[-.065em] text-white sm:text-7xl lg:text-[7.25rem]">The market,<br><span class="bg-gradient-to-r from-white via-zinc-200 to-zinc-500 bg-clip-text text-transparent">on chain.</span></h1>
+          <p class="mt-7 max-w-xl text-sm leading-7 text-zinc-400 sm:text-base">Access tokenized institutional equities with transparent oracle pricing, continuous liquidity, and settlement infrastructure designed for the next generation of markets.</p>
+          <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+            <a href="exchange.html" class="group inline-flex items-center justify-center gap-3 rounded-xl bg-brand-neon px-6 py-3.5 text-sm font-semibold text-black shadow-[0_0_38px_rgba(204,255,0,.16)] transition hover:shadow-[0_0_48px_rgba(204,255,0,.30)]">Enter Exchange <i class="fa-solid fa-arrow-right text-[10px] transition group-hover:translate-x-1"></i></a>
+            <a href="#terminal" class="inline-flex items-center justify-center gap-3 rounded-xl border border-white/10 bg-black/30 px-6 py-3.5 text-sm font-medium text-zinc-300 backdrop-blur-md transition hover:border-brand-neon/30 hover:text-white"><i class="fa-solid fa-chart-line text-[10px] text-brand-neon"></i> Explore Terminal</a>
+          </div>
+          <div class="mt-10 flex flex-wrap items-center gap-x-7 gap-y-3 font-mono text-[10px] uppercase tracking-[.16em] text-zinc-500"><span>24/7 Liquidity</span><span class="h-1 w-1 rounded-full bg-zinc-700"></span><span>Oracle Priced</span><span class="h-1 w-1 rounded-full bg-zinc-700"></span><span>Sub Second Settlement</span></div>
+        </div>
+
+        <div id="terminal" class="float relative mx-auto w-full max-w-[430px]">
+          <div class="absolute -inset-8 rounded-[40px] bg-brand-neon/5 blur-3xl"></div>
+          <div class="glass terminal-glow relative overflow-hidden rounded-[28px] p-4">
+            <div class="scan pointer-events-none absolute left-0 top-0 h-px w-full"></div>
+            <div class="flex items-center justify-between border-b border-white/8 px-2 pb-4"><div><div class="font-mono text-[9px] uppercase tracking-[.2em] text-zinc-500">COOX / Instant Quote</div><div class="mt-1 text-sm font-medium">Exchange Terminal</div></div><span class="flex items-center gap-2 font-mono text-[9px] text-zinc-500"><span class="h-1.5 w-1.5 rounded-full bg-brand-neon shadow-[0_0_8px_#ccff00]"></span>LIVE</span></div>
+            <div class="mt-4 rounded-2xl border border-white/8 bg-black/35 p-4"><div class="flex justify-between font-mono text-[10px] text-zinc-500"><span>YOU PAY</span><span>5,420.00 USDC</span></div><div class="mt-4 flex items-end justify-between gap-3"><div class="font-mono text-4xl font-semibold tracking-tight">1,000<span class="text-zinc-600">.00</span></div><div class="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-xs font-semibold"><span class="flex h-5 w-5 items-center justify-center rounded-full bg-blue-500 text-[9px]">$</span> USDC</div></div></div>
+            <div class="relative z-10 -my-3 flex justify-center"><div class="flex h-9 w-9 items-center justify-center rounded-xl border border-brand-neon/25 bg-zinc-900 text-brand-neon shadow-xl"><i class="fa-solid fa-arrow-down text-xs"></i></div></div>
+            <div class="rounded-2xl border border-brand-neon/20 bg-brand-neon/[.035] p-4"><div class="flex justify-between font-mono text-[10px] text-zinc-500"><span>YOU RECEIVE</span><span>1 $COOX = $78.45</span></div><div class="mt-4 flex items-end justify-between gap-3"><div class="font-mono text-4xl font-semibold tracking-tight text-brand-neon">12.74</div><div class="flex items-center gap-2 rounded-xl border border-brand-neon/25 bg-black/30 px-3 py-2 text-xs font-semibold text-brand-neon"><span class="flex h-5 w-5 items-center justify-center rounded-full bg-brand-neon text-[9px] text-black">U</span> $COOX</div></div></div>
+            <div class="mt-3 grid grid-cols-3 gap-2 font-mono text-[9px] text-zinc-500"><div class="rounded-xl border border-white/7 bg-white/[.025] p-3"><span>IMPACT</span><strong class="mt-1 block text-zinc-200">0.02%</strong></div><div class="rounded-xl border border-white/7 bg-white/[.025] p-3"><span>ROUTE</span><strong class="mt-1 block text-zinc-200">ORACLE</strong></div><div class="rounded-xl border border-white/7 bg-white/[.025] p-3"><span>CHAIN</span><strong class="mt-1 block text-zinc-200">ARB</strong></div></div>
+            <a href="exchange.html" class="mt-3 block rounded-xl bg-brand-neon py-3.5 text-center text-xs font-bold text-black transition hover:opacity-90">Review Order <i class="fa-solid fa-arrow-right ml-1 text-[9px]"></i></a>
+          </div>
+          <div class="mt-3 flex items-center justify-between px-2 font-mono text-[9px] uppercase tracking-[.16em] text-zinc-600"><span>COOX/USD</span><span>0x3f2a...99aa</span></div>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
