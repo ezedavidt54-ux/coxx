@@ -1,0 +1,16 @@
+{
+  "name": "coox-protocol",
+  "private": true,
+  "scripts": {
+    "compile": "hardhat compile",
+    "deploy:sepolia": "hardhat run scripts/deploy-token.js --network arbitrumSepolia",
+    "deploy:arbitrum": "hardhat run scripts/deploy-token.js --network arbitrumOne"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "hardhat": "^2.22.19"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^5.4.0"
+  }
+}
