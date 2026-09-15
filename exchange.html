@@ -148,6 +148,7 @@
   <script>
     let connectedAddress = "";
     let connectedChainId = "";
+    let activeProvider = null;
     const assetPrice = 78.45;
     const ARBITRUM_CHAIN_ID = "0xa4b1";
 
@@ -159,11 +160,22 @@
     }
 
     function getEthereumProvider() {
-      if (!window.ethereum) return null;
-      if (Array.isArray(window.ethereum.providers)) {
-        return window.ethereum.providers.find(provider => provider.isMetaMask) || window.ethereum;
+      if (typeof window === 'undefined') return null;
+      const ethereum = window.ethereum;
+      if (!ethereum) return null;
+
+      if (Array.isArray(ethereum.providers) && ethereum.providers.length) {
+        const metamaskProvider = ethereum.providers.find(provider => provider && provider.isMetaMask);
+        if (metamaskProvider) return metamaskProvider;
       }
-      return window.ethereum.isMetaMask ? window.ethereum : window.ethereum;
+
+      if (ethereum.isMetaMask) return ethereum;
+
+      // Some browser wallet environments expose a valid EIP-1193 provider
+      // without the MetaMask marker. Use it as a last-resort provider instead
+      // of incorrectly reporting that no wallet exists.
+      if (typeof ethereum.request === 'function') return ethereum;
+      return null;
     }
 
     function formatAddress(address) {
@@ -239,6 +251,11 @@
       document.getElementById('wallet-modal').classList.remove('flex');
     }
 
+    function openMetaMaskMobile() {
+      const dappUrl = `${window.location.host}${window.location.pathname}`;
+      window.location.href = `https://metamask.app.link/dapp/${dappUrl}`;
+    }
+
     async function selectWallet(providerName) {
       closeWalletModal();
       const btn = document.getElementById('wallet-btn');
@@ -253,12 +270,15 @@
       }
 
       const provider = getEthereumProvider();
-      if (!provider || !provider.isMetaMask) {
-        btn.innerText = 'Connect Wallet & Swap';
+      if (!provider) {
+        btn.innerText = 'Open MetaMask';
         btn.disabled = false;
-        alert('MetaMask was not detected. Please install MetaMask or open COOX in a MetaMask compatible browser.');
+        const openButton = confirm('MetaMask is not exposed in this browser. Open COOX in MetaMask Mobile?');
+        if (openButton) openMetaMaskMobile();
         return;
       }
+
+      activeProvider = provider;
 
       try {
         const accounts = await provider.request({ method: 'eth_requestAccounts' });
@@ -287,7 +307,7 @@
         document.getElementById('use-connected-btn').classList.add('hidden');
         setWalletButtonDisconnected();
         if (error && error.code === 4001) alert('Wallet connection was cancelled.');
-        else alert('Wallet connection failed. Please try again.');
+        else alert(`Wallet connection failed: ${error && error.message ? error.message : 'Unknown wallet error.'}`);
       }
     }
 
@@ -295,7 +315,7 @@
       if (connectedAddress) document.getElementById('recipient-address').value = connectedAddress;
     }
 
-    async function disconnectWallet() {
+    function disconnectWallet() {
       connectedAddress = '';
       connectedChainId = '';
       document.getElementById('recipient-address').value = '';
@@ -317,7 +337,7 @@
       setWalletButtonConnected();
     }
 
-    async function handleChainChanged(chainId) {
+    function handleChainChanged(chainId) {
       connectedChainId = chainId;
       showNetworkStatus(chainId);
       if (chainId !== ARBITRUM_CHAIN_ID) {
@@ -331,8 +351,9 @@
     }
 
     function initWalletListeners() {
-      const provider = getEthereumProvider();
+      const provider = activeProvider || getEthereumProvider();
       if (!provider || typeof provider.on !== 'function') return;
+      activeProvider = provider;
       provider.on('accountsChanged', handleAccountsChanged);
       provider.on('chainChanged', handleChainChanged);
     }
