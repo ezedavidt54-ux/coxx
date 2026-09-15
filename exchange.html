@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>COOX On Chain Equity Exchange</title>
+  <title>COOX // On-Chain Equity Exchange</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -26,37 +26,96 @@
       }
     }
   </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+        /* Smooth scrolling for the whole page */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* 3D Perspective Container for Card Tilt Effects */
+        .perspective-container {
+            perspective: 1000px;
+        }
+
+        .tilt-card {
+            transition: transform 0.1s ease-out, border-color 0.3s ease, box-shadow 0.3s ease;
+            transform-style: preserve-3d;
+        }
+
+      
+
+        @keyframes floatMesh {
+
+            0%,
+            100% {
+                transform: translateY(0px) scale(1) rotate(0deg);
+                opacity: 0.20;
+            }
+
+            50% {
+                transform: translateY(-12px) scale(1.03) rotate(0.5deg);
+                opacity: 0.28;
+            }
+        }
+
+        .animate-mesh-float {
+            animation: floatMesh 10s ease-in-out infinite;
+        }
+    </style>
 </head>
 <body class="bg-brand-dark text-white font-sans antialiased min-h-screen flex flex-col justify-between">
 
    <!-- FLOATING PILL NAVBAR -->
     <header class="fixed top-6 left-0 right-0 z-50 flex justify-center px-4">
+        <!-- NAV BAR WITH CENTER LINKS & CONTRACT WIDGET -->
         <nav class="fixed top-0 z-50 w-full border-b border-white/5 bg-[#050505]/80 backdrop-blur-md">
             <div class="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
+
+                <!-- Left: Brand Logo -->
                 <a href="#" class="flex items-center gap-2 font-bold tracking-tight text-white text-lg shrink-0">
                     <span class="h-3 w-3 rounded-full bg-brand-neon"></span>
                     <span>COOX</span>
                 </a>
+
+                <!-- Center: Navigation Links -->
                 <div class="hidden md:flex items-center gap-8 text-sm font-medium text-zinc-400">
                     <a href="./index.html" class="hover:text-white transition-colors">Overview</a>
                     <a href="./index.html#how-it-works" class="hover:text-white transition-colors">How It Works</a>
                     <a href="./index.html#live-data" class="hover:text-white transition-colors">Terminal</a>
                 </div>
+
+                <!-- Right: Contract Address + Action Button -->
                 <div class="flex items-center gap-3 shrink-0">
-                    <div class="hidden sm:inline-flex items-center gap-2.5 rounded-xl border border-white/10 bg-zinc-900/80 px-3 py-1.5 backdrop-blur-md transition hover:border-brand-neon/40">
+
+                    <!-- Navbar Copyable Contract Address Widget -->
+                    <div
+                        class="hidden sm:inline-flex items-center gap-2.5 rounded-xl border border-white/10 bg-zinc-900/80 px-3 py-1.5 backdrop-blur-md transition hover:border-brand-neon/40">
                         <span class="font-mono text-xs text-zinc-400">0x3f2a...99aa</span>
-                        <button id="nav-copy-contract-btn" type="button" title="Copy Contract Address" class="text-zinc-400 hover:text-brand-neon transition active:scale-95">
+                        <button id="nav-copy-contract-btn" type="button" title="Copy Contract Address"
+                            class="text-zinc-400 hover:text-brand-neon transition active:scale-95">
                             <i id="nav-copy-icon" class="fa-regular fa-copy text-xs"></i>
                         </button>
                     </div>
-                    <a href="exchange.html" class="rounded-xl bg-brand-neon px-4 py-2 text-xs font-semibold text-black transition-all duration-300 hover:bg-[#b8e600] hover:shadow-[0_0_20px_rgba(204,255,0,0.3)] active:scale-95">Open Exchange</a>
+
+                    <!-- Navigation Open Exchange Button -->
+                    <a href="exchange.html"
+                        class="rounded-xl bg-brand-neon px-4 py-2 text-xs font-semibold text-black transition-all duration-300 hover:bg-[#b8e600] hover:shadow-[0_0_20px_rgba(204,255,0,0.3)] active:scale-95">
+                        Open Exchange
+                    </a>
+
                 </div>
+
             </div>
         </nav>
     </header>
 
+
+  <!-- Exchange Interface Main Content -->
   <main class="max-w-6xl mx-auto w-full p-6 my-auto pt-32 pb-16">
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      
+      <!-- Chart / Asset Details Section (2 cols) -->
       <div class="lg:col-span-2 bg-brand-card border border-brand-border rounded-2xl p-6 flex flex-col justify-between min-h-[400px]">
         <div class="flex items-center justify-between">
           <div>
@@ -68,6 +127,8 @@
             <p class="text-xs text-green-400 font-mono">+4.28% (24h)</p>
           </div>
         </div>
+        
+        <!-- Live Chart Container -->
         <div class="tradingview-widget-container my-6 h-64 w-full rounded-xl overflow-hidden border border-brand-border">
           <div id="tradingview_chart" class="h-full w-full"></div>
           <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
@@ -89,276 +150,430 @@
             });
           </script>
         </div>
+
         <div class="grid grid-cols-3 gap-4 pt-4 border-t border-brand-border text-xs font-mono">
-          <div><span class="text-gray-500 block">24h Volume</span><span class="text-gray-200 font-semibold">$14.8M</span></div>
-          <div><span class="text-gray-500 block">Oracle Latency</span><span class="text-brand-neon font-semibold">12ms</span></div>
-          <div><span class="text-gray-500 block">Slippage Tolerance</span><span class="text-gray-200 font-semibold">0.1%</span></div>
+          <div>
+            <span class="text-gray-500 block">24h Volume</span>
+            <span class="text-gray-200 font-semibold">$14.8M</span>
+          </div>
+          <div>
+            <span class="text-gray-500 block">Oracle Latency</span>
+            <span class="text-brand-neon font-semibold">12ms</span>
+          </div>
+          <div>
+            <span class="text-gray-500 block">Slippage Tolerance</span>
+            <span class="text-gray-200 font-semibold">0.1%</span>
+          </div>
         </div>
       </div>
 
+      <!-- Swap Component (1 col) -->
       <div class="bg-brand-card border border-brand-border rounded-2xl p-6 flex flex-col justify-between">
         <div>
           <h2 class="text-sm font-bold text-gray-400 tracking-wider uppercase mb-4">Instant Swap</h2>
+          
+          <!-- You Pay -->
           <div class="bg-[#1a1a1a] border border-brand-border rounded-xl p-4 mb-3">
-            <div class="flex justify-between text-xs text-gray-400 mb-2"><span>You Pay</span><span>Balance: 5,420.00 USDC</span></div>
-            <div class="flex items-center justify-between"><input type="number" id="pay-amount" value="1000" oninput="calculateReceive()" class="bg-transparent text-xl font-mono font-bold focus:outline-none w-1/2"><span class="bg-brand-border px-3 py-1 rounded-lg text-xs font-semibold">USDC</span></div>
+            <div class="flex justify-between text-xs text-gray-400 mb-2">
+              <span>You Pay</span>
+              <span>Balance: 5,420.00 USDC</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <input type="number" id="pay-amount" value="1000" oninput="calculateReceive()" class="bg-transparent text-xl font-mono font-bold focus:outline-none w-1/2">
+              <span class="bg-brand-border px-3 py-1 rounded-lg text-xs font-semibold">USDC</span>
+            </div>
           </div>
+
+          <!-- You Receive -->
           <div class="bg-[#1a1a1a] border border-brand-border rounded-xl p-4 mb-3">
-            <div class="flex justify-between text-xs text-gray-400 mb-2"><span>You Receive (Est.)</span><span>Balance: 0.00 $COOX</span></div>
-            <div class="flex items-center justify-between"><input type="number" id="receive-amount" value="12.74" readonly class="bg-transparent text-xl font-mono font-bold text-brand-neon focus:outline-none w-1/2"><span class="bg-brand-border px-3 py-1 rounded-lg text-xs font-semibold text-brand-neon">$COOX</span></div>
+            <div class="flex justify-between text-xs text-gray-400 mb-2">
+              <span>You Receive (Est.)</span>
+              <span>Balance: 0.00 $COOX</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <input type="number" id="receive-amount" value="12.74" readonly class="bg-transparent text-xl font-mono font-bold text-brand-neon focus:outline-none w-1/2">
+              <span class="bg-brand-border px-3 py-1 rounded-lg text-xs font-semibold text-brand-neon">$COOX</span>
+            </div>
           </div>
-          <div class="bg-[#1a1a1a] border border-brand-border rounded-xl p-4">
-            <div class="flex justify-between text-xs text-gray-400 mb-2"><span>Recipient Address</span><button onclick="useConnectedAddress()" id="use-connected-btn" class="text-brand-neon hover:underline hidden font-mono">Use Connected</button></div>
-            <input type="text" id="recipient-address" placeholder="0x... or ENS domain" class="w-full bg-transparent text-xs font-mono text-white placeholder-gray-600 focus:outline-none" />
-          </div>
+
+        
         </div>
-        <button id="wallet-btn" onclick="connectWallet()" class="w-full bg-brand-neon text-black font-bold py-3 rounded-xl mt-6 hover:opacity-90 transition-opacity">Connect Wallet & Swap</button>
+
+        <!-- Swap Action Button -->
+        <button id="wallet-btn" onclick="connectWallet()" class="w-full bg-brand-neon text-black font-bold py-3 rounded-xl mt-6 hover:opacity-90 transition-opacity">
+          Connect Wallet & Swap
+        </button>
       </div>
+
     </div>
   </main>
 
+  <!-- Wallet Modal Backdrop -->
   <div id="wallet-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
     <div class="bg-brand-card border border-brand-border w-full max-w-md rounded-2xl p-6 shadow-2xl relative">
-      <div class="flex items-center justify-between pb-4 border-b border-brand-border">
-        <h3 class="text-lg font-bold text-white">Connect Wallet</h3>
-        <button onclick="closeWalletModal()" class="text-gray-400 hover:text-white text-xl font-bold">&times;</button>
+   <!-- Modal Header -->
+    <div class="flex items-center justify-between border-b border-white/10 pb-4 shrink-0">
+      <div class="space-y-0.5">
+        <h3 class="text-lg font-bold text-white font-mono">Connect Wallet</h3>
+        <p class="text-xs text-zinc-400">Choose your preferred provider to proceed</p>
       </div>
-      <div class="mt-4 space-y-3">
-        <button onclick="selectWallet('MetaMask')" class="w-full bg-[#1a1a1a] hover:bg-[#252525] border border-brand-border p-4 rounded-xl flex items-center justify-between transition-colors"><span class="font-semibold text-sm text-white">MetaMask</span><span class="text-xs bg-brand-border px-2 py-1 rounded text-gray-300">Popular</span></button>
-        <button onclick="selectWallet('Coinbase Wallet')" class="w-full bg-[#1a1a1a] hover:bg-[#252525] border border-brand-border p-4 rounded-xl flex items-center justify-between transition-colors"><span class="font-semibold text-sm text-white">Coinbase Wallet</span></button>
-        <button onclick="selectWallet('WalletConnect')" class="w-full bg-[#1a1a1a] hover:bg-[#252525] border border-brand-border p-4 rounded-xl flex items-center justify-between transition-colors"><span class="font-semibold text-sm text-white">WalletConnect</span><span class="text-xs text-brand-neon font-mono">QR Code</span></button>
-      </div>
-      <p class="text-xs text-gray-500 text-center mt-6">By connecting a wallet, you agree to COOX Terms of Service.</p>
+      <button id="close-swap-modal-btn" type="button" class="text-zinc-400 hover:text-white text-2xl leading-none">&times;</button>
+    </div>
+
+    <!-- Wallet List (Scrollable) -->
+    <div class="space-y-2.5 overflow-y-auto pr-1 custom-scrollbar">
+      
+   <!-- 1. MetaMask -->
+      <button onclick="selectWallet('MetaMask')" data-wallet="metamask" class="wallet-option-btn w-full flex items-center justify-between rounded-xl border border-white/10 bg-zinc-950 p-3 hover:border-brand-neon/50 hover:bg-zinc-900/80 transition group">
+        <div class="flex items-center gap-3">
+          <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-zinc-900 border border-white/10 shrink-0 p-1.5 overflow-hidden">
+            <img src="assets/wallets/metamask.jpeg" alt="MetaMask" class="h-full w-full object-contain" />
+          </div>
+          <div class="text-left">
+            <div class="font-bold text-white text-sm group-hover:text-brand-neon transition">MetaMask</div>
+            <div class="text-[11px] text-zinc-500 font-mono">Browser Extension / Mobile App</div>
+          </div>
+        </div>
+        <span class="text-[11px] text-brand-neon font-mono font-semibold bg-brand-neon/10 px-2 py-0.5 rounded border border-brand-neon/20">Popular</span>
+      </button>
+
+      <!-- 2. Coinbase Wallet -->
+      <button onclick="selectWallet('Coinbase')" data-wallet="coinbase" class="wallet-option-btn w-full flex items-center justify-between rounded-xl border border-white/10 bg-zinc-950 p-3 hover:border-brand-neon/50 hover:bg-zinc-900/80 transition group">
+        <div class="flex items-center gap-3">
+          <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-zinc-900 border border-white/10 shrink-0 p-1.5 overflow-hidden">
+            <img src="assets/wallets/coinbase.jpeg" alt="Coinbase Wallet" class="h-full w-full object-contain" />
+          </div>
+          <div class="text-left">
+            <div class="font-bold text-white text-sm group-hover:text-brand-neon transition">Coinbase Wallet</div>
+            <div class="text-[11px] text-zinc-500 font-mono">Coinbase Extension & Mobile</div>
+          </div>
+        </div>
+        <span class="text-[11px] text-zinc-400 font-mono">COOX</span>
+      </button>
+
+      <!-- 3. Phantom -->
+      <button  onclick="selectWallet('Phantom')" data-wallet="phantom" class="wallet-option-btn w-full flex items-center justify-between rounded-xl border border-white/10 bg-zinc-950 p-3 hover:border-brand-neon/50 hover:bg-zinc-900/80 transition group">
+        <div class="flex items-center gap-3">
+          <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-zinc-900 border border-white/10 shrink-0 p-1.5 overflow-hidden">
+            <img src="assets/wallets/phantom.jpeg" alt="Phantom" class="h-full w-full object-contain" />
+          </div>
+          <div class="text-left">
+            <div class="font-bold text-white text-sm group-hover:text-brand-neon transition">Phantom</div>
+            <div class="text-[11px] text-zinc-500 font-mono">Solana & Multi-Chain EVM</div>
+          </div>
+        </div>
+        <span class="text-[11px] text-purple-400 font-mono">COOX</span>
+      </button>
+
+      <!-- 4. Trust Wallet -->
+      <button onclick="selectWallet('Trust Wallet')" data-wallet="trust" class="wallet-option-btn w-full flex items-center justify-between rounded-xl border border-white/10 bg-zinc-950 p-3 hover:border-brand-neon/50 hover:bg-zinc-900/80 transition group">
+        <div class="flex items-center gap-3">
+          <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-zinc-900 border border-white/10 shrink-0 p-1.5 overflow-hidden">
+            <img src="assets/wallets/trust.jpeg" alt="Trust Wallet" class="h-full w-full object-contain" />
+          </div>
+          <div class="text-left">
+            <div class="font-bold text-white text-sm group-hover:text-brand-neon transition">Trust Wallet</div>
+            <div class="text-[11px] text-zinc-500 font-mono">Mobile App & Extension</div>
+          </div>
+        </div>
+        <span class="text-[11px] text-cyan-400 font-mono">COOX</span>
+      </button>
+
+      <!-- 5. SafePal -->
+      <button onclick="selectWallet('SafePal')" data-wallet="safepal" class="wallet-option-btn w-full flex items-center justify-between rounded-xl border border-white/10 bg-zinc-950 p-3 hover:border-brand-neon/50 hover:bg-zinc-900/80 transition group">
+        <div class="flex items-center gap-3">
+          <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-zinc-900 border border-white/10 shrink-0 p-1.5 overflow-hidden">
+            <img src="assets/wallets/safepal.jpeg" alt="SafePal" class="h-full w-full object-contain" />
+          </div>
+          <div class="text-left">
+            <div class="font-bold text-white text-sm group-hover:text-brand-neon transition">SafePal</div>
+            <div class="text-[11px] text-zinc-500 font-mono">Hardware & Mobile Suite</div>
+          </div>
+        </div>
+        <span class="text-[11px] text-blue-400 font-mono">COOX</span>
+      </button>
+
+      <!-- 6. OKX Wallet -->
+      <button onclick="selectWallet('OKX Wallet')" data-wallet="okx" class="wallet-option-btn w-full flex items-center justify-between rounded-xl border border-white/10 bg-zinc-950 p-3 hover:border-brand-neon/50 hover:bg-zinc-900/80 transition group">
+        <div class="flex items-center gap-3">
+          <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-zinc-900 border border-white/10 shrink-0 p-1.5 overflow-hidden">
+            <img src="assets/wallets/okx.jpeg" alt="OKX Wallet" class="h-full w-full object-contain" />
+          </div>
+          <div class="text-left">
+            <div class="font-bold text-white text-sm group-hover:text-brand-neon transition">OKX Wallet</div>
+            <div class="text-[11px] text-zinc-500 font-mono">Web3 Multi-Chain Portal</div>
+          </div>
+        </div>
+        <span class="text-[11px] text-zinc-400 font-mono">COOX</span>
+      </button>
+
+      <!-- 7. WalletConnect -->
+      <button onclick="selectWallet('WalletConnect')" data-wallet="walletconnect" class="wallet-option-btn w-full flex items-center justify-between rounded-xl border border-white/10 bg-zinc-950 p-3 hover:border-brand-neon/50 hover:bg-zinc-900/80 transition group">
+        <div class="flex items-center gap-3">
+          <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-zinc-900 border border-white/10 shrink-0 p-1.5 overflow-hidden">
+            <img src="assets/wallets/wallet.jpeg" alt="WalletConnect" class="h-full w-full object-contain" />
+          </div>
+          <div class="text-left">
+            <div class="font-bold text-white text-sm group-hover:text-brand-neon transition">WalletConnect</div>
+            <div class="text-[11px] text-zinc-500 font-mono">Scan QR Code via Any App</div>
+          </div>
+        </div>
+        <span class="text-[11px] text-sky-400 font-mono font-semibold">COOX</span>
+      </button>
+
+      <!-- 8. Behance / Extra Provider -->
+      <button onclick="selectWallet('Behance')"  data-wallet="behance" class="wallet-option-btn w-full flex items-center justify-between rounded-xl border border-white/10 bg-zinc-950 p-3 hover:border-brand-neon/50 hover:bg-zinc-900/80 transition group">
+        <div class="flex items-center gap-3">
+          <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-zinc-900 border border-white/10 shrink-0 p-1.5 overflow-hidden">
+            <img src="assets/wallets/behance.jpeg" alt="Behance" class="h-full w-full object-contain" />
+          </div>
+          <div class="text-left">
+            <div class="font-bold text-white text-sm group-hover:text-brand-neon transition">Behance</div>
+            <div class="text-[11px] text-zinc-500 font-mono">Creative Portfolio Network</div>
+          </div>
+        </div>
+        <span class="text-[11px] text-indigo-400 font-mono">COOX</span>
+      </button>
+
+    </div>
+
+      <p class="text-xs text-gray-500 text-center mt-6">
+        By connecting a wallet, you agree to COOX Terms of Service.
+      </p>
     </div>
   </div>
 
-  <footer id="contact" class="pt-32 pb-16 border-t border-zinc-900 bg-[#0A0C10] relative z-20 overflow-hidden">
-    <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-3/4 h-72 bg-brand-neon/10 blur-[150px] pointer-events-none rounded-full"></div>
-    <div class="max-w-6xl mx-auto px-6 relative">
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-10 pb-16 border-b border-zinc-900 text-xs font-mono">
-        <div class="space-y-4 md:col-span-1"><div class="flex items-center space-x-2"><div class="w-6 h-6 rounded-lg bg-brand-neon flex items-center justify-center text-black font-bold text-xs shadow-[0_0_10px_rgba(204,255,0,0.4)]">U</div><span class="text-white font-extrabold font-mono tracking-wider text-sm">$COOX</span></div><p class="text-zinc-500 leading-relaxed font-sans text-xs">The decentralized standard for institutional stock tokenization and sub-second execution rails.</p></div>
-        <div class="space-y-3"><p class="text-white uppercase tracking-widest font-bold">Protocol</p><ul class="space-y-2 text-zinc-400"><li><a href="#overview" class="hover:text-brand-neon transition">Overview</a></li><li><a href="#features" class="hover:text-brand-neon transition">Capabilities</a></li><li><a href="#how-it-works" class="hover:text-brand-neon transition">How It Works</a></li><li><a href="#tokenomics" class="hover:text-brand-neon transition">Tokenomics</a></li></ul></div>
-        <div class="space-y-3"><p class="text-white uppercase tracking-widest font-bold">Developers</p><ul class="space-y-2 text-zinc-400"><li><a href="#" class="hover:text-brand-neon transition">Smart Contracts</a></li><li><a href="#" class="hover:text-brand-neon transition">Audits & Reserves</a></li><li><a href="#" class="hover:text-brand-neon transition">Documentation</a></li><li><a href="#" class="hover:text-brand-neon transition">GitHub Repository</a></li></ul></div>
-        <div class="space-y-3"><p class="text-white uppercase tracking-widest font-bold">Network</p><div class="flex items-center space-x-3 pt-1"><a href="#" class="w-9 h-9 rounded-xl bg-white/[0.04] border border-white/10 flex items-center justify-center text-zinc-400 hover:text-brand-neon hover:border-brand-neon/40 transition"><i class="fa-brands fa-discord text-sm"></i></a><a href="#" class="w-9 h-9 rounded-xl bg-white/[0.04] border border-white/10 flex items-center justify-center text-zinc-400 hover:text-brand-neon hover:border-brand-neon/40 transition"><i class="fa-brands fa-discord text-sm"></i></a><a href="#" class="w-9 h-9 rounded-xl bg-white/[0.04] border border-white/10 flex items-center justify-center text-zinc-400 hover:text-brand-neon hover:border-brand-neon/40 transition"><i class="fa-brands fa-telegram text-sm"></i></a></div></div>
-      </div>
-      <div class="pt-8 flex flex-col sm:flex-row items-center justify-between text-[11px] font-mono text-zinc-600"><p>© 2026 $COOX Protocol. All rights reserved.</p><div class="flex space-x-6 mt-4 sm:mt-0"><a href="#" class="hover:text-zinc-400 transition">Privacy Policy</a><a href="#" class="hover:text-zinc-400 transition">Terms of Service</a></div></div>
-    </div>
-  </footer>
+ 
+ <!-- FINAL CTA & FOOTER SECTION -->
+    <footer id="contact" class="pt-32 pb-16 border-t border-zinc-900 bg-[#0A0C10] relative z-20 overflow-hidden">
 
-  <script>
-    let connectedAddress = "";
-    let connectedChainId = "";
-    let activeProvider = null;
-    const assetPrice = 78.45;
-    const ARBITRUM_CHAIN_ID = "0xa4b1";
+        <!-- Massive Ambient Neon Glow at Footer -->
+        <div
+            class="absolute bottom-0 left-1/2 -translate-x-1/2 w-3/4 h-72 bg-brand-neon/10 blur-[150px] pointer-events-none rounded-full">
+        </div>
 
-    function calculateReceive() {
-      const payInput = document.getElementById('pay-amount').value;
-      const receiveInput = document.getElementById('receive-amount');
-      if (payInput && payInput > 0) receiveInput.value = (payInput / assetPrice).toFixed(2);
-      else receiveInput.value = "0.00";
-    }
+        <div class="max-w-6xl mx-auto px-6 relative">
 
-    function getEthereumProvider() {
-      if (typeof window === 'undefined') return null;
-      const ethereum = window.ethereum;
-      if (!ethereum) return null;
+          
+            
 
-      if (Array.isArray(ethereum.providers) && ethereum.providers.length) {
-        const metamaskProvider = ethereum.providers.find(provider => provider && provider.isMetaMask);
-        if (metamaskProvider) return metamaskProvider;
-      }
+            <!-- Main Footer Links  -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-10 pb-16 border-b border-zinc-900 text-xs font-mono">
 
-      if (ethereum.isMetaMask) return ethereum;
+                <!-- : Brand Info -->
+                <div class="space-y-4 md:col-span-1">
+                    <div class="flex items-center space-x-2">
+                        <div
+                            class="w-6 h-6 rounded-lg bg-brand-neon flex items-center justify-center text-black font-bold text-xs shadow-[0_0_10px_rgba(204,255,0,0.4)]">
+                            C
+                        </div>
+                        <span class="text-white font-extrabold font-mono tracking-wider text-sm">$COOX</span>
+                    </div>
+                    <p class="text-zinc-500 leading-relaxed font-sans text-xs">
+                        The decentralized standard for institutional stock tokenization and sub-second execution
+                        rails.
+                    </p>
+                </div>
 
-      // Some browser wallet environments expose a valid EIP-1193 provider
-      // without the MetaMask marker. Use it as a last-resort provider instead
-      // of incorrectly reporting that no wallet exists.
-      if (typeof ethereum.request === 'function') return ethereum;
-      return null;
-    }
+                <!--  Navigation -->
+                <div class="space-y-3">
+                    <p class="text-white uppercase tracking-widest font-bold">Protocol</p>
+                    <ul class="space-y-2 text-zinc-400">
+                        <li><a href="#overview" class="hover:text-brand-neon transition">Overview</a></li>
+                        <li><a href="#features" class="hover:text-brand-neon transition">Capabilities</a></li>
+                        <li><a href="#how-it-works" class="hover:text-brand-neon transition">How It Works</a></li>
+                        <li><a href="#tokenomics" class="hover:text-brand-neon transition">Tokenomics</a></li>
+                    </ul>
+                </div>
 
-    function formatAddress(address) {
-      return `${address.slice(0, 6)}...${address.slice(-4)}`;
-    }
+                <!--  Resources -->
+                <div class="space-y-3">
+                    <p class="text-white uppercase tracking-widest font-bold">Developers</p>
+                    <ul class="space-y-2 text-zinc-400">
+                        <li><a href="#" class="hover:text-brand-neon transition">Smart Contracts</a></li>
+                        <li><a href="#" class="hover:text-brand-neon transition">Audits & Reserves</a></li>
+                        <li><a href="#" class="hover:text-brand-neon transition">Documentation</a></li>
+                        <li><a href="#" class="hover:text-brand-neon transition">GitHub Repository</a></li>
+                    </ul>
+                </div>
 
-    function setWalletButtonConnected() {
-      const btn = document.getElementById('wallet-btn');
-      btn.innerText = `Wallet Connected • ${formatAddress(connectedAddress)}`;
-      btn.disabled = false;
-      btn.onclick = disconnectWallet;
-      btn.classList.remove('bg-brand-neon', 'text-black');
-      btn.classList.add('bg-green-400', 'text-black');
-    }
+                <!--  Socials -->
+                <div class="space-y-3">
+                    <p class="text-white uppercase tracking-widest font-bold">Network</p>
+                    <div class="flex items-center space-x-3 pt-1">
+                        <a href="#"
+                            class="w-9 h-9 rounded-xl bg-white/[0.04] border border-white/10 flex items-center justify-center text-zinc-400 hover:text-brand-neon hover:border-brand-neon/40 transition">
+                            <i class="fa-brands fa-discord text-sm"></i>
+                        </a>
+                        <a href="#"
+                            class="w-9 h-9 rounded-xl bg-white/[0.04] border border-white/10 flex items-center justify-center text-zinc-400 hover:text-brand-neon hover:border-brand-neon/40 transition">
+                            <i class="fa-brands fa-discord text-sm"></i>
+                        </a>
+                        <a href="#"
+                            class="w-9 h-9 rounded-xl bg-white/[0.04] border border-white/10 flex items-center justify-center text-zinc-400 hover:text-brand-neon hover:border-brand-neon/40 transition">
+                            <i class="fa-brands fa-telegram text-sm"></i>
+                        </a>
+                    </div>
+                </div>
 
-    function setWalletButtonDisconnected() {
-      const btn = document.getElementById('wallet-btn');
-      btn.innerText = 'Connect Wallet & Swap';
-      btn.disabled = false;
-      btn.onclick = connectWallet;
-      btn.classList.remove('bg-green-400');
-      btn.classList.add('bg-brand-neon', 'text-black');
-    }
+            </div>
 
-    function showNetworkStatus(chainId) {
-      const existing = document.getElementById('network-status');
-      if (existing) existing.remove();
+            <!-- Bottom Copyright Bar -->
+            <div
+                class="pt-8 flex flex-col sm:flex-row items-center justify-between text-[11px] font-mono text-zinc-600">
+                <p>© 2026 $COOX Protocol. All rights reserved.</p>
+                <div class="flex space-x-6 mt-4 sm:mt-0">
+                    <a href="#" class="hover:text-zinc-400 transition">Privacy Policy</a>
+                    <a href="#" class="hover:text-zinc-400 transition">Terms of Service</a>
+                </div>
+            </div>
 
-      const status = document.createElement('div');
-      status.id = 'network-status';
-      status.className = 'mt-3 text-center text-xs font-mono';
+        </div>
+    </footer>
 
-      if (chainId === ARBITRUM_CHAIN_ID) {
-        status.classList.add('text-brand-neon');
-        status.textContent = 'Arbitrum One connected';
+<script>
+  let connectedAddress = "";
+  const assetPrice = 78.45;
+
+  // Native App Deep Links & Web3 Schemas
+  const walletUrls = {
+    MetaMask: "https://metamask.app.link/dapp/" + window.location.host,
+    Coinbase: "https://go.cb-w.com/dapp?cb_url=" + encodeURIComponent(window.location.href),
+    Phantom: "https://phantom.app/ul/browse/" + encodeURIComponent(window.location.href),
+    "Trust Wallet": "https://link.trustwallet.com/open_url?coin_id=60&url=" + encodeURIComponent(window.location.href),
+    SafePal: "https://link.safepal.io/di?url=" + encodeURIComponent(window.location.href),
+    "OKX Wallet": "okx://wallet/dapp/details?dappUrl=" + encodeURIComponent(window.location.href),
+    WalletConnect: "https://walletconnect.com/",
+    Behance: "https://www.behance.net/"
+  };
+
+  function calculateReceive() {
+    const payInput = document.getElementById('pay-amount')?.value;
+    const receiveInput = document.getElementById('receive-amount');
+    
+    if (receiveInput) {
+      if (payInput && payInput > 0) {
+        receiveInput.value = (payInput / assetPrice).toFixed(2);
       } else {
-        status.classList.add('text-red-400');
-        status.textContent = 'Wrong network. Please switch to Arbitrum One.';
-      }
-
-      document.getElementById('wallet-btn').insertAdjacentElement('afterend', status);
-    }
-
-    async function ensureArbitrum(provider) {
-      connectedChainId = await provider.request({ method: 'eth_chainId' });
-      showNetworkStatus(connectedChainId);
-
-      if (connectedChainId === ARBITRUM_CHAIN_ID) return true;
-
-      try {
-        await provider.request({
-          method: 'wallet_switchEthereumChain',
-          params: [{ chainId: ARBITRUM_CHAIN_ID }]
-        });
-        connectedChainId = await provider.request({ method: 'eth_chainId' });
-        showNetworkStatus(connectedChainId);
-        return connectedChainId === ARBITRUM_CHAIN_ID;
-      } catch (error) {
-        console.error('Network switch failed:', error);
-        return false;
+        receiveInput.value = "0.00";
       }
     }
+  }
 
-    function connectWallet() {
-      if (!connectedAddress) {
-        document.getElementById('wallet-modal').classList.remove('hidden');
-        document.getElementById('wallet-modal').classList.add('flex');
+  function connectWallet() {
+    if (!connectedAddress) {
+      const modal = document.getElementById('wallet-modal');
+      const modalCard = document.getElementById('wallet-modal-card');
+      
+      if (modal) {
+        modal.classList.remove('hidden');
+        setTimeout(() => {
+          modal.classList.remove('opacity-0');
+          modalCard?.classList.remove('scale-95');
+          modalCard?.classList.add('scale-100');
+        }, 10);
       }
     }
+  }
 
-    function closeWalletModal() {
-      document.getElementById('wallet-modal').classList.add('hidden');
-      document.getElementById('wallet-modal').classList.remove('flex');
+  function closeWalletModal() {
+    const modal = document.getElementById('wallet-modal');
+    const modalCard = document.getElementById('wallet-modal-card');
+
+    if (modal) {
+      modal.classList.add('opacity-0');
+      modalCard?.classList.remove('scale-100');
+      modalCard?.classList.add('scale-95');
+
+      setTimeout(() => {
+        modal.classList.add('hidden');
+      }, 300);
     }
+  }
 
-    function openMetaMaskMobile() {
-      const dappUrl = `${window.location.host}${window.location.pathname}`;
-      window.location.href = `https://metamask.app.link/dapp/${dappUrl}`;
-    }
+  function selectWallet(providerName) {
+    closeWalletModal();
+    const btn = document.getElementById('wallet-btn');
+    const headerBtn = document.getElementById('header-wallet-btn');
 
-    async function selectWallet(providerName) {
-      closeWalletModal();
-      const btn = document.getElementById('wallet-btn');
+    if (btn) {
       btn.innerText = `Connecting ${providerName}...`;
       btn.disabled = true;
+    }
 
-      if (providerName !== 'MetaMask') {
-        btn.innerText = 'Connect Wallet & Swap';
+    setTimeout(() => {
+      connectedAddress = "0x71C3a928B3f4D01e89F2a73012989F2";
+      const shortAddr = `${connectedAddress.substring(0, 6)}...${connectedAddress.substring(connectedAddress.length - 4)}`;
+      
+      const recipientInput = document.getElementById('recipient-address');
+      const useConnectedBtn = document.getElementById('use-connected-btn');
+      
+      if (recipientInput) recipientInput.value = connectedAddress;
+      if (useConnectedBtn) useConnectedBtn.classList.remove('hidden');
+
+      if (btn) {
+        btn.innerText = "Execute Swap";
         btn.disabled = false;
-        alert('MetaMask connection is currently supported. Coinbase Wallet and WalletConnect will be added separately.');
-        return;
+        btn.classList.remove('bg-brand-neon', 'text-black');
+        btn.classList.add('bg-green-400', 'text-black');
+        btn.onclick = executeSwap;
       }
 
-      const provider = getEthereumProvider();
-      if (!provider) {
-        btn.innerText = 'Open MetaMask';
-        btn.disabled = false;
-        const openButton = confirm('MetaMask is not exposed in this browser. Open COOX in MetaMask Mobile?');
-        if (openButton) openMetaMaskMobile();
-        return;
+      if (headerBtn) {
+        headerBtn.innerText = shortAddr;
+        headerBtn.classList.remove('bg-brand-neon');
+        headerBtn.classList.add('bg-brand-border', 'text-white', 'font-mono');
       }
 
-      activeProvider = provider;
-
-      try {
-        const accounts = await provider.request({ method: 'eth_requestAccounts' });
-        if (!accounts || accounts.length === 0) throw new Error('No wallet account returned.');
-
-        connectedAddress = accounts[0];
-        document.getElementById('recipient-address').value = connectedAddress;
-        document.getElementById('use-connected-btn').classList.remove('hidden');
-
-        const onArbitrum = await ensureArbitrum(provider);
-        if (!onArbitrum) {
-          connectedAddress = '';
-          document.getElementById('recipient-address').value = '';
-          document.getElementById('use-connected-btn').classList.add('hidden');
-          setWalletButtonDisconnected();
-          alert('Please switch MetaMask to Arbitrum One before using COOX. No transaction was sent.');
-          return;
-        }
-
-        setWalletButtonConnected();
-        console.log('Connected wallet:', connectedAddress);
-      } catch (error) {
-        console.error('Wallet connection failed:', error);
-        connectedAddress = '';
-        document.getElementById('recipient-address').value = '';
-        document.getElementById('use-connected-btn').classList.add('hidden');
-        setWalletButtonDisconnected();
-        if (error && error.code === 4001) alert('Wallet connection was cancelled.');
-        else alert(`Wallet connection failed: ${error && error.message ? error.message : 'Unknown wallet error.'}`);
+      // Launch deep link trigger
+      if (walletUrls[providerName]) {
+        window.open(walletUrls[providerName], '_blank', 'noopener,noreferrer');
       }
+    }, 600);
+  }
+
+  function useConnectedAddress() {
+    if (connectedAddress) {
+      const recipientInput = document.getElementById('recipient-address');
+      if (recipientInput) recipientInput.value = connectedAddress;
+    }
+  }
+
+  function executeSwap() {
+    const recipientInput = document.getElementById('recipient-address');
+    const targetAddr = recipientInput ? recipientInput.value.trim() : "";
+    const btn = document.getElementById('wallet-btn');
+
+    if (!targetAddr) {
+      alert("Please enter or connect a valid recipient address before swapping!");
+      return;
     }
 
-    function useConnectedAddress() {
-      if (connectedAddress) document.getElementById('recipient-address').value = connectedAddress;
+    if (btn) {
+      btn.innerText = "Processing Transaction...";
+      btn.disabled = true;
     }
 
-    function disconnectWallet() {
-      connectedAddress = '';
-      connectedChainId = '';
-      document.getElementById('recipient-address').value = '';
-      document.getElementById('use-connected-btn').classList.add('hidden');
-      const status = document.getElementById('network-status');
-      if (status) status.remove();
-      setWalletButtonDisconnected();
-    }
-
-    function handleAccountsChanged(accounts) {
-      if (!accounts || accounts.length === 0) {
-        disconnectWallet();
-        return;
+    setTimeout(() => {
+      const shortAddr = `${targetAddr.substring(0, 6)}...${targetAddr.substring(targetAddr.length - 4)}`;
+      if (btn) {
+        btn.innerText = `Swapped to ${shortAddr}!`;
+        btn.classList.remove('bg-green-400', 'text-black');
+        btn.classList.add('bg-brand-border', 'text-white');
       }
+    }, 1200);
+  }
 
-      connectedAddress = accounts[0];
-      document.getElementById('recipient-address').value = connectedAddress;
-      document.getElementById('use-connected-btn').classList.remove('hidden');
-      setWalletButtonConnected();
-    }
+  document.addEventListener("DOMContentLoaded", () => {
+    const modal = document.getElementById('wallet-modal');
+    modal?.addEventListener('click', (e) => {
+      if (e.target === modal) closeWalletModal();
+    });
 
-    function handleChainChanged(chainId) {
-      connectedChainId = chainId;
-      showNetworkStatus(chainId);
-      if (chainId !== ARBITRUM_CHAIN_ID) {
-        const btn = document.getElementById('wallet-btn');
-        btn.innerText = 'Switch to Arbitrum One';
-        btn.onclick = connectWallet;
-        btn.disabled = false;
-      } else if (connectedAddress) {
-        setWalletButtonConnected();
-      }
-    }
-
-    function initWalletListeners() {
-      const provider = activeProvider || getEthereumProvider();
-      if (!provider || typeof provider.on !== 'function') return;
-      activeProvider = provider;
-      provider.on('accountsChanged', handleAccountsChanged);
-      provider.on('chainChanged', handleChainChanged);
-    }
-
-    document.addEventListener('DOMContentLoaded', initWalletListeners);
-  </script>
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeWalletModal();
+    });
+  });
+</script>
 </body>
 </html>
