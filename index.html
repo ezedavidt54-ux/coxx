@@ -1,0 +1,2747 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>COOX On Chain Equity Terminal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    </script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+                        mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'monospace']
+                    },
+                    colors: {
+                        brand: {
+                            neon: '#ccff00',
+                            dark: '#080808',
+                            card: '#121212',
+                            border: '#222222'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+
+        ::selection {
+            background-color: #ccff00;
+            color: #000;
+        }
+
+        .hero-vignette {
+            background: radial-gradient(circle at 50% 35%, rgba(204, 255, 0, 0.05) 0%, rgba(5, 5, 5, 0.96) 65%, #030303 100%);
+        }
+    </style>
+
+    <style>
+        /* Smooth scrolling for the whole page */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* 3D Perspective Container for Card Tilt Effects */
+        .perspective-container {
+            perspective: 1000px;
+        }
+
+        .tilt-card {
+            transition: transform 0.1s ease-out, border-color 0.3s ease, box-shadow 0.3s ease;
+            transform-style: preserve-3d;
+        }
+
+        /* Parallax Background Glows */
+        .parallax-glow {
+            will-change: transform;
+            transition: transform 0.2s cubic-bezier(0, 0, 0.2, 1);
+        }
+
+        @keyframes floatMesh {
+
+            0%,
+            100% {
+                transform: translateY(0px) scale(1) rotate(0deg);
+                opacity: 0.20;
+            }
+
+            50% {
+                transform: translateY(-12px) scale(1.03) rotate(0.5deg);
+                opacity: 0.28;
+            }
+        }
+
+        .animate-mesh-float {
+            animation: floatMesh 10s ease-in-out infinite;
+        }
+    </style>
+</head>
+
+<body class="bg-[#030303] text-zinc-100 font-sans antialiased overflow-x-hidden hero-vignette min-h-screen">
+
+    <!-- FLOATING PILL NAVBAR -->
+    <header class="fixed top-6 left-0 right-0 z-50 flex justify-center px-4">
+        <!-- NAV BAR WITH CENTER LINKS & CONTRACT WIDGET -->
+        <nav class="fixed top-0 z-50 w-full border-b border-white/5 bg-[#050505]/80 backdrop-blur-md">
+            <div class="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
+
+                <!-- Left: Brand Logo -->
+                <a href="#" class="flex items-center gap-2 font-bold tracking-tight text-white text-lg shrink-0">
+                    <span class="h-5 w-5 rounded-full bg-brand-neon"></span>
+                    <span>COOX</span>
+                </a>
+
+                <!-- Center: Navigation Links -->
+                <div class="hidden md:flex items-center gap-8 text-sm font-medium text-zinc-400">
+                    <a href="./index.html" class="hover:text-white transition-colors">Overview</a>
+                    <a href="./index.html#how-it-works" class="hover:text-white transition-colors">How It Works</a>
+                    <a href="./index.html#live-data" class="hover:text-white transition-colors">Terminal</a>
+                </div>
+
+                <!-- Right: Contract Address + Action Button -->
+                <div class="flex items-center gap-3 shrink-0">
+
+                    <!-- Navbar Copyable Contract Address Widget -->
+                    <div
+                        class="hidden sm:inline-flex items-center gap-2.5 rounded-xl border border-white/10 bg-zinc-900/80 px-3 py-1.5 backdrop-blur-md transition hover:border-brand-neon/40">
+                        <span class="font-mono text-xs text-zinc-400">0x3f2a...99aa</span>
+                        <button id="nav-copy-contract-btn" type="button" title="Copy Contract Address"
+                            class="text-zinc-400 hover:text-brand-neon transition active:scale-95">
+                            <i id="nav-copy-icon" class="fa-regular fa-copy text-xs"></i>
+                        </button>
+                    </div>
+
+                    <!-- Navigation Open Exchange Button -->
+                    <a href="exchange.html"
+                        class="rounded-xl bg-brand-neon px-4 py-2 text-xs font-semibold text-black transition-all duration-300 hover:bg-[#b8e600] hover:shadow-[0_0_20px_rgba(204,255,0,0.3)] active:scale-95">
+                        Open Exchange
+                    </a>
+
+                </div>
+
+            </div>
+        </nav>
+    </header>
+
+
+    <!-- HERO SECTION 3D TILT SWAP TERMINAL -->
+    <section id="overview"
+        class="relative isolate flex min-h-screen flex-col justify-between overflow-hidden px-6 pb-16 pt-28 md:pt-36 bg-[#050505] [perspective:1000px]">
+        <!-- Background Landscape Image -->
+        <div class="pointer-events-none absolute inset-0 -z-20 bg-cover bg-center mix-blend-luminosity grayscale opacity-40 animate-mesh-float transition-all"
+            style="background-image: url('https://images.pexels.com/photos/13069269/pexels-photo-13069269.png');"></div>
+
+        <!-- Parallax Grid Lines -->
+        <div id="hero-grid"
+            class="pointer-events-none absolute inset-0 -z-10 opacity-30 transition-transform duration-200 ease-out"
+            style="
+      background-image: linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px);
+      background-size: 120px 100%;
+      mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+    "></div>
+
+        <!-- TOP CENTER 3D INTERACTIVE SWAP TERMINAL -->
+        <div class="relative z-10 mx-auto w-full max-w-md pt-4 [perspective:1000px]">
+            <div id="tilt-card"
+                class="rounded-3xl border border-white/10 bg-zinc-900/60 p-5 shadow-2xl backdrop-blur-2xl transition-transform duration-100 ease-out [transform-style:preserve-3d] will-change-transform">
+
+                <!-- Input Token Block -->
+                <div
+                    class="rounded-2xl border border-white/5 bg-zinc-950/80 p-4 transition focus-within:border-brand-neon/40 [transform:translateZ(15px)] shadow-md">
+                    <div class="flex justify-between font-mono text-[11px] text-zinc-500">
+                        <span id="top-balance-label">Balance 5,420.00 USDC</span>
+                        <span>MAX 50,000.00</span>
+                    </div>
+                    <div class="mt-3 flex items-center justify-between gap-3">
+                        <input type="number" id="top-input" value="1000"
+                            class="w-full bg-transparent text-3xl font-semibold tracking-tight text-white outline-none font-mono" />
+                        <div id="top-token-badge"
+                            class="flex items-center gap-2 rounded-xl border border-white/10 bg-zinc-900 px-3 py-1.5 text-xs font-medium text-white shadow-sm hover:border-zinc-700 cursor-pointer shrink-0">
+                            <span id="top-icon"
+                                class="flex h-5 w-5 items-center justify-center rounded-full bg-blue-500 text-[10px] font-bold text-white">$</span>
+                            <span id="top-symbol">USDC</span>
+                            <i class="fa-solid fa-chevron-down text-[10px] text-zinc-400"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Floating Swap Switch Button -->
+                <div class="relative -my-3 flex justify-center z-20 [transform:translateZ(35px)]">
+                    <button id="swap-trigger-btn" type="button"
+                        class="flex h-9 w-9 items-center justify-center rounded-xl border border-white/10 bg-zinc-800 text-zinc-400 shadow-[0_10px_20px_rgba(0,0,0,0.5)] hover:border-brand-neon hover:text-brand-neon hover:rotate-180 transition-all duration-300">
+                        <i class="fa-solid fa-arrow-down-up-across-line text-xs"></i>
+                    </button>
+                </div>
+
+                <!-- Output Token Block -->
+                <div
+                    class="rounded-2xl border border-white/5 bg-zinc-950/80 p-4 transition focus-within:border-brand-neon/40 [transform:translateZ(15px)] shadow-md">
+                    <div class="flex justify-between font-mono text-[11px] text-zinc-500">
+                        <span id="bottom-balance-label">Balance 0.00 $COOX</span>
+                        <span>Price $78.45</span>
+                    </div>
+                    <div class="mt-3 flex items-center justify-between gap-3">
+                        <input type="number" id="bottom-input" value="12.74"
+                            class="w-full bg-transparent text-3xl font-semibold tracking-tight text-brand-neon outline-none font-mono" />
+                        <div id="bottom-token-badge"
+                            class="flex items-center gap-2 rounded-xl border border-brand-neon/30 bg-zinc-900 px-3 py-1.5 text-xs font-medium text-white shadow-sm hover:border-brand-neon cursor-pointer shrink-0">
+                            <span id="bottom-icon"
+                                class="flex h-5 w-5 items-center justify-center rounded-full bg-brand-neon text-[10px] font-bold text-black">U</span>
+                            <span id="bottom-symbol" class="font-mono text-brand-neon">$COOX</span>
+                            <i class="fa-solid fa-chevron-down text-[10px] text-zinc-400"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Button inside Card -->
+                <div class="mt-4 [transform:translateZ(20px)]">
+                    <a href="exchange.html"
+                        class="block w-full text-center bg-brand-neon text-black font-bold py-3 rounded-xl hover:opacity-90 active:scale-[0.98] transition-all duration-300 text-sm shadow-[0_0_24px_rgba(204,255,0,0.2)]">
+                        Open Exchange &rarr;
+                    </a>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- BOTTOM HERO LAYOUT -->
+        <div class="relative z-10 mx-auto mt-12 w-full max-w-7xl">
+            <div class="grid grid-cols-1 items-end gap-10 lg:grid-cols-12">
+
+                <!-- Left Column -->
+                <div class="lg:col-span-7 space-y-6">
+
+                    <!-- Eyebrow Wrapper with Network Badge & Hero Contract Widget -->
+                    <div class="flex flex-wrap items-center gap-3">
+
+                        <div
+                            class="inline-flex items-center gap-2 rounded-full border border-brand-neon/20 bg-brand-neon/5 px-3.5 py-2 font-mono text-[10px] uppercase tracking-[.18em] text-brand-neon backdrop-blur-md">
+                            <span class="h-1.5 w-1.5 rounded-full bg-brand-neon animate-pulse"></span>
+                            Arbitrum One
+                        </div>
+
+                        <!-- Hero Contract Widget -->
+                        <div
+                            class="inline-flex items-center gap-3 rounded-xl border border-white/10 bg-zinc-900/80 px-3.5 py-1.5 backdrop-blur-md transition hover:border-brand-neon/40">
+                            <span class="font-mono text-xs font-semibold text-zinc-300">$COOX</span>
+                            <span class="text-zinc-700">|</span>
+                            <span class="font-mono text-xs text-zinc-400 select-all"
+                                title="0x3f2a89c10b741e9b23c58d098e11a2f4518299aa">0x3f2a...99aa</span>
+                            <button id="hero-copy-contract-btn" type="button" aria-label="Copy Contract Address"
+                                class="relative flex h-7 items-center gap-1.5 rounded-lg border border-white/10 bg-zinc-800/80 px-2.5 text-[11px] font-medium text-zinc-300 transition hover:bg-zinc-700 hover:text-white active:scale-95">
+                                <i id="hero-copy-icon" class="fa-regular fa-copy text-zinc-400"></i>
+                                <span id="hero-copy-status-text">Copy</span>
+                            </button>
+                        </div>
+
+                    </div>
+
+                    <!-- Dynamic Typing Heading -->
+                    <h1
+                        class="text-5xl font-semibold tracking-[-.055em] text-white sm:text-7xl xl:text-8xl leading-[0.95]">
+                        Explore the next <br />
+                        <span id="typewriter-text"
+                            class="inline-block whitespace-nowrap bg-gradient-to-r from-white via-zinc-300 to-zinc-600 bg-clip-text text-transparent">
+                            market frontier.
+                        </span>
+                    </h1>
+
+                    <!-- Hero Buttons -->
+                    <div class="pt-2 flex w-full flex-col items-center justify-start gap-3 sm:w-auto sm:flex-row">
+                        <a href="exchange.html"
+                            class="group flex w-full items-center justify-center gap-2 rounded-xl bg-brand-neon px-6 py-3.5 text-sm font-semibold text-black shadow-[0_0_32px_rgba(204,255,0,.16)] transition-all duration-300 hover:bg-[#b8e600] hover:shadow-[0_0_40px_rgba(204,255,0,0.35)] active:scale-95 sm:w-auto">
+                            <span>Open Exchange</span>
+                            <i
+                                class="fa-solid fa-arrow-right text-[10px] transition-transform duration-300 group-hover:translate-x-1.5"></i>
+                        </a>
+
+                        <a href="#live-data"
+                            class="flex w-full items-center justify-center gap-2 rounded-xl border border-zinc-700 bg-zinc-900/70 px-6 py-3.5 text-sm font-medium text-zinc-300 backdrop-blur-md transition-all duration-300 hover:border-brand-neon/40 hover:bg-zinc-800 hover:text-white active:scale-95 sm:w-auto">
+                            <i class="fa-solid fa-chart-line text-[10px] text-brand-neon"></i>
+                            <span>View Live Terminal</span>
+                        </a>
+                    </div>
+
+                </div>
+
+                <!-- Right Column Description -->
+                <div class="lg:col-span-5 lg:pb-3">
+                    <p class="max-w-md text-sm leading-7 text-zinc-400 sm:text-base">
+                        Access tokenized institutional equities with transparent oracle pricing, 24/7/365 liquidity, and
+                        sub-second settlement built for modern Web3 investors.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Bottom Gradient Fade -->
+        <div
+            class="pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-[#050505] to-transparent">
+        </div>
+    </section>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const CONTRACT_ADDRESS = "0x3f2a89c10b741e9b23c58d098e11a2f4518299aa";
+
+            //  Unified Clipboard Copy Logic for Nav & Hero Widgets
+            async function copyAddress(btn, icon, label) {
+                try {
+                    await navigator.clipboard.writeText(CONTRACT_ADDRESS);
+
+                    if (icon) icon.className = "fa-solid fa-check text-brand-neon";
+                    if (label) label.textContent = "Copied!";
+                    if (btn) btn.classList.add("border-brand-neon/50", "text-brand-neon");
+
+                    setTimeout(() => {
+                        if (icon) icon.className = "fa-regular fa-copy text-zinc-400";
+                        if (label) label.textContent = "Copy";
+                        if (btn) btn.classList.remove("border-brand-neon/50", "text-brand-neon");
+                    }, 2000);
+                } catch (err) {
+                    console.error("Failed to copy address:", err);
+                }
+            }
+
+            // Hero Widget Event Listener
+            const heroCopyBtn = document.getElementById("hero-copy-contract-btn");
+            const heroCopyIcon = document.getElementById("hero-copy-icon");
+            const heroCopyStatusText = document.getElementById("hero-copy-status-text");
+            if (heroCopyBtn) {
+                heroCopyBtn.addEventListener("click", () => copyAddress(heroCopyBtn, heroCopyIcon, heroCopyStatusText));
+            }
+
+            // Nav Widget Event Listener
+            const navCopyBtn = document.getElementById("nav-copy-contract-btn");
+            const navCopyIcon = document.getElementById("nav-copy-icon");
+            if (navCopyBtn) {
+                navCopyBtn.addEventListener("click", () => copyAddress(navCopyBtn, navCopyIcon, null));
+            }
+
+            //  3D Tilt Effect on Swap Card
+            const heroSection = document.getElementById("overview");
+            const tiltCard = document.getElementById("tilt-card");
+            const heroGrid = document.getElementById("hero-grid");
+
+            if (heroSection && tiltCard) {
+                heroSection.addEventListener("mousemove", (e) => {
+                    const rect = tiltCard.getBoundingClientRect();
+                    const cardCenterX = rect.left + rect.width / 2;
+                    const cardCenterY = rect.top + rect.height / 2;
+
+                    const mouseX = e.clientX - cardCenterX;
+                    const mouseY = e.clientY - cardCenterY;
+
+                    const maxTilt = 10;
+                    const rotateX = ((-mouseY / (window.innerHeight / 2)) * maxTilt).toFixed(2);
+                    const rotateY = ((mouseX / (window.innerWidth / 2)) * maxTilt).toFixed(2);
+
+                    tiltCard.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+
+                    const sectionRect = heroSection.getBoundingClientRect();
+                    const gridX = (e.clientX - sectionRect.width / 2) * 0.012;
+                    const gridY = (e.clientY - sectionRect.height / 2) * 0.012;
+                    heroGrid.style.transform = `translate(${gridX}px, ${gridY}px)`;
+                });
+
+                heroSection.addEventListener("mouseleave", () => {
+                    tiltCard.style.transform = `rotateX(0deg) rotateY(0deg)`;
+                    heroGrid.style.transform = `translate(0px, 0px)`;
+                });
+            }
+
+            //  Interactive Token Conversion Logic
+            const UBER_PRICE = 78.45;
+            const topInput = document.getElementById("top-input");
+            const bottomInput = document.getElementById("bottom-input");
+            const swapBtn = document.getElementById("swap-trigger-btn");
+
+            const topSymbol = document.getElementById("top-symbol");
+            const bottomSymbol = document.getElementById("bottom-symbol");
+            const topIcon = document.getElementById("top-icon");
+            const bottomIcon = document.getElementById("bottom-icon");
+
+            let isReversed = false;
+
+            function recalculateValues(fromTop = true) {
+                if (fromTop) {
+                    const val = parseFloat(topInput.value) || 0;
+                    bottomInput.value = isReversed
+                        ? (val * UBER_PRICE).toFixed(2)
+                        : (val / UBER_PRICE).toFixed(2);
+                } else {
+                    const val = parseFloat(bottomInput.value) || 0;
+                    topInput.value = isReversed
+                        ? (val / UBER_PRICE).toFixed(2)
+                        : (val * UBER_PRICE).toFixed(2);
+                }
+            }
+
+            if (topInput && bottomInput) {
+                topInput.addEventListener("input", () => recalculateValues(true));
+                bottomInput.addEventListener("input", () => recalculateValues(false));
+            }
+
+            if (swapBtn) {
+                swapBtn.addEventListener("click", () => {
+                    isReversed = !isReversed;
+
+                    const tempVal = topInput.value;
+                    topInput.value = bottomInput.value;
+                    bottomInput.value = tempVal;
+
+                    const tempSymbolText = topSymbol.textContent;
+                    topSymbol.textContent = bottomSymbol.textContent;
+                    bottomSymbol.textContent = tempSymbolText;
+
+                    const tempIconHTML = topIcon.innerHTML;
+                    const tempIconClass = topIcon.className;
+                    topIcon.innerHTML = bottomIcon.innerHTML;
+                    topIcon.className = bottomIcon.className;
+                    bottomIcon.innerHTML = tempIconHTML;
+                    bottomIcon.className = tempIconClass;
+                });
+            }
+
+            //  Dynamic Typewriter Effect
+            const phrases = ["market frontier.", "tokenized equity.", "liquidity layer."];
+            const typewriterTarget = document.getElementById("typewriter-text");
+            let phraseIdx = 0;
+            let charIdx = 0;
+            let isDeleting = false;
+
+            function type() {
+                if (!typewriterTarget) return;
+
+                const currentPhrase = phrases[phraseIdx];
+
+                if (isDeleting) {
+                    typewriterTarget.textContent = currentPhrase.substring(0, charIdx - 1);
+                    charIdx--;
+                } else {
+                    typewriterTarget.textContent = currentPhrase.substring(0, charIdx + 1);
+                    charIdx++;
+                }
+
+                let speed = isDeleting ? 40 : 80;
+
+                if (!isDeleting && charIdx === currentPhrase.length) {
+                    speed = 2200;
+                    isDeleting = true;
+                } else if (isDeleting && charIdx === 0) {
+                    isDeleting = false;
+                    phraseIdx = (phraseIdx + 1) % phrases.length;
+                    speed = 400;
+                }
+
+                setTimeout(type, speed);
+            }
+
+            type();
+        });
+    </script>
+
+
+    <!-- INTERACTIVE FEATURE SHOWCASE SECTION -->
+    <section id="features" class="py-32 pt-44 border-t border-zinc-900 bg-[#0A0C10] relative z-20 overflow-hidden">
+
+        <!-- Subtle Background Grid Pattern -->
+        <div
+            class="absolute inset-0 bg-[linear-gradient(to_right,#1f1f1f15_1px,transparent_1px),linear-gradient(to_bottom,#1f1f1f15_1px,transparent_1px)] bg-[size:4rem_4rem] pointer-events-none">
+        </div>
+
+        <div class="max-w-6xl mx-auto px-6 relative">
+
+            <!-- Section Header -->
+            <div class="text-center max-w-3xl mx-auto mb-20">
+                <div
+                    class="inline-flex items-center space-x-2 bg-brand-neon/10 border border-brand-neon/30 px-3.5 py-1.5 rounded-full text-xs font-mono text-brand-neon uppercase tracking-wider mb-4 shadow-[0_0_15px_rgba(204,255,0,0.15)]">
+                    <span class="w-1.5 h-1.5 rounded-full bg-brand-neon animate-ping"></span>
+                    <span> WHY CHOOSE US</span>
+                </div>
+                <h2 class="text-3xl md:text-5xl font-extrabold text-white tracking-tight mb-4 leading-tight">
+                    Built for the Next Generation <br>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-white via-zinc-300 to-zinc-500">of
+                        On-Chain Equities</span>
+                </h2>
+                <p class="text-zinc-400 text-sm md:text-base max-w-xl mx-auto">
+                    Designed specifically for high-performance financial protocols, making it easier to trade, scale,
+                    and secure your assets.
+                </p>
+            </div>
+
+            <!-- Central Visual Display Showcase -->
+            <div class="relative max-w-4xl mx-auto mb-20">
+                <!--  Atmospheric Glow Behind Card -->
+                <div
+                    class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 h-64 bg-brand-neon/10 blur-[120px] pointer-events-none rounded-full">
+                </div>
+
+                <!-- Main Preview Window Card -->
+                <div
+                    class="relative bg-gradient-to-b from-white/[0.05] to-white/[0.01] border border-zinc-800/90 rounded-3xl p-6 md:p-8 shadow-[0_20px_50px_rgba(0,0,0,0.8)] backdrop-blur-2xl">
+
+                    <!-- Window Top Bar -->
+                    <div class="flex items-center justify-between pb-5 border-b border-zinc-800/80 mb-8">
+                        <div class="flex items-center space-x-2">
+                            <div class="w-3 h-3 rounded-full bg-red-500/80"></div>
+                            <div class="w-3 h-3 rounded-full bg-yellow-500/80"></div>
+                            <div class="w-3 h-3 rounded-full bg-emerald-500/80"></div>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <span class="w-2 h-2 rounded-full bg-brand-neon animate-pulse"></span>
+                            <span class="text-[11px] font-mono text-zinc-400 uppercase tracking-widest">COOX Core
+                                Architecture & Vault Status</span>
+                        </div>
+                        <span
+                            class="text-[11px] font-mono text-brand-neon bg-brand-neon/10 px-2.5 py-1 rounded-md border border-brand-neon/20">SECURE_NODE</span>
+                    </div>
+
+                    <!-- Inner Mock UI Content Grid -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div
+                            class="bg-zinc-950/90 border border-zinc-800/60 rounded-2xl p-5 text-center relative overflow-hidden group hover:border-brand-neon/40 transition">
+                            <div
+                                class="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-brand-neon to-transparent opacity-50">
+                            </div>
+                            <p class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest mb-1">AUDITED
+                                CUSTODY</p>
+                            <p class="text-lg font-bold text-white font-mono">100% Backed</p>
+                            <span class="text-[10px] font-mono text-emerald-400 mt-1 block">Real-Time Verified</span>
+                        </div>
+
+                        <div
+                            class="bg-zinc-950/90 border border-zinc-800/60 rounded-2xl p-5 text-center relative overflow-hidden group hover:border-brand-neon/40 transition">
+                            <div
+                                class="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-brand-neon to-transparent opacity-50">
+                            </div>
+                            <p class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest mb-1">SETTLEMENT
+                                SPEED</p>
+                            <p class="text-lg font-bold text-brand-neon font-mono">&lt; 0.05s</p>
+                            <span class="text-[10px] font-mono text-zinc-400 mt-1 block">L2 Optimized</span>
+                        </div>
+
+                        <div
+                            class="bg-zinc-950/90 border border-zinc-800/60 rounded-2xl p-5 text-center relative overflow-hidden group hover:border-brand-neon/40 transition">
+                            <div
+                                class="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-brand-neon to-transparent opacity-50">
+                            </div>
+                            <p class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest mb-1">LIQUIDITY
+                                POOLS</p>
+                            <p class="text-lg font-bold text-white font-mono">$48.2M TVL</p>
+                            <span class="text-[10px] font-mono text-brand-neon mt-1 block">Multi-Chain Active</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Vertical Connector Line & Glowing Node -->
+                <div class="flex flex-col items-center justify-center pt-8 relative">
+                    <div class="w-0.5 h-16 bg-gradient-to-b from-brand-neon via-brand-neon/40 to-zinc-800"></div>
+                    <div
+                        class="w-5 h-5 rounded-full bg-[#030303] border-2 border-brand-neon flex items-center justify-center shadow-[0_0_20px_rgba(204,255,0,0.8)] absolute bottom-0">
+                        <div class="w-2 h-2 rounded-full bg-brand-neon animate-ping"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom 3-Column Feature Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
+
+                <!-- Card 1 -->
+                <div
+                    class="bg-gradient-to-b from-white/[0.04] to-white/[0.01] backdrop-blur-xl border border-white/10 hover:border-brand-neon/50 p-8 rounded-3xl transition-all duration-300 group hover:-translate-y-1 shadow-[0_8px_32px_0_rgba(0,0,0,0.37)]">
+                    <div
+                        class="w-12 h-12 rounded-2xl bg-brand-neon/10 border border-brand-neon/20 flex items-center justify-center text-brand-neon mb-6 group-hover:scale-110 group-hover:bg-brand-neon group-hover:text-black transition-all duration-300 shadow-[0_0_15px_rgba(204,255,0,0.15)]">
+                        <i class="fa-solid fa-globe text-base"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2.5">Web3-Native Platform</h3>
+                    <p class="text-zinc-400 text-xs leading-relaxed">
+                        Built for Web3 projects with native support for multi-chain wallets, tokens, and instant
+                        settlement.
+                    </p>
+                </div>
+
+                <!-- Card 2 -->
+                <div
+                    class="bg-gradient-to-b from-white/[0.04] to-white/[0.01] backdrop-blur-xl border border-white/10 hover:border-brand-neon/50 p-8 rounded-3xl transition-all duration-300 group hover:-translate-y-1 shadow-[0_8px_32px_0_rgba(0,0,0,0.37)]">
+                    <div
+                        class="w-12 h-12 rounded-2xl bg-brand-neon/10 border border-brand-neon/20 flex items-center justify-center text-brand-neon mb-6 group-hover:scale-110 group-hover:bg-brand-neon group-hover:text-black transition-all duration-300 shadow-[0_0_15px_rgba(204,255,0,0.15)]">
+                        <i class="fa-solid fa-bolt text-base"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2.5">No-Code Builder Experience</h3>
+                    <p class="text-zinc-400 text-xs leading-relaxed">
+                        Create and customize your Web3 token interfaces visually with lightning-fast routing frameworks.
+                    </p>
+                </div>
+
+                <!-- Card 3 -->
+                <div
+                    class="bg-gradient-to-b from-white/[0.04] to-white/[0.01] backdrop-blur-xl border border-white/10 hover:border-brand-neon/50 p-8 rounded-3xl transition-all duration-300 group hover:-translate-y-1 shadow-[0_8px_32px_0_rgba(0,0,0,0.37)]">
+                    <div
+                        class="w-12 h-12 rounded-2xl bg-brand-neon/10 border border-brand-neon/20 flex items-center justify-center text-brand-neon mb-6 group-hover:scale-110 group-hover:bg-brand-neon group-hover:text-black transition-all duration-300 shadow-[0_0_15px_rgba(204,255,0,0.15)]">
+                        <i class="fa-solid fa-server text-base"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2.5">Scalable Infrastructure</h3>
+                    <p class="text-zinc-400 text-xs leading-relaxed">
+                        Built on modern L2 infrastructure to support growing Web3 communities and heavy transaction
+                        volume.
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- PLATFORMS & ECOSYSTEM INTEGRATIONS (INFINITE SCROLLING) -->
+    <section class="py-36 border-t border-zinc-900 bg-[#030303] relative z-20 overflow-hidden">
+
+        <!-- Ambient Glow Effect -->
+        <div
+            class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 h-72 bg-brand-neon/5 blur-[150px] pointer-events-none rounded-full">
+        </div>
+
+        <div class="max-w-7xl mx-auto px-6 relative">
+
+            <!-- Section Header -->
+            <div class="max-w-2xl mx-auto mb-20 text-center">
+                <div
+                    class="inline-flex items-center space-x-2 bg-brand-neon/10 border border-brand-neon/30 px-3.5 py-1.5 rounded-full text-xs font-mono text-brand-neon uppercase tracking-wider mb-4">
+                    <span class="w-1.5 h-1.5 rounded-full bg-brand-neon animate-pulse"></span>
+                    <span> CONNECT ALL</span>
+                </div>
+                <h2 class="text-3xl md:text-5xl font-extrabold text-white tracking-tight">
+                    Works Seamlessly with All Platforms
+                </h2>
+            </div>
+
+            <!-- Gradient Fade Edges -->
+            <div
+                class="absolute left-0 inset-y-0 w-32 bg-gradient-to-r from-[#030303] to-transparent z-10 pointer-events-none">
+            </div>
+            <div
+                class="absolute right-0 inset-y-0 w-32 bg-gradient-to-l from-[#030303] to-transparent z-10 pointer-events-none">
+            </div>
+
+            <!-- Infinite Scrolling Marquee Track -->
+            <div class="flex overflow-hidden whitespace-nowrap select-none py-4">
+
+                <!-- First Track -->
+                <div class="flex animate-[marquee_35s_linear_infinite] items-center space-x-6 shrink-0 min-w-full px-3">
+
+                    <!-- Card 1: MetaMask -->
+                    <div
+                        class="w-44 h-52 bg-gradient-to-b from-white/[0.06] to-white/[0.01] border border-white/10 rounded-3xl p-6 backdrop-blur-xl flex flex-col items-center justify-between shadow-2xl shrink-0">
+                        <div
+                            class="w-12 h-12 rounded-2xl bg-orange-500/10 border border-orange-500/20 flex items-center justify-center text-orange-400">
+                            <i class="fa-solid fa-wallet text-lg"></i>
+                        </div>
+                        <div class="text-center whitespace-normal">
+                            <p class="text-xs font-mono text-white font-bold mb-1">MetaMask</p>
+                            <span class="text-[10px] font-mono text-zinc-500">Web3 Gateway</span>
+                        </div>
+                        <div class="w-2 h-2 rounded-full bg-brand-neon"></div>
+                    </div>
+
+                    <!-- Card 2: WalletConnect -->
+                    <div
+                        class="w-44 h-52 bg-gradient-to-b from-white/[0.06] to-white/[0.01] border border-white/10 rounded-3xl p-6 backdrop-blur-xl flex flex-col items-center justify-between shadow-2xl shrink-0">
+                        <div
+                            class="w-12 h-12 rounded-2xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400">
+                            <i class="fa-solid fa-qrcode text-lg"></i>
+                        </div>
+                        <div class="text-center whitespace-normal">
+                            <p class="text-xs font-mono text-white font-bold mb-1">WalletConnect</p>
+                            <span class="text-[10px] font-mono text-zinc-500">Multi-Chain</span>
+                        </div>
+                        <div class="w-2 h-2 rounded-full bg-blue-400"></div>
+                    </div>
+
+                    <!-- Card 3: Arbitrum L2 -->
+                    <div
+                        class="w-44 h-52 bg-gradient-to-b from-white/[0.06] to-white/[0.01] border border-white/10 rounded-3xl p-6 backdrop-blur-xl flex flex-col items-center justify-between shadow-2xl shrink-0">
+                        <div
+                            class="w-12 h-12 rounded-2xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400">
+                            <i class="fa-brands fa-ethereum text-lg"></i>
+                        </div>
+                        <div class="text-center whitespace-normal">
+                            <p class="text-xs font-mono text-white font-bold mb-1">Arbitrum L2</p>
+                            <span class="text-[10px] font-mono text-zinc-500">Execution Rollup</span>
+                        </div>
+                        <div class="w-2 h-2 rounded-full bg-purple-400"></div>
+                    </div>
+
+                    <!-- Card 4: Optimism -->
+                    <div
+                        class="w-44 h-52 bg-gradient-to-b from-white/[0.06] to-white/[0.01] border border-white/10 rounded-3xl p-6 backdrop-blur-xl flex flex-col items-center justify-between shadow-2xl shrink-0">
+                        <div
+                            class="w-12 h-12 rounded-2xl bg-rose-500/10 border border-rose-500/20 flex items-center justify-center text-rose-400">
+                            <i class="fa-solid fa-bolt text-lg"></i>
+                        </div>
+                        <div class="text-center whitespace-normal">
+                            <p class="text-xs font-mono text-white font-bold mb-1">Optimism</p>
+                            <span class="text-[10px] font-mono text-zinc-500">Superchain</span>
+                        </div>
+                        <div class="w-2 h-2 rounded-full bg-rose-400"></div>
+                    </div>
+
+                    <!-- Card 5: Solana Router -->
+                    <div
+                        class="w-44 h-52 bg-gradient-to-b from-white/[0.06] to-white/[0.01] border border-white/10 rounded-3xl p-6 backdrop-blur-xl flex flex-col items-center justify-between shadow-2xl shrink-0">
+                        <div
+                            class="w-12 h-12 rounded-2xl bg-teal-500/10 border border-teal-500/20 flex items-center justify-center text-teal-400">
+                            <i class="fa-solid fa-network-wired text-lg"></i>
+                        </div>
+                        <div class="text-center whitespace-normal">
+                            <p class="text-xs font-mono text-white font-bold mb-1">Solana Router</p>
+                            <span class="text-[10px] font-mono text-zinc-500">Cross-Chain</span>
+                        </div>
+                        <div class="w-2 h-2 rounded-full bg-teal-400"></div>
+                    </div>
+
+                    <!-- Card 6: Fireblocks Custody -->
+                    <div
+                        class="w-44 h-52 bg-gradient-to-b from-white/[0.06] to-white/[0.01] border border-white/10 rounded-3xl p-6 backdrop-blur-xl flex flex-col items-center justify-between shadow-2xl shrink-0">
+                        <div
+                            class="w-12 h-12 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400">
+                            <i class="fa-solid fa-vault text-lg"></i>
+                        </div>
+                        <div class="text-center whitespace-normal">
+                            <p class="text-xs font-mono text-white font-bold mb-1">Fireblocks</p>
+                            <span class="text-[10px] font-mono text-zinc-500">Secure Custody</span>
+                        </div>
+                        <div class="w-2 h-2 rounded-full bg-amber-400"></div>
+                    </div>
+
+                </div>
+
+                <!-- Duplicate Track for Seamless Infinite Loop -->
+                <div class="flex animate-[marquee_35s_linear_infinite] items-center space-x-6 shrink-0 min-w-full px-3"
+                    aria-hidden="true">
+
+                    <!-- Card 1: MetaMask -->
+                    <div
+                        class="w-44 h-52 bg-gradient-to-b from-white/[0.06] to-white/[0.01] border border-white/10 rounded-3xl p-6 backdrop-blur-xl flex flex-col items-center justify-between shadow-2xl shrink-0">
+                        <div
+                            class="w-12 h-12 rounded-2xl bg-orange-500/10 border border-orange-500/20 flex items-center justify-center text-orange-400">
+                            <i class="fa-solid fa-wallet text-lg"></i>
+                        </div>
+                        <div class="text-center whitespace-normal">
+                            <p class="text-xs font-mono text-white font-bold mb-1">MetaMask</p>
+                            <span class="text-[10px] font-mono text-zinc-500">Web3 Gateway</span>
+                        </div>
+                        <div class="w-2 h-2 rounded-full bg-brand-neon"></div>
+                    </div>
+
+                    <!-- Card 2: WalletConnect -->
+                    <div
+                        class="w-44 h-52 bg-gradient-to-b from-white/[0.06] to-white/[0.01] border border-white/10 rounded-3xl p-6 backdrop-blur-xl flex flex-col items-center justify-between shadow-2xl shrink-0">
+                        <div
+                            class="w-12 h-12 rounded-2xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400">
+                            <i class="fa-solid fa-qrcode text-lg"></i>
+                        </div>
+                        <div class="text-center whitespace-normal">
+                            <p class="text-xs font-mono text-white font-bold mb-1">WalletConnect</p>
+                            <span class="text-[10px] font-mono text-zinc-500">Multi-Chain</span>
+                        </div>
+                        <div class="w-2 h-2 rounded-full bg-blue-400"></div>
+                    </div>
+
+                    <!-- Card 3: Arbitrum L2 -->
+                    <div
+                        class="w-44 h-52 bg-gradient-to-b from-white/[0.06] to-white/[0.01] border border-white/10 rounded-3xl p-6 backdrop-blur-xl flex flex-col items-center justify-between shadow-2xl shrink-0">
+                        <div
+                            class="w-12 h-12 rounded-2xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400">
+                            <i class="fa-brands fa-ethereum text-lg"></i>
+                        </div>
+                        <div class="text-center whitespace-normal">
+                            <p class="text-xs font-mono text-white font-bold mb-1">Arbitrum L2</p>
+                            <span class="text-[10px] font-mono text-zinc-500">Execution Rollup</span>
+                        </div>
+                        <div class="w-2 h-2 rounded-full bg-purple-400"></div>
+                    </div>
+
+                    <!-- Card 4: Optimism -->
+                    <div
+                        class="w-44 h-52 bg-gradient-to-b from-white/[0.06] to-white/[0.01] border border-white/10 rounded-3xl p-6 backdrop-blur-xl flex flex-col items-center justify-between shadow-2xl shrink-0">
+                        <div
+                            class="w-12 h-12 rounded-2xl bg-rose-500/10 border border-rose-500/20 flex items-center justify-center text-rose-400">
+                            <i class="fa-solid fa-bolt text-lg"></i>
+                        </div>
+                        <div class="text-center whitespace-normal">
+                            <p class="text-xs font-mono text-white font-bold mb-1">Optimism</p>
+                            <span class="text-[10px] font-mono text-zinc-500">Superchain</span>
+                        </div>
+                        <div class="w-2 h-2 rounded-full bg-rose-400"></div>
+                    </div>
+
+                    <!-- Card 5: Solana Router -->
+                    <div
+                        class="w-44 h-52 bg-gradient-to-b from-white/[0.06] to-white/[0.01] border border-white/10 rounded-3xl p-6 backdrop-blur-xl flex flex-col items-center justify-between shadow-2xl shrink-0">
+                        <div
+                            class="w-12 h-12 rounded-2xl bg-teal-500/10 border border-teal-500/20 flex items-center justify-center text-teal-400">
+                            <i class="fa-solid fa-network-wired text-lg"></i>
+                        </div>
+                        <div class="text-center whitespace-normal">
+                            <p class="text-xs font-mono text-white font-bold mb-1">Solana Router</p>
+                            <span class="text-[10px] font-mono text-zinc-500">Cross-Chain</span>
+                        </div>
+                        <div class="w-2 h-2 rounded-full bg-teal-400"></div>
+                    </div>
+
+                    <!-- Card 6: Fireblocks Custody -->
+                    <div
+                        class="w-44 h-52 bg-gradient-to-b from-white/[0.06] to-white/[0.01] border border-white/10 rounded-3xl p-6 backdrop-blur-xl flex flex-col items-center justify-between shadow-2xl shrink-0">
+                        <div
+                            class="w-12 h-12 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400">
+                            <i class="fa-solid fa-vault text-lg"></i>
+                        </div>
+                        <div class="text-center whitespace-normal">
+                            <p class="text-xs font-mono text-white font-bold mb-1">Fireblocks</p>
+                            <span class="text-[10px] font-mono text-zinc-500">Secure Custody</span>
+                        </div>
+                        <div class="w-2 h-2 rounded-full bg-amber-400"></div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Marquee Animation Keyframes -->
+    <style>
+        @keyframes marquee {
+            0% {
+                transform: translateX(0%);
+            }
+
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+    </style>
+
+    <!-- HOW IT WORKS & TRUST ARCHITECTURE SECTION (Classic Dashed Timeline) -->
+    <section id="how-it-works" class="py-36 border-t border-zinc-900 bg-[#0A0C10] relative z-20 overflow-hidden">
+
+        <!-- Subtle Background Glow -->
+        <div
+            class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-brand-neon/[0.03] via-transparent to-transparent pointer-events-none">
+        </div>
+
+        <div class="max-w-5xl mx-auto px-6 relative">
+
+            <!-- Section Header -->
+            <div class="text-center max-w-3xl mx-auto mb-24">
+                <div
+                    class="inline-flex items-center space-x-2 bg-brand-neon/10 border border-brand-neon/30 px-3.5 py-1.5 rounded-full text-xs font-mono text-brand-neon uppercase tracking-wider mb-4">
+                    <span> PROTOCOL MECHANICS</span>
+                </div>
+                <h2 class="text-3xl md:text-5xl font-extrabold text-white tracking-tight mb-4">
+                    From Zero to On-Chain Equity in Minutes
+                </h2>
+                <p class="text-zinc-400 text-sm md:text-base max-w-lg mx-auto">
+                    No complex trading desk friction. $COOX guides you through every step securely.
+                </p>
+            </div>
+
+            <!-- Serpentine Container with Static Dashed SVG Path -->
+            <div class="relative py-12">
+
+                <!-- SVG Winding Dashed Path -->
+                <svg class="absolute inset-0 w-full h-full pointer-events-none hidden md:block" viewBox="0 0 1000 650"
+                    fill="none" preserveAspectRatio="none">
+                    <path d="M 250 50 Q 500 150 750 220 T 250 450 Q 400 550 750 600" stroke="rgba(204, 255, 0, 0.35)"
+                        stroke-width="2" stroke-dasharray="6 6" />
+                </svg>
+
+                <!-- Steps Wrapper -->
+                <div class="space-y-24 md:space-y-32 relative z-10">
+
+                    <!-- Step 01 (Left Aligned) -->
+                    <div class="flex flex-col md:flex-row items-start md:items-center justify-start md:w-1/2 md:pr-12">
+                        <div
+                            class="bg-[#0e0e0e] border border-zinc-800/95 hover:border-brand-neon/50 p-6 rounded-2xl w-full max-w-sm transition-all duration-300 shadow-xl group">
+                            <span class="text-xs font-mono text-brand-neon font-bold tracking-widest block mb-2">01 ·
+                                Connect Wallet</span>
+                            <h3 class="text-lg font-bold text-white mb-1">Deposit USDC</h3>
+                            <p class="text-zinc-400 text-xs leading-relaxed">
+                                Connect your Web3 wallet and deposit stablecoins securely into the smart contract
+                                routing vault.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Step 02 (Right Aligned) -->
+                    <div
+                        class="flex flex-col md:flex-row items-start md:items-center justify-end md:w-1/2 md:ml-auto md:pl-12">
+                        <div
+                            class="bg-[#0e0e0e] border border-zinc-800/95 hover:border-brand-neon/50 p-6 rounded-2xl w-full max-w-sm transition-all duration-300 shadow-xl group">
+                            <span class="text-xs font-mono text-brand-neon font-bold tracking-widest block mb-2">02 ·
+                                Automated Oracle</span>
+                            <h3 class="text-lg font-bold text-white mb-1">Instant Minting</h3>
+                            <p class="text-zinc-400 text-xs leading-relaxed">
+                                Receive 1:1 fully-backed synthetic shares (`$COOX`) minted instantly through automated
+                                L2 execution.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Step 03 (Left Aligned) -->
+                    <div class="flex flex-col md:flex-row items-start md:items-center justify-start md:w-1/2 md:pr-12">
+                        <div
+                            class="bg-[#0e0e0e] border border-zinc-800/95 hover:border-brand-neon/50 p-6 rounded-2xl w-full max-w-sm transition-all duration-300 shadow-xl group">
+                            <span class="text-xs font-mono text-brand-neon font-bold tracking-widest block mb-2">03 ·
+                                Vault Protection</span>
+                            <h3 class="text-lg font-bold text-white mb-1">Real-World Custody</h3>
+                            <p class="text-zinc-400 text-xs leading-relaxed">
+                                Underlying physical assets are secured in audited institutional vaults with live proof
+                                of reserves.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Step 04 (Right Aligned) -->
+                    <div
+                        class="flex flex-col md:flex-row items-start md:items-center justify-end md:w-1/2 md:ml-auto md:pl-12">
+                        <div
+                            class="bg-[#0e0e0e] border border-zinc-800/95 hover:border-brand-neon/50 p-6 rounded-2xl w-full max-w-sm transition-all duration-300 shadow-xl group">
+                            <span class="text-xs font-mono text-brand-neon font-bold tracking-widest block mb-2">04 ·
+                                Global Liquidity</span>
+                            <h3 class="text-lg font-bold text-white mb-1">Trade & Leverage</h3>
+                            <p class="text-zinc-400 text-xs leading-relaxed">
+                                Spend, stake, or trade your synthetic equities across multi-chain liquidity pools with
+                                zero restrictions.
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- INFINITE SCROLLING TICKER MARQUEE -->
+    <section class="py-12 bg-[#0A0C10]  relative z-20 overflow-hidden">
+
+        <!-- Gradient Fade Edges -->
+        <div
+            class="absolute left-0 inset-y-0 w-32 bg-gradient-to-r from-[#030303] to-transparent z-10 pointer-events-none">
+        </div>
+        <div
+            class="absolute right-0 inset-y-0 w-32 bg-gradient-to-l from-[#030303] to-transparent z-10 pointer-events-none">
+        </div>
+
+        <!-- Marquee Track Wrapper -->
+        <div class="flex overflow-hidden whitespace-nowrap select-none py-2">
+
+            <!-- First Loop Track -->
+            <div class="flex animate-[marquee_30s_linear_infinite] items-center space-x-6 shrink-0 min-w-full px-3">
+
+                <!-- Pill Card 1 -->
+                <div
+                    class="inline-flex items-center space-x-4 bg-gradient-to-r from-white/[0.04] to-white/[0.01] border border-white/10 px-6 py-4 rounded-full backdrop-blur-xl shadow-lg">
+                    <div
+                        class="w-8 h-8 rounded-full bg-brand-neon/10 border border-brand-neon/20 flex items-center justify-center text-brand-neon">
+                        <i class="fa-solid fa-cube text-xs"></i>
+                    </div>
+                    <div>
+                        <p class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">COOX Balance</p>
+                        <p class="text-sm font-bold text-white font-mono">1,450.84 UBER</p>
+                    </div>
+                    <span class="text-xs font-mono text-zinc-400 pl-2 border-l border-white/10">$330.84 USD</span>
+                </div>
+
+                <!-- Pill Card 2 -->
+                <div
+                    class="inline-flex items-center space-x-4 bg-gradient-to-r from-white/[0.04] to-white/[0.01] border border-white/10 px-6 py-4 rounded-full backdrop-blur-xl shadow-lg">
+                    <div
+                        class="w-8 h-8 rounded-full bg-orange-500/10 border border-orange-500/20 flex items-center justify-center text-orange-400">
+                        <i class="fa-brands fa-bitcoin text-xs"></i>
+                    </div>
+                    <div>
+                        <p class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">BTC Balance</p>
+                        <p class="text-sm font-bold text-white font-mono">545 BTC</p>
+                    </div>
+                    <span class="text-xs font-mono text-zinc-400 pl-2 border-l border-white/10">$21,900.84 USD</span>
+                </div>
+
+                <!-- Pill Card 3 -->
+                <div
+                    class="inline-flex items-center space-x-4 bg-gradient-to-r from-white/[0.04] to-white/[0.01] border border-white/10 px-6 py-4 rounded-full backdrop-blur-xl shadow-lg">
+                    <div
+                        class="w-8 h-8 rounded-full bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400">
+                        <i class="fa-brands fa-ethereum text-xs"></i>
+                    </div>
+                    <div>
+                        <p class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">ETH Balance</p>
+                        <p class="text-sm font-bold text-white font-mono">50.18 ETH</p>
+                    </div>
+                    <span class="text-xs font-mono text-zinc-400 pl-2 border-l border-white/10">$660.84 USD</span>
+                </div>
+
+                <!-- Pill Card 4 -->
+                <div
+                    class="inline-flex items-center space-x-4 bg-gradient-to-r from-white/[0.04] to-white/[0.01] border border-white/10 px-6 py-4 rounded-full backdrop-blur-xl shadow-lg">
+                    <div
+                        class="w-8 h-8 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
+                        <i class="fa-solid fa-coins text-xs"></i>
+                    </div>
+                    <div>
+                        <p class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">COMP Balance</p>
+                        <p class="text-sm font-bold text-white font-mono">446.36 COMP</p>
+                    </div>
+                    <span class="text-xs font-mono text-zinc-400 pl-2 border-l border-white/10">$100.5 USD</span>
+                </div>
+
+                <!-- Pill Card 5 -->
+                <div
+                    class="inline-flex items-center space-x-4 bg-gradient-to-r from-white/[0.04] to-white/[0.01] border border-white/10 px-6 py-4 rounded-full backdrop-blur-xl shadow-lg">
+                    <div
+                        class="w-8 h-8 rounded-full bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400">
+                        <i class="fa-solid fa-shield-halved text-xs"></i>
+                    </div>
+                    <div>
+                        <p class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">AST Balance</p>
+                        <p class="text-sm font-bold text-white font-mono">545 AST</p>
+                    </div>
+                    <span class="text-xs font-mono text-zinc-400 pl-2 border-l border-white/10">$905 USD</span>
+                </div>
+
+            </div>
+
+            <!-- Duplicate Track for Seamless Infinite Loop -->
+            <div class="flex animate-[marquee_30s_linear_infinite] items-center space-x-6 shrink-0 min-w-full px-3"
+                aria-hidden="true">
+                <div
+                    class="inline-flex items-center space-x-4 bg-gradient-to-r from-white/[0.04] to-white/[0.01] border border-white/10 px-6 py-4 rounded-full backdrop-blur-xl shadow-lg">
+                    <div
+                        class="w-8 h-8 rounded-full bg-brand-neon/10 border border-brand-neon/20 flex items-center justify-center text-brand-neon">
+                        <i class="fa-solid fa-cube text-xs"></i>
+                    </div>
+                    <div>
+                        <p class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">COOX Balance</p>
+                        <p class="text-sm font-bold text-white font-mono">1,450.84 UBER</p>
+                    </div>
+                    <span class="text-xs font-mono text-zinc-400 pl-2 border-l border-white/10">$330.84 USD</span>
+                </div>
+                <div
+                    class="inline-flex items-center space-x-4 bg-gradient-to-r from-white/[0.04] to-white/[0.01] border border-white/10 px-6 py-4 rounded-full backdrop-blur-xl shadow-lg">
+                    <div
+                        class="w-8 h-8 rounded-full bg-orange-500/10 border border-orange-500/20 flex items-center justify-center text-orange-400">
+                        <i class="fa-brands fa-bitcoin text-xs"></i>
+                    </div>
+                    <div>
+                        <p class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">BTC Balance</p>
+                        <p class="text-sm font-bold text-white font-mono">545 BTC</p>
+                    </div>
+                    <span class="text-xs font-mono text-zinc-400 pl-2 border-l border-white/10">$21,900.84 USD</span>
+                </div>
+                <div
+                    class="inline-flex items-center space-x-4 bg-gradient-to-r from-white/[0.04] to-white/[0.01] border border-white/10 px-6 py-4 rounded-full backdrop-blur-xl shadow-lg">
+                    <div
+                        class="w-8 h-8 rounded-full bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400">
+                        <i class="fa-brands fa-ethereum text-xs"></i>
+                    </div>
+                    <div>
+                        <p class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">ETH Balance</p>
+                        <p class="text-sm font-bold text-white font-mono">50.18 ETH</p>
+                    </div>
+                    <span class="text-xs font-mono text-zinc-400 pl-2 border-l border-white/10">$660.84 USD</span>
+                </div>
+                <div
+                    class="inline-flex items-center space-x-4 bg-gradient-to-r from-white/[0.04] to-white/[0.01] border border-white/10 px-6 py-4 rounded-full backdrop-blur-xl shadow-lg">
+                    <div
+                        class="w-8 h-8 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
+                        <i class="fa-solid fa-coins text-xs"></i>
+                    </div>
+                    <div>
+                        <p class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">COMP Balance</p>
+                        <p class="text-sm font-bold text-white font-mono">446.36 COMP</p>
+                    </div>
+                    <span class="text-xs font-mono text-zinc-400 pl-2 border-l border-white/10">$100.5 USD</span>
+                </div>
+                <div
+                    class="inline-flex items-center space-x-4 bg-gradient-to-r from-white/[0.04] to-white/[0.01] border border-white/10 px-6 py-4 rounded-full backdrop-blur-xl shadow-lg">
+                    <div
+                        class="w-8 h-8 rounded-full bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400">
+                        <i class="fa-solid fa-shield-halved text-xs"></i>
+                    </div>
+                    <div>
+                        <p class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">AST Balance</p>
+                        <p class="text-sm font-bold text-white font-mono">545 AST</p>
+                    </div>
+                    <span class="text-xs font-mono text-zinc-400 pl-2 border-l border-white/10">$905 USD</span>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Keyframe Style for Marquee Loop -->
+    <style>
+        @keyframes marquee {
+            0% {
+                transform: translateX(0%);
+            }
+
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+    </style>
+
+
+    <!-- TOKENOMICS & METRICS SECTION -->
+    <section id="tokenomics" class="py-36 border-zinc-900 bg-[#0A0C10] relative z-20 overflow-hidden">
+
+        <!-- Ambient Glow Effect -->
+        <div class="absolute top-1/3 left-10 w-80 h-80 bg-brand-neon/5 blur-[140px] pointer-events-none rounded-full">
+        </div>
+
+        <div class="max-w-6xl mx-auto px-6 relative">
+
+            <!-- Section Header -->
+            <div class="text-center max-w-3xl mx-auto mb-24">
+                <div
+                    class="inline-flex items-center space-x-2 bg-brand-neon/10 border border-brand-neon/30 px-3.5 py-1.5 rounded-full text-xs font-mono text-brand-neon uppercase tracking-wider mb-4">
+                    <span> TOKEN ECONOMICS</span>
+                </div>
+                <h2 class="text-3xl md:text-5xl font-extrabold text-white tracking-tight mb-4">
+                    Engineered for Sustainable Growth
+                </h2>
+                <p class="text-zinc-400 text-sm md:text-base max-w-lg mx-auto">
+                    Transparent, deflationary mechanics designed to align long-term holders with protocol revenue.
+                </p>
+            </div>
+
+            <!-- Tokenomics Content Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+
+                <!-- Left Column: Core Supply Metrics -->
+                <div class="lg:col-span-5 space-y-4">
+
+                    <!-- Metric Card 1 -->
+                    <div
+                        class="bg-gradient-to-b from-white/[0.04] to-white/[0.01] border border-white/10 p-6 rounded-2xl backdrop-blur-xl flex items-center justify-between group hover:border-brand-neon/40 transition">
+                        <div>
+                            <p class="text-xs font-mono text-zinc-400 uppercase tracking-widest mb-1">Total Supply</p>
+                            <p class="text-xl font-bold text-white font-mono">100,000,000 <span
+                                    class="text-brand-neon text-sm">$COOX</span></p>
+                        </div>
+                        <span
+                            class="text-xs font-mono text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-md border border-emerald-500/20">Fixed
+                            Cap</span>
+                    </div>
+
+                    <!-- Metric Card 2 -->
+                    <div
+                        class="bg-gradient-to-b from-white/[0.04] to-white/[0.01] border border-white/10 p-6 rounded-2xl backdrop-blur-xl flex items-center justify-between group hover:border-brand-neon/40 transition">
+                        <div>
+                            <p class="text-xs font-mono text-zinc-400 uppercase tracking-widest mb-1">Initial
+                                Circulating</p>
+                            <p class="text-xl font-bold text-white font-mono">25,000,000 <span
+                                    class="text-brand-neon text-sm">$COOX</span></p>
+                        </div>
+                        <span
+                            class="text-xs font-mono text-brand-neon bg-brand-neon/10 px-2.5 py-1 rounded-md border border-brand-neon/20">25%
+                            TGE</span>
+                    </div>
+
+                    <!-- Metric Card 3 -->
+                    <div
+                        class="bg-gradient-to-b from-white/[0.04] to-white/[0.01] border border-white/10 p-6 rounded-2xl backdrop-blur-xl flex items-center justify-between group hover:border-brand-neon/40 transition">
+                        <div>
+                            <p class="text-xs font-mono text-zinc-400 uppercase tracking-widest mb-1">Protocol Tax</p>
+                            <p class="text-xl font-bold text-white font-mono">0% <span
+                                    class="text-zinc-500 text-sm">Transfer</span></p>
+                        </div>
+                        <span
+                            class="text-xs font-mono text-zinc-300 bg-white/5 px-2.5 py-1 rounded-md border border-white/10">Zero
+                            Friction</span>
+                    </div>
+
+                </div>
+
+                <!-- Right Column: Distribution Breakdown Glass Card  -->
+                <div class="lg:col-span-7">
+                    <div
+                        class="bg-gradient-to-b from-white/[0.05] to-white/[0.01] border border-white/10 rounded-3xl p-8 backdrop-blur-2xl shadow-2xl relative overflow-hidden">
+
+                        <div
+                            class="absolute top-0 right-0 w-48 h-48 bg-brand-neon/10 blur-[90px] pointer-events-none rounded-full">
+                        </div>
+
+                        <h3 class="text-lg font-bold text-white mb-6 flex items-center space-x-2">
+                            <span class="w-2 h-2 rounded-full bg-brand-neon"></span>
+                            <span>Token Allocation Breakdown</span>
+                        </h3>
+
+                        <!-- Allocation Rows -->
+                        <div class="space-y-5 font-mono text-xs">
+
+                            <div>
+                                <div class="flex justify-between text-zinc-300 mb-1.5">
+                                    <span>Liquidity Pools & Ecosystem</span>
+                                    <span class="text-brand-neon font-bold">45%</span>
+                                </div>
+                                <div class="w-full h-2 bg-zinc-900 rounded-full overflow-hidden border border-white/5">
+                                    <div class="h-full bg-brand-neon rounded-full" style="width: 45%;"></div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <div class="flex justify-between text-zinc-300 mb-1.5">
+                                    <span>Treasury & Vault Reserves</span>
+                                    <span class="text-white font-bold">25%</span>
+                                </div>
+                                <div class="w-full h-2 bg-zinc-900 rounded-full overflow-hidden border border-white/5">
+                                    <div class="h-full bg-zinc-400 rounded-full" style="width: 25%;"></div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <div class="flex justify-between text-zinc-300 mb-1.5">
+                                    <span>Core Contributors & Team</span>
+                                    <span class="text-white font-bold">15%</span>
+                                </div>
+                                <div class="w-full h-2 bg-zinc-900 rounded-full overflow-hidden border border-white/5">
+                                    <div class="h-full bg-zinc-600 rounded-full" style="width: 15%;"></div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <div class="flex justify-between text-zinc-300 mb-1.5">
+                                    <span>Strategic Investors & Advisors</span>
+                                    <span class="text-white font-bold">15%</span>
+                                </div>
+                                <div class="w-full h-2 bg-zinc-900 rounded-full overflow-hidden border border-white/5">
+                                    <div class="h-full bg-zinc-700 rounded-full" style="width: 15%;"></div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- Footer note inside card -->
+                        <div
+                            class="mt-8 pt-5 border-t border-white/10 flex items-center justify-between text-[11px] text-zinc-400 font-mono">
+                            <span>VESTING: 12-MONTH CLIFF</span>
+                            <span class="text-emerald-400">SMART CONTRACT VERIFIED</span>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- TOKENOMICS BREAKDOWN TABLE SECTION -->
+    <section class="py-36 border-t border-zinc-900 bg-[#030303] relative z-20 overflow-hidden">
+
+        <!-- Ambient Glow -->
+        <div
+            class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 h-72 bg-brand-neon/5 blur-[150px] pointer-events-none rounded-full">
+        </div>
+
+        <div class="max-w-5xl mx-auto px-6 relative">
+
+            <!-- Section Header -->
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <div
+                    class="inline-flex items-center space-x-2 bg-brand-neon/10 border border-brand-neon/30 px-3.5 py-1.5 rounded-full text-xs font-mono text-brand-neon uppercase tracking-wider mb-4">
+                    <span class="w-1.5 h-1.5 rounded-full bg-brand-neon animate-pulse"></span>
+                    <span> DISTRIBUTION METRICS</span>
+                </div>
+                <h2 class="text-3xl md:text-5xl font-extrabold text-white tracking-tight">
+                    Tokenomics Breakdown Table
+                </h2>
+            </div>
+
+            <!-- Glassmorphic Table Container -->
+            <div
+                class="bg-gradient-to-b from-white/[0.05] to-white/[0.01] border border-white/10 rounded-3xl p-6 md:p-8 backdrop-blur-2xl shadow-2xl overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse font-mono text-xs">
+                        <thead>
+                            <tr class="border-b border-white/10 text-zinc-400">
+                                <th class="py-4 px-4 font-semibold uppercase tracking-wider">Allocation Category</th>
+                                <th class="py-4 px-4 font-semibold uppercase tracking-wider text-right">Percentage</th>
+                                <th class="py-4 px-4 font-semibold uppercase tracking-wider text-right">Token Amount
+                                </th>
+                                <th class="py-4 px-4 font-semibold uppercase tracking-wider text-right">Vesting Schedule
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-white/5 text-zinc-300">
+
+                            <!-- Row 1 -->
+                            <tr class="hover:bg-white/[0.02] transition">
+                                <td class="py-4 px-4 flex items-center space-x-3">
+                                    <span class="w-2 h-2 rounded-full bg-brand-neon"></span>
+                                    <span class="text-white font-bold">Liquidity Pools & Ecosystem</span>
+                                </td>
+                                <td class="py-4 px-4 text-right text-brand-neon font-bold">45%</td>
+                                <td class="py-4 px-4 text-right">45,000,000</td>
+                                <td class="py-4 px-4 text-right text-zinc-400">100% Unlock at TGE</td>
+                            </tr>
+
+                            <!-- Row 2 -->
+                            <tr class="hover:bg-white/[0.02] transition">
+                                <td class="py-4 px-4 flex items-center space-x-3">
+                                    <span class="w-2 h-2 rounded-full bg-blue-400"></span>
+                                    <span class="text-white font-bold">Treasury & Vault Reserves</span>
+                                </td>
+                                <td class="py-4 px-4 text-right text-white font-bold">25%</td>
+                                <td class="py-4 px-4 text-right">25,000,000</td>
+                                <td class="py-4 px-4 text-right text-zinc-400">6-Month Cliff, 24M Linear</td>
+                            </tr>
+
+                            <!-- Row 3 -->
+                            <tr class="hover:bg-white/[0.02] transition">
+                                <td class="py-4 px-4 flex items-center space-x-3">
+                                    <span class="w-2 h-2 rounded-full bg-purple-400"></span>
+                                    <span class="text-white font-bold">Core Contributors & Team</span>
+                                </td>
+                                <td class="py-4 px-4 text-right text-white font-bold">15%</td>
+                                <td class="py-4 px-4 text-right">15,000,000</td>
+                                <td class="py-4 px-4 text-right text-zinc-400">12-Month Cliff, 36M Linear</td>
+                            </tr>
+
+                            <!-- Row 4 -->
+                            <tr class="hover:bg-white/[0.02] transition">
+                                <td class="py-4 px-4 flex items-center space-x-3">
+                                    <span class="w-2 h-2 rounded-full bg-amber-400"></span>
+                                    <span class="text-white font-bold">Strategic Investors & Advisors</span>
+                                </td>
+                                <td class="py-4 px-4 text-right text-white font-bold">15%</td>
+                                <td class="py-4 px-4 text-right">15,000,000</td>
+                                <td class="py-4 px-4 text-right text-zinc-400">3-Month Cliff, 18M Linear</td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Footer Summary inside card -->
+                <div
+                    class="mt-8 pt-5 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between text-[11px] text-zinc-400 font-mono gap-2">
+                    <span>TOTAL FIXED SUPPLY: <strong class="text-white">100,000,000 $COOX</strong></span>
+
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- LIVE TERMINAL SECTION -->
+    <section id="live-data" class="relative py-16 px-6 bg-[#050505]">
+        <div class="mx-auto max-w-7xl">
+
+            <div class="mb-10 space-y-2">
+                <div class="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-brand-neon">
+                    <span class="h-1.5 w-1.5 rounded-full bg-brand-neon animate-pulse"></span>
+                    Execution Engine
+                </div>
+                <h2 class="text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+                    Real-time oracle price feeds & instant execution.
+                </h2>
+            </div>
+
+            <div class="grid grid-cols-1 gap-8 lg:grid-cols-12 items-start">
+
+                <!-- LEFT CARD: ASSET METRICS -->
+                <div
+                    class="lg:col-span-5 rounded-3xl border border-white/10 bg-zinc-900/50 p-6 backdrop-blur-xl shadow-2xl space-y-6">
+                    <div class="flex items-center justify-between font-mono text-xs text-zinc-500">
+                        <span class="uppercase tracking-wider">Asset Ticker</span>
+                        <span
+                            class="rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-1 text-emerald-400 font-semibold">
+                            MARKET OPEN
+                        </span>
+                    </div>
+
+                    <div class="flex items-baseline justify-between pt-2">
+                        <div>
+                            <h3 class="text-3xl font-bold tracking-tight text-white font-mono">$COOX</h3>
+                            <p class="text-xs text-zinc-400 mt-1">Tokenized Institutional Equity</p>
+                        </div>
+                        <div class="text-right">
+                            <div id="terminal-asset-price"
+                                class="text-3xl font-bold tracking-tight text-white font-mono">$78.45</div>
+                            <span class="text-xs font-semibold text-emerald-400 font-mono">+4.28% (24H)</span>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4 pt-4">
+                        <div class="rounded-2xl border border-white/5 bg-zinc-950/60 p-4">
+                            <div class="font-mono text-[11px] text-zinc-500">24H Volume</div>
+                            <div class="mt-1 text-lg font-bold text-white font-mono">$14.8M</div>
+                        </div>
+                        <div class="rounded-2xl border border-white/5 bg-zinc-950/60 p-4">
+                            <div class="font-mono text-[11px] text-zinc-500">Oracle Latency</div>
+                            <div class="mt-1 text-lg font-bold text-brand-neon font-mono">12ms</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RIGHT CARD: INSTANT SWAP ROUTER -->
+                <div
+                    class="lg:col-span-7 rounded-3xl border border-white/10 bg-zinc-900/60 p-6 backdrop-blur-xl shadow-2xl">
+                    <div class="flex items-center justify-between font-mono text-xs text-zinc-500 pb-4">
+                        <span class="uppercase tracking-wider text-zinc-300 font-semibold">INSTANT SWAP ROUTER</span>
+                        <span class="text-[11px]">SLIPPAGE: <strong class="text-zinc-300">0.1%</strong></span>
+                    </div>
+
+                    <div
+                        class="rounded-2xl border border-white/5 bg-zinc-950/80 p-4 transition focus-within:border-brand-neon/40">
+                        <div class="flex justify-between font-mono text-[11px] text-zinc-500">
+                            <span>You Pay</span>
+                            <span id="usdc-balance-label">Balance: 5,420.00 USDC</span>
+                        </div>
+                        <div class="mt-2 flex items-center justify-between gap-3">
+                            <input type="number" id="terminal-pay-input" value="1000"
+                                class="w-full bg-transparent text-3xl font-semibold text-white outline-none font-mono" />
+                            <div
+                                class="flex items-center gap-2 rounded-xl border border-white/10 bg-zinc-900 px-3 py-1.5 text-xs font-medium text-white shrink-0">
+                                <span
+                                    class="flex h-5 w-5 items-center justify-center rounded-full bg-blue-500 text-[10px] font-bold text-white">$</span>
+                                <span>USDC</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="my-3 flex justify-center">
+                        <div
+                            class="flex h-8 w-8 items-center justify-center rounded-lg border border-white/10 bg-zinc-800 text-zinc-400">
+                            <i class="fa-solid fa-arrow-down text-xs"></i>
+                        </div>
+                    </div>
+
+                    <div
+                        class="rounded-2xl border border-white/5 bg-zinc-950/80 p-4 transition focus-within:border-brand-neon/40">
+                        <div class="flex justify-between font-mono text-[11px] text-zinc-500">
+                            <span>You Receive (Estimated)</span>
+                            <span id="uber-balance-label">Balance: 0.00 $COOX</span>
+                        </div>
+                        <div class="mt-2 flex items-center justify-between gap-3">
+                            <input type="number" id="terminal-receive-input" value="12.74"
+                                class="w-full bg-transparent text-3xl font-semibold text-brand-neon outline-none font-mono" />
+                            <div
+                                class="flex items-center gap-2 rounded-xl border border-brand-neon/30 bg-zinc-900 px-3 py-1.5 text-xs font-medium text-white shrink-0">
+                                <span
+                                    class="flex h-5 w-5 items-center justify-center rounded-full bg-brand-neon text-[10px] font-bold text-black">U</span>
+                                <span class="font-mono text-brand-neon">$COOX</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Main Router Action Button -->
+                    <button id="main-router-btn" type="button"
+                        class="mt-6 w-full rounded-2xl bg-brand-neon py-4 text-center font-bold text-black shadow-[0_0_24px_rgba(204,255,0,0.2)] transition-all duration-300 hover:bg-[#b8e600] hover:shadow-[0_0_36px_rgba(204,255,0,0.35)] active:scale-[0.98]">
+                        CONNECT WALLET & SWAP
+                    </button>
+
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+
+
+
+    <!-- FINAL CTA & FOOTER SECTION -->
+    <footer id="contact" class="pt-32 pb-16 border-t border-zinc-900 bg-[#0A0C10] relative z-20 overflow-hidden">
+
+        <!-- Massive Ambient Neon Glow at Footer -->
+        <div
+            class="absolute bottom-0 left-1/2 -translate-x-1/2 w-3/4 h-72 bg-brand-neon/10 blur-[150px] pointer-events-none rounded-full">
+        </div>
+
+        <div class="max-w-6xl mx-auto px-6 relative">
+
+            <!-- Closing CTA Banner Card -->
+            <div
+                class="bg-gradient-to-b from-white/[0.06] to-white/[0.01] border border-white/10 rounded-3xl p-10 md:p-16 text-center backdrop-blur-2xl shadow-2xl relative mb-24 overflow-hidden">
+                <div
+                    class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-brand-neon/[0.05] via-transparent to-transparent pointer-events-none">
+                </div>
+
+                <div
+                    class="inline-flex items-center space-x-2 bg-brand-neon/10 border border-brand-neon/30 px-3.5 py-1.5 rounded-full text-xs font-mono text-brand-neon uppercase tracking-wider mb-6">
+                    <span class="w-2 h-2 rounded-full bg-brand-neon animate-pulse"></span>
+                    <span> READY TO EXECUTE</span>
+                </div>
+
+                <h2 class="text-3xl md:text-5xl font-extrabold text-white tracking-tight mb-6 max-w-2xl mx-auto">
+                    Take Control of Your On-Chain Equity Today
+                </h2>
+
+                <p class="text-zinc-400 text-sm md:text-base max-w-xl mx-auto mb-10">
+                    Connect your wallet, deposit stablecoins, and start trading institutional-grade tokenized
+                    equities
+                    with zero closing bell restrictions.
+                </p>
+
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
+                    <!-- Scroll to Live Terminal Section -->
+                    <a href="#live-data"
+                        class="w-full sm:w-auto rounded-xl bg-brand-neon px-7 py-3.5 text-center font-mono text-xs font-bold text-black uppercase tracking-wider shadow-[0_0_20px_rgba(204,255,0,0.25)] transition-all duration-300 hover:bg-[#b8e600] hover:shadow-[0_0_30px_rgba(204,255,0,0.4)] active:scale-95">
+                        ENTER TERMINAL &rarr;
+                    </a>
+
+                    <!-- Trigger Oracle Modal / Info -->
+                    <button id="open-oracle-modal-btn" type="button"
+                        class="w-full sm:w-auto rounded-xl border border-white/10 bg-zinc-900/80 px-7 py-3.5 text-center font-mono text-xs font-semibold text-white uppercase tracking-wider backdrop-blur-md transition-all duration-300 hover:border-brand-neon/40 hover:bg-zinc-800/80 active:scale-95">
+                        VIEW ORACLE FEEDS
+                    </button>
+                </div>
+            </div>
+
+            <!-- Main Footer Links  -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-10 pb-16 border-b border-zinc-900 text-xs font-mono">
+
+                <!-- Col 1: Brand Info -->
+                <div class="space-y-4 md:col-span-1">
+                    <div class="flex items-center space-x-2">
+                        <div
+                            class="w-6 h-6 rounded-lg bg-brand-neon flex items-center justify-center text-black font-bold text-xs shadow-[0_0_10px_rgba(204,255,0,0.4)]">
+                            U
+                        </div>
+                        <span class="text-white font-extrabold font-mono tracking-wider text-sm">$COOX</span>
+                    </div>
+                    <p class="text-zinc-500 leading-relaxed font-sans text-xs">
+                        The decentralized standard for institutional stock tokenization and sub-second execution
+                        rails.
+                    </p>
+                </div>
+
+                <!-- Col 2: Navigation -->
+                <div class="space-y-3">
+                    <p class="text-white uppercase tracking-widest font-bold">Protocol</p>
+                    <ul class="space-y-2 text-zinc-400">
+                        <li><a href="#overview" class="hover:text-brand-neon transition">Overview</a></li>
+                        <li><a href="#features" class="hover:text-brand-neon transition">Capabilities</a></li>
+                        <li><a href="#how-it-works" class="hover:text-brand-neon transition">How It Works</a></li>
+                        <li><a href="#tokenomics" class="hover:text-brand-neon transition">Tokenomics</a></li>
+                    </ul>
+                </div>
+
+                <!-- Col 3: Resources -->
+                <div class="space-y-3">
+                    <p class="text-white uppercase tracking-widest font-bold">Developers</p>
+                    <ul class="space-y-2 text-zinc-400">
+                        <li><a href="#" class="hover:text-brand-neon transition">Smart Contracts</a></li>
+                        <li><a href="#" class="hover:text-brand-neon transition">Audits & Reserves</a></li>
+                        <li><a href="#" class="hover:text-brand-neon transition">Documentation</a></li>
+                        <li><a href="#" class="hover:text-brand-neon transition">GitHub Repository</a></li>
+                    </ul>
+                </div>
+
+                <!-- Col 4: Socials -->
+                <div class="space-y-3">
+                    <p class="text-white uppercase tracking-widest font-bold">Network</p>
+                    <div class="flex items-center space-x-3 pt-1">
+                        <a href="#"
+                            class="w-9 h-9 rounded-xl bg-white/[0.04] border border-white/10 flex items-center justify-center text-zinc-400 hover:text-brand-neon hover:border-brand-neon/40 transition">
+                            <i class="fa-brands fa-discord text-sm"></i>
+                        </a>
+                        <a href="#"
+                            class="w-9 h-9 rounded-xl bg-white/[0.04] border border-white/10 flex items-center justify-center text-zinc-400 hover:text-brand-neon hover:border-brand-neon/40 transition">
+                            <i class="fa-brands fa-discord text-sm"></i>
+                        </a>
+                        <a href="#"
+                            class="w-9 h-9 rounded-xl bg-white/[0.04] border border-white/10 flex items-center justify-center text-zinc-400 hover:text-brand-neon hover:border-brand-neon/40 transition">
+                            <i class="fa-brands fa-telegram text-sm"></i>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Bottom Copyright Bar -->
+            <div
+                class="pt-8 flex flex-col sm:flex-row items-center justify-between text-[11px] font-mono text-zinc-600">
+                <p>© 2026 $COOX Protocol. All rights reserved.</p>
+                <div class="flex space-x-6 mt-4 sm:mt-0">
+                    <a href="#" class="hover:text-zinc-400 transition">Privacy Policy</a>
+                    <a href="#" class="hover:text-zinc-400 transition">Terms of Service</a>
+                </div>
+            </div>
+
+        </div>
+    </footer>
+
+
+
+   
+    <!-- MODALS & OVERLAYS   -->
+    <!-- -->
+
+    <!-- CONNECT WALLET MODAL -->
+    <div id="swap-modal"
+        class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md opacity-0 pointer-events-none transition-all duration-300 px-4">
+        <div id="swap-modal-card"
+            class="relative w-full max-w-md scale-95 transform rounded-3xl border border-white/10 bg-zinc-900/90 p-6 shadow-2xl transition-all duration-300">
+            <button id="close-swap-modal-btn" type="button" onclick="toggleWalletModal(false)"
+                class="absolute right-5 top-5 flex h-8 w-8 items-center justify-center rounded-full border border-white/10 bg-zinc-800/60 text-zinc-400 hover:bg-zinc-700 hover:text-white transition">
+                <i class="fa-solid fa-xmark text-sm"></i>
+            </button>
+
+            <div class="mb-6 space-y-1">
+                <h3 class="text-xl font-bold text-white">Connect Web3 Wallet</h3>
+                <p class="text-xs text-zinc-400">Select your Web3 provider to authorize swap transactions on Arbitrum.
+                </p>
+            </div>
+
+            <div class="mb-6 rounded-2xl border border-white/5 bg-zinc-950/80 p-4 space-y-2 font-mono text-xs">
+                <div class="flex justify-between text-zinc-400">
+                    <span>Swapping</span>
+                    <span id="modal-pay-summary" class="text-white font-semibold">1,000.00 USDC</span>
+                </div>
+                <div class="flex justify-between text-zinc-400">
+                    <span>Receiving</span>
+                    <span id="modal-receive-summary" class="text-brand-neon font-semibold">~12.74 $COOX</span>
+                </div>
+            </div>
+
+            <div class="space-y-3">
+                <button
+                    class="wallet-option-btn flex w-full items-center justify-between rounded-xl border border-white/10 bg-zinc-950 px-4 py-3.5 transition hover:border-brand-neon/40 hover:bg-zinc-800">
+                    <div class="flex items-center gap-3">
+                        <span class="text-sm font-semibold text-white">MetaMask</span>
+                    </div>
+                    <span
+                        class="rounded-md bg-brand-neon/10 px-2 py-0.5 font-mono text-[10px] text-brand-neon">Popular</span>
+                </button>
+
+                <button
+                    class="wallet-option-btn flex w-full items-center justify-between rounded-xl border border-white/10 bg-zinc-950 px-4 py-3.5 transition hover:border-brand-neon/40 hover:bg-zinc-800">
+                    <div class="flex items-center gap-3">
+                        <span class="text-sm font-semibold text-white">WalletConnect</span>
+                    </div>
+                </button>
+
+                <button
+                    class="wallet-option-btn flex w-full items-center justify-between rounded-xl border border-white/10 bg-zinc-950 px-4 py-3.5 transition hover:border-brand-neon/40 hover:bg-zinc-800">
+                    <div class="flex items-center gap-3">
+                        <span class="text-sm font-semibold text-white">Rabby Wallet</span>
+                    </div>
+                </button>
+            </div>
+
+            <p class="mt-6 text-center text-[11px] text-zinc-500">
+                By connecting a wallet, you agree to the protocol Terms of Service.
+            </p>
+        </div>
+    </div>
+
+    <!-- TRANSACTION CONFIRMATION MODAL -->
+    <div id="tx-confirm-modal"
+        class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md opacity-0 pointer-events-none transition-all duration-300 px-4">
+        <div id="tx-confirm-card"
+            class="w-full max-w-md scale-95 transform rounded-3xl border border-white/10 bg-zinc-900/95 p-6 shadow-2xl space-y-5 transition-all duration-300">
+            <div class="flex justify-between items-center border-b border-white/5 pb-4">
+                <h3 class="text-lg font-bold text-white">Confirm Transaction</h3>
+                <button id="close-tx-modal-btn" type="button" class="text-zinc-400 hover:text-white transition">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <div class="space-y-3 font-mono text-xs">
+                <div class="flex justify-between text-zinc-400">
+                    <span>You Pay</span>
+                    <span id="tx-confirm-pay" class="text-white font-semibold">1,000.00 USDC</span>
+                </div>
+                <div class="flex justify-between text-zinc-400">
+                    <span>You Receive</span>
+                    <span id="tx-confirm-receive" class="text-brand-neon font-semibold">12.74 $COOX</span>
+                </div>
+                <div class="flex justify-between text-zinc-400">
+                    <span>Slippage Tolerance</span>
+                    <span class="text-white font-semibold">0.1%</span>
+                </div>
+                <div class="flex justify-between text-zinc-400">
+                    <span>Estimated Gas Fee</span>
+                    <span class="text-white font-semibold">~$0.04 (Arbitrum)</span>
+                </div>
+            </div>
+
+            <button id="confirm-swap-tx-btn" type="button"
+                class="w-full rounded-2xl bg-brand-neon py-3.5 font-bold text-black transition hover:bg-[#b8e600] active:scale-95">
+                CONFIRM & SIGN SWAP
+            </button>
+        </div>
+    </div>
+
+    <!-- POST-TRANSACTION SUCCESS TOAST NOTIFICATION -->
+    <div id="tx-toast"
+        class="fixed bottom-6 right-6 z-50 flex items-center gap-3 rounded-2xl border border-emerald-500/30 bg-zinc-900/90 px-5 py-4 shadow-2xl backdrop-blur-md translate-y-20 opacity-0 pointer-events-none transition-all duration-500">
+        <div class="flex h-8 w-8 items-center justify-center rounded-full bg-emerald-500/20 text-emerald-400 shrink-0">
+            <i class="fa-solid fa-check text-sm"></i>
+        </div>
+        <div>
+            <h4 class="text-xs font-bold text-white">Transaction Confirmed!</h4>
+            <p id="toast-details" class="font-mono text-[11px] text-zinc-400">Swapped 1,000 USDC for 12.74 $COOX</p>
+        </div>
+    </div>
+
+
+
+    <!-- ORACLE FEEDS POP-UP MODAL -->
+    <div id="oracle-modal"
+        class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300 px-4">
+        <div id="oracle-modal-card"
+            class="w-full max-w-xl rounded-3xl border border-white/10 bg-zinc-900/90 p-6 sm:p-8 shadow-2xl transition-all duration-300 scale-95 space-y-6 bg-gradient-to-b">
+
+            <!-- Modal Header -->
+            <div class="flex items-center justify-between border-b border-white/10 pb-4">
+                <div class="flex items-center gap-2">
+                    <span class="h-2 w-2 rounded-full bg-brand-neon animate-pulse"></span>
+                    <h3 class="font-mono text-sm uppercase tracking-widest text-white font-bold">Chainlink Oracle Feeds
+                    </h3>
+                </div>
+                <button id="close-oracle-modal-btn" type="button"
+                    class="text-zinc-400 hover:text-white text-2xl transition-colors leading-none">
+                    &times;
+                </button>
+            </div>
+
+            <!-- Active Feed Metrics -->
+            <div class="space-y-4">
+                <div class="flex items-center justify-between font-mono text-xs text-zinc-400">
+                    <span>PRIMARY SOURCE: <strong class="text-white">NYSE (UBER)</strong></span>
+                    <span>STATUS: <strong class="text-emerald-400">ACTIVE / SYNCED</strong></span>
+                </div>
+
+                <!-- Oracle Price Box -->
+                <div class="rounded-2xl border border-white/5 bg-zinc-950/80 p-5 font-mono space-y-2">
+                    <div class="flex justify-between text-xs text-zinc-500">
+                        <span>Target Contract</span>
+                        <span class="text-zinc-300">0x3f2a...99aa</span>
+                    </div>
+                    <div class="flex justify-between items-baseline pt-1">
+                        <div>
+                            <div class="text-2xl font-bold text-white">$78.45 USD</div>
+                            <p class="text-[11px] text-zinc-500 mt-0.5">Aggregated On-Chain Price</p>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-sm font-semibold text-brand-neon">12ms Latency</div>
+                            <span class="text-[11px] text-zinc-500">Arbitrum L2 Feed</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Nodes & Proofs Grid -->
+                <div class="grid grid-cols-2 gap-3 font-mono text-xs">
+                    <div class="rounded-2xl border border-white/5 bg-zinc-950/50 p-4">
+                        <div class="text-zinc-500 text-[10px]">Active Node Operators</div>
+                        <div class="text-sm font-bold text-white mt-1">16 Independent Nodes</div>
+                    </div>
+                    <div class="rounded-2xl border border-white/5 bg-zinc-950/50 p-4">
+                        <div class="text-zinc-500 text-[10px]">Heartbeat Interval</div>
+                        <div class="text-sm font-bold text-white mt-1">10 Seconds / 0.1% Deviation</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="pt-2 flex flex-col sm:flex-row gap-3">
+                <a href="https://arbiscan.io" target="_blank"
+                    class="w-full rounded-xl border border-white/10 bg-zinc-800/80 py-3 text-center font-mono text-xs font-semibold text-white hover:border-brand-neon/40 transition">
+                    View Arbiscan Contract ↗
+                </a>
+                <button id="dismiss-oracle-modal-btn" type="button"
+                    class="w-full rounded-xl bg-brand-neon py-3 text-center font-mono text-xs font-bold text-black hover:bg-[#b8e600] transition">
+                    CLOSE OVERVIEW
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- PARALLAX & SCROLL INTERACTION ENGINE -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+
+            // Staggered Scroll Triggered Reveal for Sections
+            const observerOptions = {
+                root: null,
+                threshold: 0.15
+            };
+
+            const scrollObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('opacity-100', 'translate-y-0');
+                        entry.target.classList.remove('opacity-0', 'translate-y-12');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            // initial hidden states to cards and section blocks
+            const revealElements = document.querySelectorAll('.grid > div, section h2, section p');
+            revealElements.forEach(el => {
+                if (!el.closest('.animate-[marquee_35s_linear_infinite]')) {
+                    el.classList.add('opacity-0', 'translate-y-12', 'transition-all', 'duration-700', 'ease-out');
+                    scrollObserver.observe(el);
+                }
+            });
+
+            //  Interactive 3D Card Tilt Effect on Mouse Move
+            const cards = document.querySelectorAll('.bg-gradient-to-b');
+            cards.forEach(card => {
+                card.classList.add('tilt-card');
+
+                card.addEventListener('mousemove', (e) => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left; 
+                    const y = e.clientY - rect.top;  
+
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+
+
+                    const rotateX = -((y - centerY) / centerY) * 8;
+                    const rotateY = ((x - centerX) / centerX) * 8;
+
+                    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-4px)`;
+                });
+
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0px)';
+                });
+            });
+
+            // Dynamic Scroll Parallax Effect for Ambient Glows
+            window.addEventListener('scroll', () => {
+                const scrollY = window.scrollY;
+                const glows = document.querySelectorAll('.absolute.rounded-full');
+
+                glows.forEach((glow, index) => {
+                    const speed = (index + 1) * 0.05;
+                    glow.style.transform = `translate(-50%, -50%) translateY(${scrollY * speed}px)`;
+                });
+            });
+
+        });
+    </script>
+
+    <script type="module">
+        import * as THREE from "three";
+
+        const canvas = document.getElementById("hero-canvas");
+
+        if (!canvas) {
+            console.warn("Hero canvas was not found.");
+        } else {
+            const scene = new THREE.Scene();
+
+            const camera = new THREE.PerspectiveCamera(
+                42,
+                window.innerWidth / window.innerHeight,
+                0.1,
+                100
+            );
+
+            camera.position.set(0, 0, 7.5);
+
+            const renderer = new THREE.WebGLRenderer({
+                canvas,
+                alpha: true,
+                antialias: true,
+                powerPreference: "high-performance"
+            });
+
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setClearColor(0x000000, 0);
+
+            const group = new THREE.Group();
+            scene.add(group);
+
+            const lime = 0xccff00;
+            const softWhite = 0xe8f0d2;
+
+            /*
+             * Main glass-like sphere
+             */
+            const sphereGeometry = new THREE.SphereGeometry(1.65, 64, 64);
+
+            const sphereMaterial = new THREE.MeshBasicMaterial({
+                color: lime,
+                transparent: true,
+                opacity: 0.035,
+                wireframe: true
+            });
+
+            const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
+            group.add(sphere);
+
+            /*
+             * Inner glowing sphere
+             */
+            const innerGeometry = new THREE.SphereGeometry(1.52, 48, 48);
+
+            const innerMaterial = new THREE.MeshBasicMaterial({
+                color: 0x7d9900,
+                transparent: true,
+                opacity: 0.06,
+                side: THREE.BackSide
+            });
+
+            const innerSphere = new THREE.Mesh(innerGeometry, innerMaterial);
+            group.add(innerSphere);
+
+            /*
+             * Create particles across the surface of the sphere
+             */
+            const particleCount = window.innerWidth < 640 ? 650 : 1200;
+            const particlePositions = new Float32Array(particleCount * 3);
+            const particleSizes = new Float32Array(particleCount);
+
+            for (let i = 0; i < particleCount; i++) {
+                const radius = 1.72;
+
+                const theta = Math.random() * Math.PI * 2;
+                const phi = Math.acos(2 * Math.random() - 1);
+
+                const x = radius * Math.sin(phi) * Math.cos(theta);
+                const y = radius * Math.sin(phi) * Math.sin(theta);
+                const z = radius * Math.cos(phi);
+
+                particlePositions[i * 3] = x;
+                particlePositions[i * 3 + 1] = y;
+                particlePositions[i * 3 + 2] = z;
+
+                particleSizes[i] = Math.random() * 2.4 + 0.8;
+            }
+
+            const particleGeometry = new THREE.BufferGeometry();
+
+            particleGeometry.setAttribute(
+                "position",
+                new THREE.BufferAttribute(particlePositions, 3)
+            );
+
+            particleGeometry.setAttribute(
+                "size",
+                new THREE.BufferAttribute(particleSizes, 1)
+            );
+
+            const particleMaterial = new THREE.PointsMaterial({
+                color: softWhite,
+                size: 0.022,
+                transparent: true,
+                opacity: 0.72,
+                blending: THREE.AdditiveBlending,
+                depthWrite: false
+            });
+
+            const particles = new THREE.Points(
+                particleGeometry,
+                particleMaterial
+            );
+
+            group.add(particles);
+
+            /*
+             * Orbiting rings
+             */
+            const ringMaterials = [
+                new THREE.MeshBasicMaterial({
+                    color: lime,
+                    transparent: true,
+                    opacity: 0.28,
+                    side: THREE.DoubleSide
+                }),
+                new THREE.MeshBasicMaterial({
+                    color: 0xffffff,
+                    transparent: true,
+                    opacity: 0.1,
+                    side: THREE.DoubleSide
+                }),
+                new THREE.MeshBasicMaterial({
+                    color: lime,
+                    transparent: true,
+                    opacity: 0.14,
+                    side: THREE.DoubleSide
+                })
+            ];
+
+            const ringSettings = [
+                { radius: 2.05, tube: 0.008, rotation: [0.8, 0.2, 0.1] },
+                { radius: 2.28, tube: 0.006, rotation: [1.3, 0.2, 1.1] },
+                { radius: 2.5, tube: 0.004, rotation: [0.2, 1.1, 0.5] }
+            ];
+
+            const rings = [];
+
+            ringSettings.forEach((setting, index) => {
+                const geometry = new THREE.TorusGeometry(
+                    setting.radius,
+                    setting.tube,
+                    8,
+                    160
+                );
+
+                const ring = new THREE.Mesh(
+                    geometry,
+                    ringMaterials[index]
+                );
+
+                ring.rotation.set(...setting.rotation);
+                group.add(ring);
+                rings.push(ring);
+            });
+
+            /*
+             * Network nodes and connecting lines
+             */
+            const nodeCount = 28;
+            const nodePositions = [];
+            const nodeGeometry = new THREE.BufferGeometry();
+            const nodeArray = new Float32Array(nodeCount * 3);
+
+            for (let i = 0; i < nodeCount; i++) {
+                const radius = 2.05;
+                const theta = Math.random() * Math.PI * 2;
+                const phi = Math.acos(2 * Math.random() - 1);
+
+                const x = radius * Math.sin(phi) * Math.cos(theta);
+                const y = radius * Math.sin(phi) * Math.sin(theta);
+                const z = radius * Math.cos(phi);
+
+                nodeArray[i * 3] = x;
+                nodeArray[i * 3 + 1] = y;
+                nodeArray[i * 3 + 2] = z;
+
+                nodePositions.push(new THREE.Vector3(x, y, z));
+            }
+
+            nodeGeometry.setAttribute(
+                "position",
+                new THREE.BufferAttribute(nodeArray, 3)
+            );
+
+            const nodeMaterial = new THREE.PointsMaterial({
+                color: lime,
+                size: 0.07,
+                transparent: true,
+                opacity: 0.9,
+                blending: THREE.AdditiveBlending
+            });
+
+            const nodes = new THREE.Points(nodeGeometry, nodeMaterial);
+            group.add(nodes);
+
+            const linePositions = [];
+
+            for (let i = 0; i < nodePositions.length; i++) {
+                const current = nodePositions[i];
+
+                for (let j = i + 1; j < nodePositions.length; j++) {
+                    const next = nodePositions[j];
+
+                    if (current.distanceTo(next) < 1.05) {
+                        linePositions.push(
+                            current.x,
+                            current.y,
+                            current.z,
+                            next.x,
+                            next.y,
+                            next.z
+                        );
+                    }
+                }
+            }
+
+            const lineGeometry = new THREE.BufferGeometry();
+
+            lineGeometry.setAttribute(
+                "position",
+                new THREE.Float32BufferAttribute(linePositions, 3)
+            );
+
+            const lineMaterial = new THREE.LineBasicMaterial({
+                color: lime,
+                transparent: true,
+                opacity: 0.13,
+                blending: THREE.AdditiveBlending
+            });
+
+            const networkLines = new THREE.LineSegments(
+                lineGeometry,
+                lineMaterial
+            );
+
+            group.add(networkLines);
+
+            /*
+             * Decorative floating particles around the sphere
+             */
+            const ambientCount = window.innerWidth < 640 ? 100 : 220;
+            const ambientPositions = new Float32Array(ambientCount * 3);
+
+            for (let i = 0; i < ambientCount; i++) {
+                ambientPositions[i * 3] = (Math.random() - 0.5) * 8;
+                ambientPositions[i * 3 + 1] = (Math.random() - 0.5) * 6;
+                ambientPositions[i * 3 + 2] = (Math.random() - 0.5) * 3;
+            }
+
+            const ambientGeometry = new THREE.BufferGeometry();
+
+            ambientGeometry.setAttribute(
+                "position",
+                new THREE.BufferAttribute(ambientPositions, 3)
+            );
+
+            const ambientMaterial = new THREE.PointsMaterial({
+                color: lime,
+                size: 0.012,
+                transparent: true,
+                opacity: 0.35,
+                blending: THREE.AdditiveBlending
+            });
+
+            const ambientParticles = new THREE.Points(
+                ambientGeometry,
+                ambientMaterial
+            );
+
+            scene.add(ambientParticles);
+
+            /*
+             * Mouse interaction
+             */
+            const pointer = {
+                x: 0,
+                y: 0,
+                targetX: 0,
+                targetY: 0
+            };
+
+            window.addEventListener("pointermove", (event) => {
+                pointer.targetX = (event.clientX / window.innerWidth - 0.5) * 2;
+                pointer.targetY = (event.clientY / window.innerHeight - 0.5) * 2;
+            });
+
+            /*
+             * Responsive layout
+             */
+            function updateLayout() {
+                const isMobile = window.innerWidth < 768;
+
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.position.z = isMobile ? 8.8 : 7.5;
+                camera.updateProjectionMatrix();
+
+                renderer.setPixelRatio(
+                    Math.min(window.devicePixelRatio, isMobile ? 1.5 : 2)
+                );
+
+                renderer.setSize(window.innerWidth, window.innerHeight);
+
+                group.scale.setScalar(isMobile ? 0.78 : 1);
+                group.position.y = isMobile ? -0.2 : -0.05;
+            }
+
+            window.addEventListener("resize", updateLayout);
+            updateLayout();
+
+            /*
+             * Reduced-motion support
+             */
+            const reducedMotion = window.matchMedia(
+                "(prefers-reduced-motion: reduce)"
+            ).matches;
+
+            let clock = new THREE.Clock();
+
+            function render() {
+                const elapsed = clock.getElapsedTime();
+
+                if (!reducedMotion) {
+                    group.rotation.y += 0.0018;
+                    group.rotation.x += 0.00035;
+
+                    sphere.rotation.y -= 0.0008;
+                    particles.rotation.y += 0.0012;
+                    nodes.rotation.y += 0.0015;
+                    networkLines.rotation.y += 0.0015;
+
+                    rings[0].rotation.z += 0.0022;
+                    rings[1].rotation.x -= 0.0015;
+                    rings[2].rotation.y += 0.0018;
+
+                    ambientParticles.rotation.y -= 0.00035;
+
+                    pointer.x += (pointer.targetX - pointer.x) * 0.025;
+                    pointer.y += (pointer.targetY - pointer.y) * 0.025;
+
+                    camera.position.x += (pointer.x * 0.22 - camera.position.x) * 0.025;
+                    camera.position.y += (-pointer.y * 0.16 - camera.position.y) * 0.025;
+                }
+
+                camera.lookAt(0, 0, 0);
+                renderer.render(scene, camera);
+
+                if (!reducedMotion) {
+                    requestAnimationFrame(render);
+                }
+            }
+
+            render();
+        }
+
+        const heroSection = document.getElementById("overview");
+        const heroMesh = document.querySelector(".animate-mesh-float"); // or your background element ID
+
+        let tick = 0;
+        function animateMeshBackground() {
+            tick += 0.015;
+            // Subtle sine wave float
+            const floatY = Math.sin(tick) * 8;
+            const pulseOpacity = 0.20 + Math.sin(tick * 0.8) * 0.05;
+
+            if (heroMesh) {
+                heroMesh.style.transform = `translateY(${floatY}px) scale(${1 + Math.sin(tick) * 0.015})`;
+                heroMesh.style.opacity = pulseOpacity;
+            }
+            requestAnimationFrame(animateMeshBackground);
+        }
+
+        animateMeshBackground();
+
+        document.addEventListener("DOMContentLoaded", () => {
+            // Mock Connected State
+            let isConnected = false;
+            const MOCK_WALLET_ADDRESS = "0x71C7...9B42";
+
+            // DOM Elements
+            const navActionContainer = document.querySelector("nav .flex.items-center.gap-3");
+            const openSwapModalBtn = document.getElementById("open-swap-modal-btn");
+            const modalPaySummary = document.getElementById("modal-pay-summary");
+            const modalReceiveSummary = document.getElementById("modal-receive-summary");
+
+            // 1. Function to Update UI to Connected State
+            function setConnectedState(address) {
+                isConnected = true;
+
+                // Update Nav Bar Action Button
+                const navLaunchBtn = navActionContainer?.querySelector("a[href='exchange.html']");
+                if (navLaunchBtn) {
+                    navLaunchBtn.outerHTML = `
+        <div id="user-wallet-badge" class="flex items-center gap-2 rounded-xl border border-brand-neon/30 bg-brand-neon/10 px-3.5 py-2 font-mono text-xs font-semibold text-brand-neon backdrop-blur-md">
+          <span class="h-2 w-2 rounded-full bg-brand-neon animate-pulse"></span>
+          <span>${address}</span>
+        </div>
+      `;
+                }
+
+                // Update Swap Terminal Button
+                if (openSwapModalBtn) {
+                    openSwapModalBtn.textContent = "EXECUTE SWAP";
+                    openSwapModalBtn.onclick = handleExecuteSwap;
+                }
+            }
+
+            // 2. Wallet Option Selection Handler (Simulated Connect)
+            const walletBtns = document.querySelectorAll(".wallet-option-btn");
+            walletBtns.forEach((btn) => {
+                btn.addEventListener("click", () => {
+                    const walletName = btn.querySelector("span")?.textContent || "Wallet";
+                    const iconImg = btn.querySelector("img")?.src;
+
+                    // Temporary Loading UI inside Button
+                    btn.disabled = true;
+                    btn.innerHTML = `
+        <div class="flex items-center gap-3 w-full justify-center py-0.5">
+          <i class="fa-solid fa-circle-notch animate-spin text-brand-neon text-sm"></i>
+          <span class="text-sm font-semibold text-zinc-300">Connecting to ${walletName}...</span>
+        </div>
+      `;
+
+                    // Simulate network connection delay (1.2s)
+                    setTimeout(() => {
+                        // Reset button markup (in case modal reopens later)
+                        btn.disabled = false;
+                        btn.innerHTML = `
+          <div class="flex items-center gap-3">
+            <img src="${iconImg}" alt="${walletName}" class="h-6 w-6">
+            <span class="text-sm font-semibold text-white">${walletName}</span>
+          </div>
+        `;
+
+                        // Apply global connected state & close popup
+                        setConnectedState(MOCK_WALLET_ADDRESS);
+                        toggleSwapModal(false);
+                    }, 1200);
+                });
+            });
+
+            // 3. Simulated Swap Execution Action
+            function handleExecuteSwap() {
+                if (!openSwapModalBtn) return;
+
+                openSwapModalBtn.disabled = true;
+                openSwapModalBtn.innerHTML = `
+      <div class="flex items-center justify-center gap-2">
+        <i class="fa-solid fa-spinner animate-spin text-black"></i>
+        <span>SUBMITTING TRANSACTION...</span>
+      </div>
+    `;
+
+                // Simulate transaction lifecycle (2s)
+                setTimeout(() => {
+                    openSwapModalBtn.disabled = false;
+                    openSwapModalBtn.textContent = "SWAP CONFIRMED!";
+                    openSwapModalBtn.classList.replace("bg-brand-neon", "bg-emerald-400");
+
+                    setTimeout(() => {
+                        openSwapModalBtn.textContent = "EXECUTE SWAP";
+                        openSwapModalBtn.classList.replace("bg-emerald-400", "bg-brand-neon");
+                    }, 3000);
+                }, 2000);
+            }
+        });
+
+        // Minimal Human-Readable ABI for Ethers.js
+        const USDC_ABI = [
+            "function balanceOf(address owner) view returns (uint256)",
+            "function allowance(address owner, address spender) view returns (uint256)",
+            "function approve(address spender, uint256 amount) returns (bool)"
+        ];
+
+        const ROUTER_ABI = [
+            "function swapExactTokensForTokens(uint amountIn, uint amountOutMin, address[] path, address to, uint deadline) returns (uint[] amounts)"
+        ];
+
+
+
+
+        document.addEventListener("DOMContentLoaded", () => {
+            let isConnected = false;
+            let isApproved = false;
+            let usdcBalance = 5420.00;
+            let uberBalance = 0.00;
+
+            const openSwapModalBtn = document.getElementById("open-swap-modal-btn");
+            const txConfirmModal = document.getElementById("tx-confirm-modal");
+            const confirmSwapTxBtn = document.getElementById("confirm-swap-tx-btn");
+            const txToast = document.getElementById("tx-toast");
+
+            // Step 1: Handle Wallet Connection & UI Swap
+            document.querySelectorAll(".wallet-option-btn").forEach(btn => {
+                btn.addEventListener("click", async () => {
+                    btn.innerHTML = `<i class="fa-solid fa-spinner animate-spin text-brand-neon"></i> Connecting...`;
+
+                    // Real Web3 handshake fallback check
+                    if (window.ethereum) {
+                        try { await window.ethereum.request({ method: 'eth_requestAccounts' }); } catch (e) { }
+                    }
+
+                    setTimeout(() => {
+                        isConnected = true;
+                        toggleSwapModal(false); // Close wallet selection popup
+
+                        // Update Nav Bar Action Button
+                        const navBtn = document.querySelector("nav a[href='exchange.html']");
+                        if (navBtn) {
+                            navBtn.outerHTML = `
+            <div class="flex items-center gap-2 rounded-xl border border-brand-neon/30 bg-brand-neon/10 px-3 py-1.5 font-mono text-xs font-semibold text-brand-neon">
+              <span class="h-2 w-2 rounded-full bg-brand-neon animate-pulse"></span>
+              <span>0x71C...9B42</span>
+            </div>`;
+                        }
+
+                        // Update Swap Router Primary Button
+                        if (openSwapModalBtn) {
+                            openSwapModalBtn.textContent = "APPROVE USDC";
+                            openSwapModalBtn.onclick = handleRouterAction;
+                        }
+                    }, 1000);
+                });
+            });
+
+            // Step 2 & 3: Handle Execution & Toast Flow
+            function handleRouterAction() {
+                if (!isApproved) {
+                    // Step 1: Approve Token Spending
+                    openSwapModalBtn.innerHTML = `<i class="fa-solid fa-spinner animate-spin"></i> APPROVING USDC...`;
+                    setTimeout(() => {
+                        isApproved = true;
+                        openSwapModalBtn.textContent = "EXECUTE SWAP";
+                    }, 1200);
+                } else {
+                    // Step 2: Show Confirmation Modal
+                    txConfirmModal.classList.remove("opacity-0", "pointer-events-none");
+                }
+            }
+
+            confirmSwapTxBtn.addEventListener("click", () => {
+                txConfirmModal.classList.add("opacity-0", "pointer-events-none");
+                openSwapModalBtn.innerHTML = `
+      <span class="flex items-center justify-center gap-2">
+        <i class="fa-solid fa-spinner animate-spin text-black"></i>
+        Pending Confirmation... 
+        <a href="https://arbiscan.io" target="_blank" class="underline hover:text-white text-xs">Arbiscan ↗</a>
+      </span>`;
+
+                // Step 3: Complete Swap & Update Balances
+                setTimeout(() => {
+                    const payVal = parseFloat(document.getElementById("terminal-pay-input").value) || 1000;
+                    const receiveVal = parseFloat(document.getElementById("terminal-receive-input").value) || 12.74;
+
+                    // Update Balances
+                    usdcBalance -= payVal;
+                    uberBalance += receiveVal;
+
+                    openSwapModalBtn.textContent = "EXECUTE SWAP";
+
+                    // Display Toast
+                    document.getElementById("toast-details").textContent = `Swapped ${payVal.toLocaleString()} USDC for ${receiveVal.toFixed(2)} $COOX`;
+                    txToast.classList.remove("translate-y-20", "opacity-0");
+
+                    setTimeout(() => {
+                        txToast.classList.add("translate-y-20", "opacity-0");
+                    }, 4000);
+                }, 2500);
+            });
+        });
+    </script>
+
+
+    <!-- -->
+    <!-- CONSOLIDATED JAVASCRIPT LOGIC                             -->
+    <!-- -->
+    <script>
+        // Global Constants & State Management
+        const UBER_PRICE = 78.45;
+        const CONTRACT_ADDRESS = "0x3f2a89c10b741e9b23c58d098e11a2f4518299aa";
+
+        let isWalletConnected = false;
+        let isUsdcApproved = false;
+        let userUsdcBalance = 5420.00;
+        let userUberBalance = 0.00;
+
+        //  Wallet Modal Toggle Function
+        function toggleWalletModal(show = true) {
+            const modal = document.getElementById("swap-modal");
+            const card = document.getElementById("swap-modal-card");
+            const payInput = document.getElementById("terminal-pay-input");
+            const receiveInput = document.getElementById("terminal-receive-input");
+            const paySummary = document.getElementById("modal-pay-summary");
+            const receiveSummary = document.getElementById("modal-receive-summary");
+
+            if (!modal || !card) return;
+
+            if (show) {
+                const payVal = parseFloat(payInput?.value) || 0;
+                const receiveVal = parseFloat(receiveInput?.value) || 0;
+
+                if (paySummary) paySummary.textContent = `${payVal.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USDC`;
+                if (receiveSummary) receiveSummary.textContent = `~${receiveVal.toFixed(2)} $COOX`;
+
+                modal.classList.remove("opacity-0", "pointer-events-none");
+                card.classList.remove("scale-95");
+                card.classList.add("scale-100");
+            } else {
+                modal.classList.add("opacity-0", "pointer-events-none");
+                card.classList.remove("scale-100");
+                card.classList.add("scale-95");
+            }
+        }
+
+        //  Transaction Confirmation Modal Toggle Function
+        function toggleTxModal(show = true) {
+            const modal = document.getElementById("tx-confirm-modal");
+            const card = document.getElementById("tx-confirm-card");
+            const payInput = document.getElementById("terminal-pay-input");
+            const receiveInput = document.getElementById("terminal-receive-input");
+
+            if (!modal || !card) return;
+
+            if (show) {
+                const payVal = parseFloat(payInput?.value) || 0;
+                const receiveVal = parseFloat(receiveInput?.value) || 0;
+
+                document.getElementById("tx-confirm-pay").textContent = `${payVal.toLocaleString("en-US", { minimumFractionDigits: 2 })} USDC`;
+                document.getElementById("tx-confirm-receive").textContent = `${receiveVal.toFixed(2)} $COOX`;
+
+                modal.classList.remove("opacity-0", "pointer-events-none");
+                card.classList.remove("scale-95");
+                card.classList.add("scale-100");
+            } else {
+                modal.classList.add("opacity-0", "pointer-events-none");
+                card.classList.remove("scale-100");
+                card.classList.add("scale-95");
+            }
+        }
+
+        // Main Execution on DOM Load
+        document.addEventListener("DOMContentLoaded", () => {
+
+            // DOM Elements
+            const payInput = document.getElementById("terminal-pay-input");
+            const receiveInput = document.getElementById("terminal-receive-input");
+            const mainRouterBtn = document.getElementById("main-router-btn");
+            const navConnectBtn = document.getElementById("nav-connect-btn");
+            const confirmSwapTxBtn = document.getElementById("confirm-swap-tx-btn");
+            const closeTxModalBtn = document.getElementById("close-tx-modal-btn");
+            const txToast = document.getElementById("tx-toast");
+
+            //  Dynamic Calculation Handlers
+            if (payInput && receiveInput) {
+                payInput.addEventListener("input", () => {
+                    const val = parseFloat(payInput.value) || 0;
+                    receiveInput.value = (val / UBER_PRICE).toFixed(2);
+                });
+
+                receiveInput.addEventListener("input", () => {
+                    const val = parseFloat(receiveInput.value) || 0;
+                    payInput.value = (val * UBER_PRICE).toFixed(2);
+                });
+            }
+
+            //  Contract Address Clipboard Copy
+            async function copyAddress(btn, icon, statusElem) {
+                try {
+                    await navigator.clipboard.writeText(CONTRACT_ADDRESS);
+                    if (icon) icon.className = "fa-solid fa-check text-brand-neon";
+                    if (statusElem) statusElem.textContent = "Copied Address!";
+
+                    setTimeout(() => {
+                        if (icon) icon.className = "fa-regular fa-copy text-zinc-500";
+                        if (statusElem) statusElem.textContent = CONTRACT_ADDRESS;
+                    }, 2000);
+                } catch (err) {
+                    console.error("Clipboard copy failed:", err);
+                }
+            }
+
+            document.getElementById("hero-copy-contract-btn")?.addEventListener("click", function () {
+                copyAddress(this, document.getElementById("hero-copy-icon"), document.getElementById("hero-copy-status-text"));
+            });
+
+            document.getElementById("nav-copy-contract-btn")?.addEventListener("click", function () {
+                copyAddress(this, document.getElementById("nav-copy-icon"), null);
+            });
+
+            //  Primary Router Button Router State Machine
+            mainRouterBtn?.addEventListener("click", () => {
+                if (!isWalletConnected) {
+                    toggleWalletModal(true);
+                } else if (!isUsdcApproved) {
+                    // Trigger Allowance Approval
+                    mainRouterBtn.disabled = true;
+                    mainRouterBtn.innerHTML = `<i class="fa-solid fa-circle-notch animate-spin text-black"></i> APPROVING USDC...`;
+
+                    setTimeout(() => {
+                        isUsdcApproved = true;
+                        mainRouterBtn.disabled = false;
+                        mainRouterBtn.textContent = "EXECUTE SWAP";
+                    }, 1200);
+                } else {
+                    // Open Transaction Confirmation Modal
+                    toggleTxModal(true);
+                }
+            });
+
+            //  Wallet Selection Button Handlers (Simulated Connect Flow)
+            document.querySelectorAll(".wallet-option-btn").forEach((btn) => {
+                btn.addEventListener("click", () => {
+                    const walletName = btn.querySelector("span")?.textContent || "Wallet";
+
+                    btn.disabled = true;
+                    btn.innerHTML = `
+            <div class="flex items-center gap-3 w-full justify-center py-0.5">
+              <i class="fa-solid fa-circle-notch animate-spin text-brand-neon text-sm"></i>
+              <span class="text-sm font-semibold text-zinc-300">Connecting to ${walletName}...</span>
+            </div>
+          `;
+
+                    setTimeout(() => {
+                        isWalletConnected = true;
+                        toggleWalletModal(false);
+
+                        // Update Nav Bar to Connected State
+                        if (navConnectBtn) {
+                            navConnectBtn.outerHTML = `
+                <div class="flex items-center gap-2 rounded-xl border border-brand-neon/30 bg-brand-neon/10 px-3.5 py-2 font-mono text-xs font-semibold text-brand-neon backdrop-blur-md">
+                  <span class="h-2 w-2 rounded-full bg-brand-neon animate-pulse"></span>
+                  <span>0x71C...9B42</span>
+                </div>
+              `;
+                        }
+
+                        // Update Terminal Primary Button State
+                        if (mainRouterBtn) {
+                            mainRouterBtn.textContent = "APPROVE USDC";
+                        }
+                    }, 1000);
+                });
+            });
+
+            //  Transaction Signing & Execution Flow
+            confirmSwapTxBtn?.addEventListener("click", () => {
+                toggleTxModal(false);
+
+                mainRouterBtn.disabled = true;
+                mainRouterBtn.innerHTML = `
+          <div class="flex items-center justify-center gap-2">
+            <i class="fa-solid fa-spinner animate-spin text-black"></i>
+            <span>Pending Confirmation...</span>
+            <a href="https://arbiscan.io" target="_blank" onclick="event.stopPropagation()" class="underline hover:text-white text-xs ml-1">Arbiscan ↗</a>
+          </div>
+        `;
+
+                // Simulate Blockchain Transaction Execution Delay (2.5s)
+                setTimeout(() => {
+                    const payVal = parseFloat(payInput?.value) || 0;
+                    const receiveVal = parseFloat(receiveInput?.value) || 0;
+
+                    // Update On Screen Balances
+                    userUsdcBalance -= payVal;
+                    userUberBalance += receiveVal;
+
+                    document.getElementById("usdc-balance-label").textContent = `Balance: ${userUsdcBalance.toLocaleString("en-US", { minimumFractionDigits: 2 })} USDC`;
+                    document.getElementById("uber-balance-label").textContent = `Balance: ${userUberBalance.toFixed(2)} $COOX`;
+
+                    // Reset Main Button
+                    mainRouterBtn.disabled = false;
+                    mainRouterBtn.textContent = "EXECUTE SWAP";
+
+                    // Show Success Toast
+                    document.getElementById("toast-details").textContent = `Swapped ${payVal.toLocaleString("en-US", { minimumFractionDigits: 2 })} USDC for ${receiveVal.toFixed(2)} $COOX`;
+                    txToast.classList.remove("translate-y-20", "opacity-0", "pointer-events-none");
+
+                    // Auto-Dismiss Toast after 4 seconds
+                    setTimeout(() => {
+                        txToast.classList.add("translate-y-20", "opacity-0", "pointer-events-none");
+                    }, 4000);
+
+                }, 2500);
+            });
+
+            closeTxModalBtn?.addEventListener("click", () => toggleTxModal(false));
+
+            // Backdrop & Keyboard Dismiss Handlers
+            document.getElementById("swap-modal")?.addEventListener("click", (e) => {
+                if (e.target === document.getElementById("swap-modal")) toggleWalletModal(false);
+            });
+
+            document.getElementById("tx-confirm-modal")?.addEventListener("click", (e) => {
+                if (e.target === document.getElementById("tx-confirm-modal")) toggleTxModal(false);
+            });
+
+            document.addEventListener("keydown", (e) => {
+                if (e.key === "Escape") {
+                    toggleWalletModal(false);
+                    toggleTxModal(false);
+                }
+            });
+
+        });
+
+
+        // Oracle Modal Elements
+        const oracleModal = document.getElementById("oracle-modal");
+        const oracleCard = document.getElementById("oracle-modal-card");
+        const openOracleBtn = document.getElementById("open-oracle-modal-btn");
+        const closeOracleBtn = document.getElementById("close-oracle-modal-btn");
+        const dismissOracleBtn = document.getElementById("dismiss-oracle-modal-btn");
+
+        function toggleOracleModal(show = true) {
+            if (!oracleModal || !oracleCard) return;
+
+            if (show) {
+                oracleModal.classList.remove("opacity-0", "pointer-events-none");
+                oracleCard.classList.remove("scale-95");
+                oracleCard.classList.add("scale-100");
+            } else {
+                oracleModal.classList.add("opacity-0", "pointer-events-none");
+                oracleCard.classList.remove("scale-100");
+                oracleCard.classList.add("scale-95");
+            }
+        }
+
+        // Event Bindings
+        if (openOracleBtn) openOracleBtn.addEventListener("click", () => toggleOracleModal(true));
+        if (closeOracleBtn) closeOracleBtn.addEventListener("click", () => toggleOracleModal(false));
+        if (dismissOracleBtn) dismissOracleBtn.addEventListener("click", () => toggleOracleModal(false));
+
+        if (oracleModal) {
+            oracleModal.addEventListener("click", (e) => {
+                if (e.target === oracleModal) toggleOracleModal(false);
+            });
+        }
+
+
+        document.addEventListener("DOMContentLoaded", () => {
+            // 1. ORACLE MODAL HANDLERS
+            const oracleModal = document.getElementById("oracle-modal");
+            const oracleCard = document.getElementById("oracle-modal-card");
+            const openOracleBtn = document.getElementById("open-oracle-modal-btn");
+            const closeOracleBtn = document.getElementById("close-oracle-modal-btn");
+            const dismissOracleBtn = document.getElementById("dismiss-oracle-modal-btn");
+
+            function toggleOracleModal(show = true) {
+                if (!oracleModal || !oracleCard) return;
+                if (show) {
+                    oracleModal.classList.remove("opacity-0", "pointer-events-none");
+                    oracleCard.classList.remove("scale-95");
+                    oracleCard.classList.add("scale-100");
+                } else {
+                    oracleModal.classList.add("opacity-0", "pointer-events-none");
+                    oracleCard.classList.remove("scale-100");
+                    oracleCard.classList.add("scale-95");
+                }
+            }
+
+            if (openOracleBtn) openOracleBtn.addEventListener("click", () => toggleOracleModal(true));
+            if (closeOracleBtn) closeOracleBtn.addEventListener("click", () => toggleOracleModal(false));
+            if (dismissOracleBtn) dismissOracleBtn.addEventListener("click", () => toggleOracleModal(false));
+            if (oracleModal) {
+                oracleModal.addEventListener("click", (e) => {
+                    if (e.target === oracleModal) toggleOracleModal(false);
+                });
+            }
+
+            //  ESC KEY GLOBAL CLOSER
+            document.addEventListener("keydown", (e) => {
+                if (e.key === "Escape") {
+                    toggleOracleModal(false);
+                    if (typeof window.toggleSwapModal === "function") {
+                        window.toggleSwapModal(false);
+                    }
+                }
+            });
+        });
+    </script>
+
+</body>
+
+</html>
