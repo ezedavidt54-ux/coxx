@@ -88,7 +88,13 @@
 
             <!-- Right: Contract Address + Header Wallet Action Button -->
             <div class="flex items-center gap-3 shrink-0">
-                
+                <div class="hidden sm:inline-flex items-center gap-2.5 rounded-xl border border-white/10 bg-zinc-900/80 px-3 py-1.5 backdrop-blur-md transition hover:border-brand-neon/40">
+                    <span id="nav-contract-address" class="font-mono text-xs text-zinc-400">0x1c7D...7238</span>
+                    <button id="nav-copy-contract-btn" type="button" title="Copy Contract Address" onclick="copyContractAddress()"
+                        class="text-zinc-400 hover:text-brand-neon transition active:scale-95">
+                        <i id="nav-copy-icon" class="fa-regular fa-copy text-xs"></i>
+                    </button>
+                </div>
 
                 <button id="header-wallet-btn" onclick="connectWallet()"
                     class="rounded-xl bg-brand-neon px-4 py-2 text-xs font-semibold text-black transition-all duration-300 hover:bg-[#b8e600] hover:shadow-[0_0_20px_rgba(204,255,0,0.3)] active:scale-95">
@@ -220,7 +226,7 @@
             <div class="flex items-center justify-between border-b border-white/10 pb-4 shrink-0 mb-4">
                 <div class="space-y-0.5">
                     <h3 class="text-lg font-bold text-white font-mono">Connect Wallet</h3>
-                    <p class="text-xs text-zinc-400">Choose your preferred provider to proceed</p>
+                    <p class="text-xs text-zinc-400">Select a wallet to open or connect</p>
                 </div>
                 <button onclick="closeWalletModal()" type="button"
                     class="text-zinc-400 hover:text-white text-2xl leading-none">&times;</button>
@@ -230,7 +236,7 @@
             <div class="space-y-2.5 max-h-[350px] overflow-y-auto pr-1">
 
                 <!-- 1. MetaMask -->
-                <button onclick="handleWalletSelect('MetaMask', 'https://metamask.app.link/dapp/')" data-wallet="metamask"
+                <button onclick="handleWalletSelect('MetaMask')" data-wallet="metamask"
                     class="wallet-option-btn w-full flex items-center justify-between rounded-xl border border-white/10 bg-zinc-950 p-3 hover:border-brand-neon/50 hover:bg-zinc-900/80 transition group">
                     <div class="flex items-center gap-3">
                         <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-zinc-900 border border-white/10 shrink-0 p-1.5 overflow-hidden">
@@ -238,14 +244,14 @@
                         </div>
                         <div class="text-left">
                             <div class="font-bold text-white text-sm group-hover:text-brand-neon transition">MetaMask</div>
-                            <div class="text-[11px] text-zinc-500 font-mono">Browser Extension & Mobile App</div>
+                            <div class="text-[11px] text-zinc-500 font-mono">Extension or Open in App</div>
                         </div>
                     </div>
                     <span class="text-[11px] text-brand-neon font-mono font-semibold bg-brand-neon/10 px-2 py-0.5 rounded border border-brand-neon/20">Popular</span>
                 </button>
 
                 <!-- 2. Coinbase Wallet -->
-                <button onclick="handleWalletSelect('Coinbase', 'https://wallet.coinbase.com/w2c?deep_link_uri=')" data-wallet="coinbase"
+                <button onclick="handleWalletSelect('Coinbase')" data-wallet="coinbase"
                     class="wallet-option-btn w-full flex items-center justify-between rounded-xl border border-white/10 bg-zinc-950 p-3 hover:border-brand-neon/50 hover:bg-zinc-900/80 transition group">
                     <div class="flex items-center gap-3">
                         <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-zinc-900 border border-white/10 shrink-0 p-1.5 overflow-hidden">
@@ -253,29 +259,14 @@
                         </div>
                         <div class="text-left">
                             <div class="font-bold text-white text-sm group-hover:text-brand-neon transition">Coinbase Wallet</div>
-                            <div class="text-[11px] text-zinc-500 font-mono">Coinbase Extension & Mobile</div>
+                            <div class="text-[11px] text-zinc-500 font-mono">Extension or Open in App</div>
                         </div>
                     </div>
                     <span class="text-[11px] text-zinc-400 font-mono">COOX</span>
                 </button>
 
-                <!-- 3. Phantom -->
-                <button onclick="handleWalletSelect('Phantom', 'https://phantom.app/ul/browse/')" data-wallet="phantom"
-                    class="wallet-option-btn w-full flex items-center justify-between rounded-xl border border-white/10 bg-zinc-950 p-3 hover:border-brand-neon/50 hover:bg-zinc-900/80 transition group">
-                    <div class="flex items-center gap-3">
-                        <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-zinc-900 border border-white/10 shrink-0 p-1.5 overflow-hidden">
-                            <img src="./assets/wallets/phantom.jpeg" alt="Phantom" class="h-full w-full object-contain" />
-                        </div>
-                        <div class="text-left">
-                            <div class="font-bold text-white text-sm group-hover:text-brand-neon transition">Phantom</div>
-                            <div class="text-[11px] text-zinc-500 font-mono">Solana & Multi-Chain EVM</div>
-                        </div>
-                    </div>
-                    <span class="text-[11px] text-purple-400 font-mono">COOX</span>
-                </button>
-
-                <!-- 4. Trust Wallet -->
-                <button onclick="handleWalletSelect('Trust Wallet', 'https://link.trustwallet.com/open_url?coin_id=60&url=')" data-wallet="trust"
+                <!-- 3. Trust Wallet -->
+                <button onclick="handleWalletSelect('Trust Wallet')" data-wallet="trust"
                     class="wallet-option-btn w-full flex items-center justify-between rounded-xl border border-white/10 bg-zinc-950 p-3 hover:border-brand-neon/50 hover:bg-zinc-900/80 transition group">
                     <div class="flex items-center gap-3">
                         <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-zinc-900 border border-white/10 shrink-0 p-1.5 overflow-hidden">
@@ -289,8 +280,23 @@
                     <span class="text-[11px] text-cyan-400 font-mono">COOX</span>
                 </button>
 
+                <!-- 4. Phantom -->
+                <button onclick="handleWalletSelect('Phantom')" data-wallet="phantom"
+                    class="wallet-option-btn w-full flex items-center justify-between rounded-xl border border-white/10 bg-zinc-950 p-3 hover:border-brand-neon/50 hover:bg-zinc-900/80 transition group">
+                    <div class="flex items-center gap-3">
+                        <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-zinc-900 border border-white/10 shrink-0 p-1.5 overflow-hidden">
+                            <img src="./assets/wallets/phantom.jpeg" alt="Phantom" class="h-full w-full object-contain" />
+                        </div>
+                        <div class="text-left">
+                            <div class="font-bold text-white text-sm group-hover:text-brand-neon transition">Phantom</div>
+                            <div class="text-[11px] text-zinc-500 font-mono">Multi-Chain EVM</div>
+                        </div>
+                    </div>
+                    <span class="text-[11px] text-purple-400 font-mono">COOX</span>
+                </button>
+
                 <!-- 5. OKX Wallet -->
-                <button onclick="handleWalletSelect('OKX Wallet', 'okx://wallet/dapp/details?dappUrl=')" data-wallet="okx"
+                <button onclick="handleWalletSelect('OKX Wallet')" data-wallet="okx"
                     class="wallet-option-btn w-full flex items-center justify-between rounded-xl border border-white/10 bg-zinc-950 p-3 hover:border-brand-neon/50 hover:bg-zinc-900/80 transition group">
                     <div class="flex items-center gap-3">
                         <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-zinc-900 border border-white/10 shrink-0 p-1.5 overflow-hidden">
@@ -467,17 +473,42 @@
             }
         }
 
-        async function handleWalletSelect(walletName, deepLinkBase) {
-            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-            if (isMobile && deepLinkBase) {
-                closeWalletModal();
-                window.location.href = `${deepLinkBase}${encodeURIComponent(window.location.href)}`;
-                return;
+        // Helper: Opens the site directly inside the selected Wallet App
+        function openInWalletApp(walletName) {
+            const currentUrl = window.location.href;
+            const cleanUrl = currentUrl.replace(/^https?:\/\//, '');
+            const encodedUrl = encodeURIComponent(currentUrl);
+
+            let deepLink = '';
+
+            switch (walletName) {
+                case 'MetaMask':
+                    deepLink = `https://metamask.app.link/dapp/${cleanUrl}`;
+                    break;
+                case 'Coinbase':
+                    deepLink = `https://wallet.coinbase.com/w2c?deep_link_uri=${encodedUrl}`;
+                    break;
+                case 'Phantom':
+                    deepLink = `https://phantom.app/ul/browse/${encodedUrl}?ref=${encodedUrl}`;
+                    break;
+                case 'Trust Wallet':
+                    deepLink = `https://link.trustwallet.com/open_url?coin_id=60&url=${encodedUrl}`;
+                    break;
+                case 'OKX Wallet':
+                    deepLink = `okx://wallet/dapp/details?dappUrl=${encodedUrl}`;
+                    break;
+                default:
+                    deepLink = `https://metamask.app.link/dapp/${cleanUrl}`;
             }
+
+            window.location.href = deepLink;
+        }
+
+        async function handleWalletSelect(walletName) {
             await selectWallet(walletName);
         }
 
-        // Universal Injected Provider Resolution with Safari & Multi-Wallet Support
+        // Universal Injected Provider Resolution
         function getInjectedProvider(providerName) {
             if (typeof window.ethereum === 'undefined') {
                 if (providerName === 'Phantom' && window.phantom?.ethereum) return window.phantom.ethereum;
@@ -501,19 +532,15 @@
         async function selectWallet(providerName) {
             closeWalletModal();
 
-            if (window.location.protocol === 'file:') {
-                alert("Web3 Warning: Browser extensions block wallet injections on local file:// URLs.\n\nPlease serve this application via a local web server (e.g., VS Code Live Server or 'npx serve').");
-            }
-
             const activeProvider = getInjectedProvider(providerName);
 
+            // IF NO INJECTED EXTENSION DETECTED -> LAUNCH WALLET APP VIA DEEP LINK!
             if (!activeProvider) {
-                const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-                if (isSafari && providerName === 'MetaMask') {
-                    window.location.href = `https://metamask.app.link/dapp/${window.location.host}${window.location.pathname}`;
+                if (window.location.protocol === 'file:') {
+                    alert("Deep Linking Notice:\nOpening wallet apps requires your website to be served over HTTP/HTTPS (e.g., Live Server or Vercel).\n\nLocal 'file://' hard drive files cannot be opened inside mobile wallet app browsers.");
                     return;
                 }
-                alert(`No ${providerName} extension detected.\n\nPlease install the wallet browser extension or open this page in a Web3-enabled browser.`);
+                openInWalletApp(providerName);
                 return;
             }
 
