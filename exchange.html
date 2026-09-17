@@ -70,40 +70,32 @@
 <body class="bg-brand-dark text-white font-sans antialiased min-h-screen flex flex-col justify-between">
 
     <!-- FIXED NAVBAR -->
-    <header class="fixed top-0 left-0 right-0 z-50">
-        <nav class="w-full border-b border-white/5 bg-[#050505]/80 backdrop-blur-md">
-            <div class="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
+    <header class="fixed top-0 left-0 right-0 z-50 bg-[#050505]/80 backdrop-blur-md border-b border-white/5">
+        <nav class="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
 
-                <!-- Left: Brand Logo -->
-                <a href="#" class="flex items-center gap-2 font-bold tracking-tight text-white text-lg shrink-0">
-                    <img src="./images/COOX.png" alt="COOX Logo" class="h-10 w-auto object-contain" onerror="this.onerror=null; this.src='https://placehold.co/100x40/121212/ccff00?text=COOX';" />
-                    <span>COOX</span>
-                </a>
+            <!-- Left: Brand Logo -->
+            <a href="#" class="flex items-center gap-2 font-bold tracking-tight text-white text-lg shrink-0">
+                <img src="./images/COOX.png" alt="COOX Logo" class="h-10 w-auto object-contain" onerror="this.onerror=null; this.src='https://placehold.co/100x40/121212/ccff00?text=COOX';" />
+                <span>COOX</span>
+            </a>
 
-                <!-- Center: Navigation Links -->
-                <div class="hidden md:flex items-center gap-8 text-sm font-medium text-zinc-400">
-                    <a href="./index.html" class="hover:text-white transition-colors">Overview</a>
-                    <a href="./index.html#how-it-works" class="hover:text-white transition-colors">How It Works</a>
-                    <a href="./index.html#live-data" class="hover:text-white transition-colors">Terminal</a>
-                </div>
-
-                <!-- Right: Contract Address + Header Wallet Action Button -->
-                <div class="flex items-center gap-3 shrink-0">
-                    <div class="hidden sm:inline-flex items-center gap-2.5 rounded-xl border border-white/10 bg-zinc-900/80 px-3 py-1.5 backdrop-blur-md transition hover:border-brand-neon/40">
-                        <span id="nav-contract-address" class="font-mono text-xs text-zinc-400">0x1c7D...7238</span>
-                        <button id="nav-copy-contract-btn" type="button" title="Copy Contract Address" onclick="copyContractAddress()"
-                            class="text-zinc-400 hover:text-brand-neon transition active:scale-95">
-                            <i id="nav-copy-icon" class="fa-regular fa-copy text-xs"></i>
-                        </button>
-                    </div>
-
-                    <button id="header-wallet-btn" onclick="connectWallet()"
-                        class="rounded-xl bg-brand-neon px-4 py-2 text-xs font-semibold text-black transition-all duration-300 hover:bg-[#b8e600] hover:shadow-[0_0_20px_rgba(204,255,0,0.3)] active:scale-95">
-                        Connect Wallet
-                    </button>
-                </div>
-
+            <!-- Center: Navigation Links -->
+            <div class="hidden md:flex items-center gap-8 text-sm font-medium text-zinc-400">
+                <a href="./index.html" class="hover:text-white transition-colors">Overview</a>
+                <a href="./index.html#how-it-works" class="hover:text-white transition-colors">How It Works</a>
+                <a href="./index.html#live-data" class="hover:text-white transition-colors">Terminal</a>
             </div>
+
+            <!-- Right: Contract Address + Header Wallet Action Button -->
+            <div class="flex items-center gap-3 shrink-0">
+                
+
+                <button id="header-wallet-btn" onclick="connectWallet()"
+                    class="rounded-xl bg-brand-neon px-4 py-2 text-xs font-semibold text-black transition-all duration-300 hover:bg-[#b8e600] hover:shadow-[0_0_20px_rgba(204,255,0,0.3)] active:scale-95">
+                    Connect Wallet
+                </button>
+            </div>
+
         </nav>
     </header>
 
@@ -228,21 +220,21 @@
             <div class="flex items-center justify-between border-b border-white/10 pb-4 shrink-0 mb-4">
                 <div class="space-y-0.5">
                     <h3 class="text-lg font-bold text-white font-mono">Connect Wallet</h3>
-                    <p class="text-xs text-zinc-400">Choose your preferred browser extension</p>
+                    <p class="text-xs text-zinc-400">Choose your preferred provider to proceed</p>
                 </div>
                 <button onclick="closeWalletModal()" type="button"
                     class="text-zinc-400 hover:text-white text-2xl leading-none">&times;</button>
             </div>
 
-            <!-- Wallet List -->
+            <!-- Wallet List with Logos -->
             <div class="space-y-2.5 max-h-[350px] overflow-y-auto pr-1">
 
                 <!-- 1. MetaMask -->
                 <button onclick="handleWalletSelect('MetaMask', 'https://metamask.app.link/dapp/')" data-wallet="metamask"
                     class="wallet-option-btn w-full flex items-center justify-between rounded-xl border border-white/10 bg-zinc-950 p-3 hover:border-brand-neon/50 hover:bg-zinc-900/80 transition group">
                     <div class="flex items-center gap-3">
-                        <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-zinc-900 border border-white/10 shrink-0 p-1.5 overflow-hidden text-brand-neon">
-                            <i class="fa-solid fa-wallet text-lg"></i>
+                        <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-zinc-900 border border-white/10 shrink-0 p-1.5 overflow-hidden">
+                            <img src="./assets/wallets/metamask.jpeg" alt="MetaMask" class="h-full w-full object-contain" />
                         </div>
                         <div class="text-left">
                             <div class="font-bold text-white text-sm group-hover:text-brand-neon transition">MetaMask</div>
@@ -256,8 +248,8 @@
                 <button onclick="handleWalletSelect('Coinbase', 'https://wallet.coinbase.com/w2c?deep_link_uri=')" data-wallet="coinbase"
                     class="wallet-option-btn w-full flex items-center justify-between rounded-xl border border-white/10 bg-zinc-950 p-3 hover:border-brand-neon/50 hover:bg-zinc-900/80 transition group">
                     <div class="flex items-center gap-3">
-                        <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-zinc-900 border border-white/10 shrink-0 p-1.5 overflow-hidden text-blue-400">
-                            <i class="fa-solid fa-coins text-lg"></i>
+                        <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-zinc-900 border border-white/10 shrink-0 p-1.5 overflow-hidden">
+                            <img src="./assets/wallets/coinbase.jpeg" alt="Coinbase Wallet" class="h-full w-full object-contain" />
                         </div>
                         <div class="text-left">
                             <div class="font-bold text-white text-sm group-hover:text-brand-neon transition">Coinbase Wallet</div>
@@ -271,12 +263,12 @@
                 <button onclick="handleWalletSelect('Phantom', 'https://phantom.app/ul/browse/')" data-wallet="phantom"
                     class="wallet-option-btn w-full flex items-center justify-between rounded-xl border border-white/10 bg-zinc-950 p-3 hover:border-brand-neon/50 hover:bg-zinc-900/80 transition group">
                     <div class="flex items-center gap-3">
-                        <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-zinc-900 border border-white/10 shrink-0 p-1.5 overflow-hidden text-purple-400">
-                            <i class="fa-solid fa-ghost text-lg"></i>
+                        <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-zinc-900 border border-white/10 shrink-0 p-1.5 overflow-hidden">
+                            <img src="./assets/wallets/phantom.jpeg" alt="Phantom" class="h-full w-full object-contain" />
                         </div>
                         <div class="text-left">
                             <div class="font-bold text-white text-sm group-hover:text-brand-neon transition">Phantom</div>
-                            <div class="text-[11px] text-zinc-500 font-mono">Multi-Chain EVM Support</div>
+                            <div class="text-[11px] text-zinc-500 font-mono">Solana & Multi-Chain EVM</div>
                         </div>
                     </div>
                     <span class="text-[11px] text-purple-400 font-mono">COOX</span>
@@ -286,8 +278,8 @@
                 <button onclick="handleWalletSelect('Trust Wallet', 'https://link.trustwallet.com/open_url?coin_id=60&url=')" data-wallet="trust"
                     class="wallet-option-btn w-full flex items-center justify-between rounded-xl border border-white/10 bg-zinc-950 p-3 hover:border-brand-neon/50 hover:bg-zinc-900/80 transition group">
                     <div class="flex items-center gap-3">
-                        <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-zinc-900 border border-white/10 shrink-0 p-1.5 overflow-hidden text-cyan-400">
-                            <i class="fa-solid fa-shield-halved text-lg"></i>
+                        <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-zinc-900 border border-white/10 shrink-0 p-1.5 overflow-hidden">
+                            <img src="./assets/wallets/trust.jpeg" alt="Trust Wallet" class="h-full w-full object-contain" />
                         </div>
                         <div class="text-left">
                             <div class="font-bold text-white text-sm group-hover:text-brand-neon transition">Trust Wallet</div>
@@ -301,8 +293,8 @@
                 <button onclick="handleWalletSelect('OKX Wallet', 'okx://wallet/dapp/details?dappUrl=')" data-wallet="okx"
                     class="wallet-option-btn w-full flex items-center justify-between rounded-xl border border-white/10 bg-zinc-950 p-3 hover:border-brand-neon/50 hover:bg-zinc-900/80 transition group">
                     <div class="flex items-center gap-3">
-                        <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-zinc-900 border border-white/10 shrink-0 p-1.5 overflow-hidden text-zinc-200">
-                            <i class="fa-solid fa-cube text-lg"></i>
+                        <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-zinc-900 border border-white/10 shrink-0 p-1.5 overflow-hidden">
+                            <img src="./assets/wallets/okx.jpeg" alt="OKX Wallet" class="h-full w-full object-contain" />
                         </div>
                         <div class="text-left">
                             <div class="font-bold text-white text-sm group-hover:text-brand-neon transition">OKX Wallet</div>
@@ -384,336 +376,334 @@
         </div>
     </footer>
 
-   <!-- APPLICATION LOGIC SCRIPT -->
-<script>
-    // Target Chain Configuration (Sepolia Testnet: 0xaa36a7 / 11155111)
-    const TARGET_CHAIN_ID = '0xaa36a7';
-    const SEPOLIA_CHAIN_PARAMS = {
-        chainId: TARGET_CHAIN_ID,
-        chainName: 'Sepolia Test Network',
-        nativeCurrency: { name: 'Sepolia Ether', symbol: 'ETH', decimals: 18 },
-        rpcUrls: ['https://rpc.sepolia.org'],
-        blockExplorerUrls: ['https://sepolia.etherscan.io']
-    };
+    <!-- APPLICATION LOGIC SCRIPT -->
+    <script>
+        // Target Chain Configuration (Sepolia Testnet: 0xaa36a7 / 11155111)
+        const TARGET_CHAIN_ID = '0xaa36a7';
+        const SEPOLIA_CHAIN_PARAMS = {
+            chainId: TARGET_CHAIN_ID,
+            chainName: 'Sepolia Test Network',
+            nativeCurrency: { name: 'Sepolia Ether', symbol: 'ETH', decimals: 18 },
+            rpcUrls: ['https://rpc.sepolia.org'],
+            blockExplorerUrls: ['https://sepolia.etherscan.io']
+        };
 
-    const assetPrice = 78.45;
+        const assetPrice = 78.45;
 
-    const ERC20_ABI = [
-        "function balanceOf(address owner) view returns (uint256)",
-        "function decimals() view returns (uint8)",
-        "function symbol() view returns (string)",
-        "function transfer(address to, uint256 amount) returns (bool)",
-        "function approve(address spender, uint256 amount) returns (bool)",
-        "function allowance(address owner, address spender) view returns (uint256)"
-    ];
+        const ERC20_ABI = [
+            "function balanceOf(address owner) view returns (uint256)",
+            "function decimals() view returns (uint8)",
+            "function symbol() view returns (string)",
+            "function transfer(address to, uint256 amount) returns (bool)",
+            "function approve(address spender, uint256 amount) returns (bool)",
+            "function allowance(address owner, address spender) view returns (uint256)"
+        ];
 
-    const CONTRACT_ADDRESSES = {
-        USDC: "0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238",
-        COOX: "0x3f2a0000000000000000000000000000000099aa"
-    };
+        const CONTRACT_ADDRESSES = {
+            USDC: "0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238",
+            COOX: "0x3f2a0000000000000000000000000000000099aa"
+        };
 
-    const appState = {
-        account: null,
-        walletType: null,
-        provider: null,
-        ethersProvider: null,
-        signer: null
-    };
+        const appState = {
+            account: null,
+            walletType: null,
+            provider: null,
+            ethersProvider: null,
+            signer: null
+        };
 
-    function formatAddress(address) {
-        if (!address) return '';
-        return `${address.substring(0, 6)}...${address.substring(address.length - 4)}`;
-    }
-
-    function calculateReceive() {
-        const payInput = document.getElementById('pay-amount')?.value;
-        const receiveInput = document.getElementById('receive-amount');
-        if (receiveInput) {
-            const amount = parseFloat(payInput);
-            receiveInput.value = (amount && amount > 0) ? (amount / assetPrice).toFixed(2) : "0.00";
+        function formatAddress(address) {
+            if (!address) return '';
+            return `${address.substring(0, 6)}...${address.substring(address.length - 4)}`;
         }
-    }
 
-    function copyContractAddress() {
-        const contractAddr = CONTRACT_ADDRESSES.USDC;
-        navigator.clipboard.writeText(contractAddr).then(() => {
-            const icon = document.getElementById('nav-copy-icon');
-            if (icon) {
-                icon.className = "fa-solid fa-check text-xs text-brand-neon";
-                setTimeout(() => {
-                    icon.className = "fa-regular fa-copy text-xs";
-                }, 2000);
+        function calculateReceive() {
+            const payInput = document.getElementById('pay-amount')?.value;
+            const receiveInput = document.getElementById('receive-amount');
+            if (receiveInput) {
+                const amount = parseFloat(payInput);
+                receiveInput.value = (amount && amount > 0) ? (amount / assetPrice).toFixed(2) : "0.00";
             }
-        });
-    }
-
-    function connectWallet() {
-        if (appState.account) {
-            disconnectWallet();
-            return;
-        }
-        const modal = document.getElementById('wallet-modal');
-        const modalCard = document.getElementById('wallet-modal-card');
-        if (modal) {
-            modal.classList.remove('hidden');
-            setTimeout(() => {
-                modal.classList.remove('opacity-0');
-                modalCard?.classList.remove('scale-95');
-                modalCard?.classList.add('scale-100');
-            }, 10);
-        }
-    }
-
-    function closeWalletModal() {
-        const modal = document.getElementById('wallet-modal');
-        const modalCard = document.getElementById('wallet-modal-card');
-        if (modal) {
-            modal.classList.add('opacity-0');
-            modalCard?.classList.remove('scale-100');
-            modalCard?.classList.add('scale-95');
-            setTimeout(() => { modal.classList.add('hidden'); }, 300);
-        }
-    }
-
-    async function handleWalletSelect(walletName, deepLinkBase) {
-        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-        if (isMobile && deepLinkBase) {
-            closeWalletModal();
-            window.location.href = `${deepLinkBase}${encodeURIComponent(window.location.href)}`;
-            return;
-        }
-        await selectWallet(walletName);
-    }
-
-    // Universal Injected Provider Resolution with Safari & Multi-Wallet Support
-    function getInjectedProvider(providerName) {
-        if (typeof window.ethereum === 'undefined') {
-            if (providerName === 'Phantom' && window.phantom?.ethereum) return window.phantom.ethereum;
-            if (providerName === 'Coinbase' && window.coinbaseWalletExtension) return window.coinbaseWalletExtension;
-            if (providerName === 'OKX Wallet' && window.okxwallet) return window.okxwallet;
-            return null;
         }
 
-        if (window.ethereum.providers && Array.isArray(window.ethereum.providers)) {
-            if (providerName === 'MetaMask') return window.ethereum.providers.find(p => p.isMetaMask) || window.ethereum;
-            if (providerName === 'Coinbase') return window.ethereum.providers.find(p => p.isCoinbaseWallet) || window.ethereum;
-            if (providerName === 'OKX Wallet') return window.ethereum.providers.find(p => p.isOKXWallet) || window.ethereum;
-            if (providerName === 'Trust Wallet') return window.ethereum.providers.find(p => p.isTrust || p.isTrustWallet) || window.ethereum;
+        function copyContractAddress() {
+            const contractAddr = CONTRACT_ADDRESSES.USDC;
+            navigator.clipboard.writeText(contractAddr).then(() => {
+                const icon = document.getElementById('nav-copy-icon');
+                if (icon) {
+                    icon.className = "fa-solid fa-check text-xs text-brand-neon";
+                    setTimeout(() => {
+                        icon.className = "fa-regular fa-copy text-xs";
+                    }, 2000);
+                }
+            });
         }
 
-        if (providerName === 'Phantom' && window.phantom?.ethereum) return window.phantom.ethereum;
-
-        return window.ethereum;
-    }
-
-    async function selectWallet(providerName) {
-        closeWalletModal();
-
-        if (window.location.protocol === 'file:') {
-            alert("Web3 Warning: Browser extensions block wallet injections on local file:// URLs.\n\nPlease serve this application via a local web server (e.g., VS Code Live Server or 'npx serve').");
-        }
-
-        const activeProvider = getInjectedProvider(providerName);
-
-        if (!activeProvider) {
-            const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-            if (isSafari && providerName === 'MetaMask') {
-                const currentUrl = encodeURIComponent(window.location.href);
-                window.location.href = `https://metamask.app.link/dapp/${window.location.host}${window.location.pathname}`;
+        function connectWallet() {
+            if (appState.account) {
+                disconnectWallet();
                 return;
             }
-            alert(`No ${providerName} extension detected.\n\nPlease install the wallet browser extension or open this page in a Web3-enabled browser.`);
-            return;
+            const modal = document.getElementById('wallet-modal');
+            const modalCard = document.getElementById('wallet-modal-card');
+            if (modal) {
+                modal.classList.remove('hidden');
+                setTimeout(() => {
+                    modal.classList.remove('opacity-0');
+                    modalCard?.classList.remove('scale-95');
+                    modalCard?.classList.add('scale-100');
+                }, 10);
+            }
         }
 
-        try {
-            // Attempt network switch to Sepolia
+        function closeWalletModal() {
+            const modal = document.getElementById('wallet-modal');
+            const modalCard = document.getElementById('wallet-modal-card');
+            if (modal) {
+                modal.classList.add('opacity-0');
+                modalCard?.classList.remove('scale-100');
+                modalCard?.classList.add('scale-95');
+                setTimeout(() => { modal.classList.add('hidden'); }, 300);
+            }
+        }
+
+        async function handleWalletSelect(walletName, deepLinkBase) {
+            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            if (isMobile && deepLinkBase) {
+                closeWalletModal();
+                window.location.href = `${deepLinkBase}${encodeURIComponent(window.location.href)}`;
+                return;
+            }
+            await selectWallet(walletName);
+        }
+
+        // Universal Injected Provider Resolution with Safari & Multi-Wallet Support
+        function getInjectedProvider(providerName) {
+            if (typeof window.ethereum === 'undefined') {
+                if (providerName === 'Phantom' && window.phantom?.ethereum) return window.phantom.ethereum;
+                if (providerName === 'Coinbase' && window.coinbaseWalletExtension) return window.coinbaseWalletExtension;
+                if (providerName === 'OKX Wallet' && window.okxwallet) return window.okxwallet;
+                return null;
+            }
+
+            if (window.ethereum.providers && Array.isArray(window.ethereum.providers)) {
+                if (providerName === 'MetaMask') return window.ethereum.providers.find(p => p.isMetaMask) || window.ethereum;
+                if (providerName === 'Coinbase') return window.ethereum.providers.find(p => p.isCoinbaseWallet) || window.ethereum;
+                if (providerName === 'OKX Wallet') return window.ethereum.providers.find(p => p.isOKXWallet) || window.ethereum;
+                if (providerName === 'Trust Wallet') return window.ethereum.providers.find(p => p.isTrust || p.isTrustWallet) || window.ethereum;
+            }
+
+            if (providerName === 'Phantom' && window.phantom?.ethereum) return window.phantom.ethereum;
+
+            return window.ethereum;
+        }
+
+        async function selectWallet(providerName) {
+            closeWalletModal();
+
+            if (window.location.protocol === 'file:') {
+                alert("Web3 Warning: Browser extensions block wallet injections on local file:// URLs.\n\nPlease serve this application via a local web server (e.g., VS Code Live Server or 'npx serve').");
+            }
+
+            const activeProvider = getInjectedProvider(providerName);
+
+            if (!activeProvider) {
+                const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+                if (isSafari && providerName === 'MetaMask') {
+                    window.location.href = `https://metamask.app.link/dapp/${window.location.host}${window.location.pathname}`;
+                    return;
+                }
+                alert(`No ${providerName} extension detected.\n\nPlease install the wallet browser extension or open this page in a Web3-enabled browser.`);
+                return;
+            }
+
             try {
-                await activeProvider.request({
-                    method: 'wallet_switchEthereumChain',
-                    params: [{ chainId: TARGET_CHAIN_ID }],
-                });
-            } catch (switchError) {
-                // Code 4902: Chain missing in user wallet
-                if (switchError.code === 4902) {
-                    try {
-                        await activeProvider.request({
-                            method: 'wallet_addEthereumChain',
-                            params: [SEPOLIA_CHAIN_PARAMS],
-                        });
-                    } catch (addError) {
-                        console.error("Failed to add Sepolia network:", addError);
+                // Attempt network switch to Sepolia
+                try {
+                    await activeProvider.request({
+                        method: 'wallet_switchEthereumChain',
+                        params: [{ chainId: TARGET_CHAIN_ID }],
+                    });
+                } catch (switchError) {
+                    if (switchError.code === 4902) {
+                        try {
+                            await activeProvider.request({
+                                method: 'wallet_addEthereumChain',
+                                params: [SEPOLIA_CHAIN_PARAMS],
+                            });
+                        } catch (addError) {
+                            console.error("Failed to add Sepolia network:", addError);
+                        }
+                    } else {
+                        console.warn("Network switch skipped or rejected:", switchError);
                     }
-                } else {
-                    console.warn("Network switch skipped or rejected:", switchError);
+                }
+
+                const accounts = await activeProvider.request({ method: 'eth_requestAccounts' });
+                if (!accounts || accounts.length === 0) return;
+
+                const ethersProvider = new ethers.BrowserProvider(activeProvider);
+                const signer = await ethersProvider.getSigner();
+
+                appState.account = accounts[0];
+                appState.walletType = providerName;
+                appState.provider = activeProvider;
+                appState.ethersProvider = ethersProvider;
+                appState.signer = signer;
+
+                await updateUIOnConnect();
+                await fetchLiveBalances();
+
+                if (activeProvider.on) {
+                    activeProvider.on('accountsChanged', (newAccounts) => {
+                        if (!newAccounts.length) disconnectWallet();
+                        else location.reload();
+                    });
+                    activeProvider.on('chainChanged', () => location.reload());
+                }
+
+            } catch (error) {
+                console.error('Wallet connection error:', error);
+                alert(`Connection failed: ${error.message || 'User rejected request.'}`);
+            }
+        }
+
+        async function fetchLiveBalances() {
+            if (!appState.account || !appState.ethersProvider) return;
+
+            const usdcLabel = document.getElementById('usdc-balance-label');
+            const cooxLabel = document.getElementById('coox-balance-label');
+
+            try {
+                const usdcContract = new ethers.Contract(CONTRACT_ADDRESSES.USDC, ERC20_ABI, appState.ethersProvider);
+                const usdcBalanceRaw = await usdcContract.balanceOf(appState.account);
+                const decimals = await usdcContract.decimals().catch(() => 6);
+
+                if (usdcLabel) {
+                    usdcLabel.innerText = parseFloat(ethers.formatUnits(usdcBalanceRaw, decimals)).toFixed(2);
+                }
+            } catch (e) {
+                console.warn("Could not query USDC contract balance:", e);
+                if (usdcLabel) usdcLabel.innerText = "0.00";
+            }
+
+            if (cooxLabel) cooxLabel.innerText = "0.00";
+        }
+
+        async function updateUIOnConnect() {
+            if (!appState.account) return;
+
+            const shortAddr = formatAddress(appState.account);
+            const swapBtn = document.getElementById('wallet-btn');
+            const headerBtn = document.getElementById('header-wallet-btn');
+            const recipientInput = document.getElementById('recipient-address');
+            const useConnectedBtn = document.getElementById('use-connected-btn');
+
+            if (recipientInput) recipientInput.value = appState.account;
+            if (useConnectedBtn) useConnectedBtn.classList.remove('hidden');
+
+            if (swapBtn) {
+                swapBtn.innerText = "Execute On-Chain Swap";
+                swapBtn.classList.remove('bg-brand-neon', 'text-black');
+                swapBtn.classList.add('bg-green-400', 'text-black');
+                swapBtn.onclick = executeSwap;
+            }
+
+            if (headerBtn) {
+                headerBtn.innerText = `Disconnect (${shortAddr})`;
+                headerBtn.classList.remove('bg-brand-neon');
+                headerBtn.classList.add('bg-brand-border', 'text-brand-neon', 'font-mono');
+            }
+        }
+
+        function useConnectedAddress() {
+            if (appState.account) {
+                const recipientInput = document.getElementById('recipient-address');
+                if (recipientInput) recipientInput.value = appState.account;
+            }
+        }
+
+        async function executeSwap() {
+            const recipientInput = document.getElementById('recipient-address');
+            const payInput = document.getElementById('pay-amount');
+            const targetAddr = recipientInput ? recipientInput.value.trim() : "";
+            const payAmount = payInput ? payInput.value : "0";
+            const btn = document.getElementById('wallet-btn');
+
+            if (!targetAddr || !ethers.isAddress(targetAddr)) {
+                alert("Please enter a valid recipient EVM address!");
+                return;
+            }
+
+            if (!appState.signer) {
+                alert("Wallet is not connected!");
+                return;
+            }
+
+            try {
+                if (btn) {
+                    btn.innerText = "Awaiting Approval / Signature...";
+                    btn.disabled = true;
+                }
+
+                const usdcContract = new ethers.Contract(CONTRACT_ADDRESSES.USDC, ERC20_ABI, appState.signer);
+                const amountUnits = ethers.parseUnits(payAmount || "1", 6);
+
+                let txResponse;
+                try {
+                    txResponse = await usdcContract.transfer(targetAddr, amountUnits);
+                } catch (contractErr) {
+                    console.warn("Contract transfer fallback to native ETH transfer demo:", contractErr);
+                    txResponse = await appState.signer.sendTransaction({
+                        to: targetAddr,
+                        value: ethers.parseEther("0.0001")
+                    });
+                }
+
+                if (btn) btn.innerText = "Broadcasting Transaction...";
+
+                const receipt = await txResponse.wait();
+
+                if (btn) {
+                    btn.innerText = "Swap Confirmed!";
+                    btn.classList.remove('bg-green-400', 'text-black');
+                    btn.classList.add('bg-brand-border', 'text-brand-neon');
+                    btn.disabled = false;
+                }
+
+                alert(`Transaction Confirmed!\n\nTx Hash: ${receipt.hash}`);
+                await fetchLiveBalances();
+
+            } catch (error) {
+                console.error("Transaction failed:", error);
+                alert(`Transaction canceled or failed: ${error.reason || error.message || 'User rejected'}`);
+                if (btn) {
+                    btn.innerText = "Execute On-Chain Swap";
+                    btn.disabled = false;
                 }
             }
-
-            const accounts = await activeProvider.request({ method: 'eth_requestAccounts' });
-            if (!accounts || accounts.length === 0) return;
-
-            const ethersProvider = new ethers.BrowserProvider(activeProvider);
-            const signer = await ethersProvider.getSigner();
-
-            appState.account = accounts[0];
-            appState.walletType = providerName;
-            appState.provider = activeProvider;
-            appState.ethersProvider = ethersProvider;
-            appState.signer = signer;
-
-            await updateUIOnConnect();
-            await fetchLiveBalances();
-
-            if (activeProvider.on) {
-                activeProvider.on('accountsChanged', (newAccounts) => {
-                    if (!newAccounts.length) disconnectWallet();
-                    else location.reload();
-                });
-                activeProvider.on('chainChanged', () => location.reload());
-            }
-
-        } catch (error) {
-            console.error('Wallet connection error:', error);
-            alert(`Connection failed: ${error.message || 'User rejected request.'}`);
-        }
-    }
-
-    async function fetchLiveBalances() {
-        if (!appState.account || !appState.ethersProvider) return;
-
-        const usdcLabel = document.getElementById('usdc-balance-label');
-        const cooxLabel = document.getElementById('coox-balance-label');
-
-        try {
-            const usdcContract = new ethers.Contract(CONTRACT_ADDRESSES.USDC, ERC20_ABI, appState.ethersProvider);
-            const usdcBalanceRaw = await usdcContract.balanceOf(appState.account);
-            const decimals = await usdcContract.decimals().catch(() => 6);
-
-            if (usdcLabel) {
-                usdcLabel.innerText = parseFloat(ethers.formatUnits(usdcBalanceRaw, decimals)).toFixed(2);
-            }
-        } catch (e) {
-            console.warn("Could not query USDC contract balance:", e);
-            if (usdcLabel) usdcLabel.innerText = "0.00";
         }
 
-        if (cooxLabel) cooxLabel.innerText = "0.00";
-    }
-
-    async function updateUIOnConnect() {
-        if (!appState.account) return;
-
-        const shortAddr = formatAddress(appState.account);
-        const swapBtn = document.getElementById('wallet-btn');
-        const headerBtn = document.getElementById('header-wallet-btn');
-        const recipientInput = document.getElementById('recipient-address');
-        const useConnectedBtn = document.getElementById('use-connected-btn');
-
-        if (recipientInput) recipientInput.value = appState.account;
-        if (useConnectedBtn) useConnectedBtn.classList.remove('hidden');
-
-        if (swapBtn) {
-            swapBtn.innerText = "Execute On-Chain Swap";
-            swapBtn.classList.remove('bg-brand-neon', 'text-black');
-            swapBtn.classList.add('bg-green-400', 'text-black');
-            swapBtn.onclick = executeSwap;
+        function disconnectWallet() {
+            appState.account = null;
+            appState.walletType = null;
+            appState.provider = null;
+            appState.ethersProvider = null;
+            appState.signer = null;
+            location.reload();
         }
 
-        if (headerBtn) {
-            headerBtn.innerText = `Disconnect (${shortAddr})`;
-            headerBtn.classList.remove('bg-brand-neon');
-            headerBtn.classList.add('bg-brand-border', 'text-brand-neon', 'font-mono');
-        }
-    }
-
-    function useConnectedAddress() {
-        if (appState.account) {
-            const recipientInput = document.getElementById('recipient-address');
-            if (recipientInput) recipientInput.value = appState.account;
-        }
-    }
-
-    async function executeSwap() {
-        const recipientInput = document.getElementById('recipient-address');
-        const payInput = document.getElementById('pay-amount');
-        const targetAddr = recipientInput ? recipientInput.value.trim() : "";
-        const payAmount = payInput ? payInput.value : "0";
-        const btn = document.getElementById('wallet-btn');
-
-        if (!targetAddr || !ethers.isAddress(targetAddr)) {
-            alert("Please enter a valid recipient EVM address!");
-            return;
-        }
-
-        if (!appState.signer) {
-            alert("Wallet is not connected!");
-            return;
-        }
-
-        try {
-            if (btn) {
-                btn.innerText = "Awaiting Approval / Signature...";
-                btn.disabled = true;
-            }
-
-            const usdcContract = new ethers.Contract(CONTRACT_ADDRESSES.USDC, ERC20_ABI, appState.signer);
-            const amountUnits = ethers.parseUnits(payAmount || "1", 6);
-
-            let txResponse;
-            try {
-                txResponse = await usdcContract.transfer(targetAddr, amountUnits);
-            } catch (contractErr) {
-                console.warn("Contract transfer fallback to native ETH transfer demo:", contractErr);
-                txResponse = await appState.signer.sendTransaction({
-                    to: targetAddr,
-                    value: ethers.parseEther("0.0001")
-                });
-            }
-
-            if (btn) btn.innerText = "Broadcasting Transaction...";
-
-            const receipt = await txResponse.wait();
-
-            if (btn) {
-                btn.innerText = "Swap Confirmed!";
-                btn.classList.remove('bg-green-400', 'text-black');
-                btn.classList.add('bg-brand-border', 'text-brand-neon');
-                btn.disabled = false;
-            }
-
-            alert(`Transaction Confirmed!\n\nTx Hash: ${receipt.hash}`);
-            await fetchLiveBalances();
-
-        } catch (error) {
-            console.error("Transaction failed:", error);
-            alert(`Transaction canceled or failed: ${error.reason || error.message || 'User rejected'}`);
-            if (btn) {
-                btn.innerText = "Execute On-Chain Swap";
-                btn.disabled = false;
-            }
-        }
-    }
-
-    function disconnectWallet() {
-        appState.account = null;
-        appState.walletType = null;
-        appState.provider = null;
-        appState.ethersProvider = null;
-        appState.signer = null;
-        location.reload();
-    }
-
-    document.addEventListener("DOMContentLoaded", () => {
-        calculateReceive();
-        const modal = document.getElementById('wallet-modal');
-        modal?.addEventListener('click', (e) => {
-            if (e.target === modal) closeWalletModal();
+        document.addEventListener("DOMContentLoaded", () => {
+            calculateReceive();
+            const modal = document.getElementById('wallet-modal');
+            modal?.addEventListener('click', (e) => {
+                if (e.target === modal) closeWalletModal();
+            });
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') closeWalletModal();
+            });
         });
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') closeWalletModal();
-        });
-    });
-</script>
+    </script>
 </body>
 
 </html>
